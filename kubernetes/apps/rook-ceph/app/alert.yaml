@@ -1,0 +1,21 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: rook-alert
+  namespace: flux-system
+spec:
+  summary: "Rook-Ceph"
+  providerRef:
+    name: discord
+  eventSeverity: info
+  eventSources:
+    - kind: HelmRepository
+      name: '*'
+      namespace: rook-ceph
+    - kind: HelmChart
+      name: '*'
+      namespace: rook-ceph
+    - kind: HelmRelease
+      name: '*'
+      namespace: rook-ceph

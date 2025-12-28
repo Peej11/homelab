@@ -1,0 +1,24 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephFilesystem
+metadata:
+  name: cephfs
+  namespace: rook-ceph
+spec:
+  metadataPool:
+    failureDomain: host
+    replicated:
+      size: 3
+  dataPools:
+    - name: tank
+      failureDomain: host
+      replicated:
+        size: 3
+      parameters:
+        pg_num: "128"
+        pgp_num: "128"
+      crushRoot: default
+  preserveFilesystemOnDelete: true
+  metadataServer:
+    activeCount: 1
+    activeStandby: true
