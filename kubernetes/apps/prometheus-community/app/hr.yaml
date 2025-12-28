@@ -1,0 +1,101 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  annotations:
+    kustomize.toolkit.fluxcd.io/force: enabled
+  name: prometheus
+  namespace: prometheus
+spec:
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+      version: 80.6.0
+  install:
+    crds: Create
+    remediation:
+      retries: 3
+  interval: 24h
+  timeout: 10m
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      remediateLastFailure: true
+  values:
+    alertmanager:
+      alertmanagerSpec:
+        replicas: 2
+    grafana:
+      admin:
+        existingSecret: grafana-credentials
+        userKey: admin-user
+        passwordKey: admin-password
+      persistence:
+        enabled: true
+        type: sts
+        storageClassName: "rook-cephfs"
+        accessModes:
+          - ReadWriteMany
+        size: 30Gi
+        finalizers:
+          - kubernetes.io/pvc-protection
+      dashboardProviders:
+        dashboardproviders.yaml:
+          apiVersion: 1
+          providers:
+            - name: 'grafana-dashboards-kubernetes'
+              orgId: 1
+              folder: 'Kubernetes'
+              type: file
+              disableDeletion: true
+              editable: true
+              options:
+                path: /var/lib/grafana/dashboards/grafana-dashboards-kubernetes
+            - name: 'rpi-monitoring'
+              orgId: 1
+              folder: 'RPi Monitoring'
+              type: file
+              disableDeletion: true
+              editable: true
+              options:
+                path: /var/lib/grafana/dashboards/rpi-monitoring
+      dashboards:
+        grafana-dashboards-kubernetes:
+          k8s-system-api-server:
+            url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-api-server.json
+            token: ''
+          k8s-system-coredns:
+            url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-coredns.json
+            token: ''
+          k8s-views-global:
+            url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-global.json
+            token: ''
+          k8s-views-namespaces:
+            url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-namespaces.json
+            token: ''
+          k8s-views-nodes:
+            url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-nodes.json
+            token: ''
+          k8s-views-pods:
+            url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
+            token: ''
+        rpi-monitoring:
+          k8s-system-resource-usage:
+            url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/dashboards/resource_usage.json
+            token: ''
+    prometheus:
+      prometheusConfigSpec:
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: rook-cephfs
+              accessModes: ["ReadWriteMany"]
+              resources:
+                requests:
+                  storage: 30Gi
+      prometheusSpec:
+        replicas: 2

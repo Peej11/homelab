@@ -1,0 +1,21 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: prometheus-alert
+  namespace: flux-system
+spec:
+  summary: "Kube-Prometheus-Stack"
+  providerRef:
+    name: discord
+  eventSeverity: info
+  eventSources:
+    - kind: HelmRepository
+      name: '*'
+      namespace: prometheus
+    - kind: HelmChart
+      name: '*'
+      namespace: prometheus
+    - kind: HelmRelease
+      name: '*'
+      namespace: prometheus

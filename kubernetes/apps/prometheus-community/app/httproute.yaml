@@ -1,0 +1,63 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: grafana-ui
+  namespace: prometheus
+spec:
+  hostnames: ["grafana.${SECRET_DOMAIN}"]
+  parentRefs:
+    - name: envoy-internal
+      namespace: network
+      sectionName: https
+  rules:
+    - backendRefs:
+        - name: prometheus-grafana
+          namespace: prometheus
+          port: 80
+      matches:
+        - path:
+            type: PathPrefix
+            value: /
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: prometheus-ui
+  namespace: prometheus
+spec:
+  hostnames: ["prometheus.${SECRET_DOMAIN}"]
+  parentRefs:
+    - name: envoy-internal
+      namespace: network
+      sectionName: https
+  rules:
+    - backendRefs:
+        - name: prometheus-kube-prometheus-prometheus
+          namespace: prometheus
+          port: 9090
+      matches:
+        - path:
+            type: PathPrefix
+            value: /
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: alertmanager-ui
+  namespace: prometheus
+spec:
+  hostnames: ["alertmanager.${SECRET_DOMAIN}"]
+  parentRefs:
+    - name: envoy-internal
+      namespace: network
+      sectionName: https
+  rules:
+    - backendRefs:
+        - name: prometheus-kube-prometheus-alertmanager
+          namespace: prometheus
+          port: 9093
+      matches:
+        - path:
+            type: PathPrefix
+            value: /
