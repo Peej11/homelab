@@ -14,7 +14,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: node-feature-discovery
-      version: 0.17.3
+      version: 0.18.3
   install:
     crds: Create
     remediation:
