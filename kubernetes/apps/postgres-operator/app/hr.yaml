@@ -1,0 +1,23 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  annotations:
+    kustomize.toolkit.fluxcd.io/force: enabled
+  name: cnpg-operator
+  namespace: cnpg-operator
+spec:
+  chart:
+    spec:
+      chart: cloudnative-pg
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: cnpg-operator
+      version: 0.27.0
+  install:
+    crds: Create
+    remediation:
+      retries: 3
+  interval: 24h
+  timeout: 10m

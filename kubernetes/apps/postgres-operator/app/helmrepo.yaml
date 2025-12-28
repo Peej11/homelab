@@ -1,0 +1,10 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: cnpg-operator
+  namespace: cnpg-operator
+spec:
+  interval: 1h
+  timeout: 10m
+  url: https://cloudnative-pg.github.io/charts
