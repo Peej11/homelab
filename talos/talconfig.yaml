@@ -1,0 +1,142 @@
+---
+clusterName: kubernetes
+
+talosVersion: "${talosVersion}"
+kubernetesVersion: "${kubernetesVersion}"
+
+endpoint: https://10.211.50.3:6443
+additionalApiServerCertSans: &sans
+  - "127.0.0.1"
+  - "10.211.50.3"
+additionalMachineCertSans: *sans
+
+clusterPodNets: ["10.42.0.0/16"]
+clusterSvcNets: ["10.43.0.0/16"]
+
+# Disable built-in CNI to use Cilium
+cniConfig:
+  name: none
+
+nodes:
+  - hostname: "ironman"
+    ipAddress: "10.211.50.10"
+    installDisk: "/dev/sda"
+    machineSpec:
+      secureboot: true
+    talosImageURL: factory.talos.dev/installer-secureboot/9c1d1b442d73f96dcd04e81463eb20000ab014062d22e1b083e1773336bc1dd5
+    controlPlane: false
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: "6c:4b:90:bb:a2:8b"
+        dhcp: false
+        addresses:
+          - "10.211.50.10/27"
+        routes:
+          - network: "0.0.0.0/0"
+            gateway: "10.211.50.1"
+        mtu: 1500
+  - hostname: "thor"
+    ipAddress: "10.211.50.11"
+    installDisk: "/dev/sda"
+    machineSpec:
+      secureboot: true
+    talosImageURL: factory.talos.dev/installer-secureboot/9c1d1b442d73f96dcd04e81463eb20000ab014062d22e1b083e1773336bc1dd5
+    controlPlane: false
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: "6c:4b:90:bc:91:51"
+        dhcp: false
+        addresses:
+          - "10.211.50.11/27"
+        routes:
+          - network: "0.0.0.0/0"
+            gateway: "10.211.50.1"
+        mtu: 1500
+  - hostname: "captainamerica"
+    ipAddress: "10.211.50.12"
+    installDisk: "/dev/sda"
+    machineSpec:
+      secureboot: true
+    talosImageURL: factory.talos.dev/installer-secureboot/9c1d1b442d73f96dcd04e81463eb20000ab014062d22e1b083e1773336bc1dd5
+    controlPlane: false
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: "6c:4b:90:ba:b2:d2"
+        dhcp: false
+        addresses:
+          - "10.211.50.12/27"
+        routes:
+          - network: "0.0.0.0/0"
+            gateway: "10.211.50.1"
+        mtu: 1500
+  - hostname: "blackwidow"
+    ipAddress: "10.211.50.13"
+    installDisk: "/dev/sda"
+    machineSpec:
+      secureboot: true
+    talosImageURL: factory.talos.dev/installer-secureboot/9c1d1b442d73f96dcd04e81463eb20000ab014062d22e1b083e1773336bc1dd5
+    controlPlane: true
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: "6c:4b:90:c8:a8:7f"
+        dhcp: false
+        addresses:
+          - "10.211.50.13/27"
+        routes:
+          - network: "0.0.0.0/0"
+            gateway: "10.211.50.1"
+        mtu: 1500
+        vip:
+          ip: "10.211.50.3"
+  - hostname: "hawkeye"
+    ipAddress: "10.211.50.14"
+    installDisk: "/dev/sda"
+    machineSpec:
+      secureboot: true
+    talosImageURL: factory.talos.dev/installer-secureboot/9c1d1b442d73f96dcd04e81463eb20000ab014062d22e1b083e1773336bc1dd5
+    controlPlane: true
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: "6c:4b:90:a6:ff:62"
+        dhcp: false
+        addresses:
+          - "10.211.50.14/27"
+        routes:
+          - network: "0.0.0.0/0"
+            gateway: "10.211.50.1"
+        mtu: 1500
+        vip:
+          ip: "10.211.50.3"
+  - hostname: "groot"
+    ipAddress: "10.211.50.15"
+    installDisk: "/dev/sda"
+    machineSpec:
+      secureboot: true
+    talosImageURL: factory.talos.dev/installer-secureboot/bfb221d0864ced0111c07c0f75aecdc54dacc9a2840c9e48129d7337de9fb24d
+    controlPlane: true
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: "6c:4b:90:a6:ff:64"
+        dhcp: false
+        addresses:
+          - "10.211.50.15/27"
+        routes:
+          - network: "0.0.0.0/0"
+            gateway: "10.211.50.1"
+        mtu: 1500
+        vip:
+          ip: "10.211.50.3"
+
+# Global patches
+patches:
+  - "@./patches/global/machine-files.yaml"
+  - "@./patches/global/machine-kubelet.yaml"
+  - "@./patches/global/machine-network.yaml"
+  - "@./patches/global/machine-sysctls.yaml"
+  - "@./patches/global/machine-time.yaml"
+
+# Controller patches
+controlPlane:
+  patches:
+    - "@./patches/controller/cluster.yaml"
+
