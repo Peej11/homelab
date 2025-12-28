@@ -1,0 +1,52 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  annotations:
+    kustomize.toolkit.fluxcd.io/force: enabled
+  name: node-feature-discovery
+  namespace: node-feature-discovery
+spec:
+  chart:
+    spec:
+      chart: node-feature-discovery
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: node-feature-discovery
+      version: 0.17.3
+  install:
+    crds: Create
+    remediation:
+      retries: 3
+  interval: 24h
+  timeout: 10m
+  targetNamespace: node-feature-discovery
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      remediateLastFailure: true
+  values:
+    master:
+      resources:
+        limits:
+          memory: 68Mi
+        requests:
+          cpu: 2m
+          memory: 68Mi
+    worker:
+      resources:
+        limits:
+          memory: 62Mi
+        requests:
+          cpu: 3m
+          memory: 62Mi
+    gc:
+      resources:
+        limits:
+          memory: 23Mi
+        requests:
+          cpu: 1m
+          memory: 23Mi
+    prometheus:
+      enable: true

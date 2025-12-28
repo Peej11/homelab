@@ -1,0 +1,21 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: node-feature-discovery-alert
+  namespace: flux-system
+spec:
+  summary: "Node Feature Discovery"
+  providerRef:
+    name: discord
+  eventSeverity: info
+  eventSources:
+    - kind: HelmRepository
+      name: '*'
+      namespace: node-feature-discovery
+    - kind: HelmChart
+      name: '*'
+      namespace: node-feature-discovery
+    - kind: HelmRelease
+      name: '*'
+      namespace: node-feature-discovery
