@@ -22,5 +22,21 @@ spec:
   interval: 24h
   timeout: 10m
   values:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                  - amd64 
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                name: mysql-operator
+            topologyKey: kubernetes.io/hostname
     envs:
       k8sClusterDomain: cluster.local
+    replicas: 2
