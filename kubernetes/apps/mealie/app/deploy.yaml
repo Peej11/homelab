@@ -1,0 +1,105 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mealie
+  namespace: mealie
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: mealie
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: mealie
+    spec:
+      containers:
+        - name: mealie
+          image: ghcr.io/mealie-recipes/mealie:v3.8.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: ALLOW_SIGNUP
+              value: "false"
+            - name: DB_ENGINE
+              value: "postgres"
+            - name: BASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: mealie-config
+                  key: BASE_URL
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: mealie-config
+                  key: OPENAI_API_KEY
+            - name: SMTP_FROM_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: mealie-config
+                  key: SMTP_FROM_EMAIL
+            - name: SMTP_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: mealie-config
+                  key: SMTP_HOST
+            - name: SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mealie-config
+                  key: SMTP_PASSWORD
+            - name: SMTP_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: mealie-config
+                  key: SMTP_PORT
+            - name: SMTP_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mealie-config
+                  key: SMTP_USER
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mealie-superuser
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mealie-superuser
+                  key: password
+            - name: POSTGRES_SERVER
+              valueFrom:
+                secretKeyRef:
+                  name: mealie-app
+                  key: host
+            - name: POSTGRES_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: mealie-app
+                  key: port
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: mealie-app
+                  key: dbname
+          command:
+            - /app/run.sh
+          volumeMounts:
+            - mountPath: /app/data
+              name: mealie
+          workingDir: /
+          resources:
+            requests:
+              cpu: 305m
+              memory: 700Mi
+            limits:
+              memory: 700Mi
+      restartPolicy: Always
+      volumes:
+        - name: mealie
+          persistentVolumeClaim:
+            claimName: mealie

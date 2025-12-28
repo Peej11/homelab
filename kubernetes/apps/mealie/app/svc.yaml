@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mealie
+  namespace: mealie
+  labels:
+    app.kubernetes.io/name: mealie
+spec:
+  type: ClusterIP
+  ports:
+    - name: web-ui
+      port: 9000
+  selector:
+    app.kubernetes.io/name: mealie

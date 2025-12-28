@@ -1,0 +1,16 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: mealie
+  namespace: mealie
+spec:
+  instances: 3
+  bootstrap:
+    initdb:
+      database: mealie
+      owner: mealie
+  enableSuperuserAccess: true
+  storage:
+    storageClass: rook-cephfs
+    size: 2Gi
