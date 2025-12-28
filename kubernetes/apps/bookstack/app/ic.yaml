@@ -9,6 +9,24 @@ spec:
   instances: 3
   router:
     instances: 2
+    podSpec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/arch
+                  operator: In
+                  values:
+                    - amd64
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: mysql-router
+                  app.kubernetes.io/instance: mysql-innodbcluster-dndwiki-db-router
+              topologyKey: kubernetes.io/hostname
+              namespaces: ["dndwiki"]
   tlsUseSelfSigned: true
   datadirVolumeClaimTemplate:
     accessModes: [ "ReadWriteOnce" ]
@@ -18,15 +36,23 @@ spec:
         storage: 3Gi
   podSpec:
     affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                  - amd64
       podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
-        - labelSelector:
-            matchLabels:
-              app.kubernetes.io/name: mysql-innodbcluster-mysql-server
-              app.kubernetes.io/instance: mysql-innodbcluster-dndwiki-mysql-server
-          topologyKey: kubernetes.io/hostname
-          namespaces: ["dndwiki"]
-        - labelSelector:
-            matchLabels:
-              app.kubernetes.io/instance: mysql-innodbcluster-dndwiki-db-mysql-server
-          topologyKey: kubernetes.io/hostname
+          - labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: mysql-innodbcluster-mysql-server
+                app.kubernetes.io/instance: mysql-innodbcluster-dndwiki-mysql-server
+            topologyKey: kubernetes.io/hostname
+            namespaces: ["dndwiki"]
+          - labelSelector:
+              matchLabels:
+                app.kubernetes.io/instance: mysql-innodbcluster-dndwiki-db-mysql-server
+            topologyKey: kubernetes.io/hostname
