@@ -1,0 +1,65 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: linkding
+  namespace: linkding
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: linkding
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: linkding
+    spec:
+      containers:
+        - name: linkding
+          image: ghcr.io/sissbruecker/linkding:1.44.2
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: LD_LOG_X_FORWARDED_FOR
+              value: "true"
+            - name: LD_DB_ENGINE
+              value: postgres
+            - name: LD_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: linkding-app
+                  key: username
+            - name: LD_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: linkding-app
+                  key: password
+            - name: LD_DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: linkding-app
+                  key: host
+            - name: LD_DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: linkding-app
+                  key: port
+            - name: LD_SUPERUSER_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: linkding-config
+                  key: LD_SUPERUSER_NAME
+            - name: LD_SUPERUSER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: linkding-config
+                  key: LD_SUPERUSER_PASSWORD
+          resources:
+            requests:
+              cpu: 2m
+              memory: 256Mi
+            limits:
+              memory: 256Mi
+      restartPolicy: Always

@@ -1,0 +1,15 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: linkding
+  namespace: linkding
+spec:
+  instances: 3
+  bootstrap:
+    initdb:
+      database: linkding
+      owner: linkding
+  storage:
+    storageClass: rook-cephfs
+    size: 3Gi
