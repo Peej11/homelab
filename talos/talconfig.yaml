@@ -109,14 +109,14 @@ nodes:
           ip: "10.211.50.3"
   - hostname: "groot"
     ipAddress: "10.211.50.15"
-    installDisk: "/dev/sda"
+    installDisk: "/dev/mmcblk0"
     machineSpec:
       secureboot: true
     talosImageURL: factory.talos.dev/installer-secureboot/bfb221d0864ced0111c07c0f75aecdc54dacc9a2840c9e48129d7337de9fb24d
     controlPlane: true
     networkInterfaces:
       - deviceSelector:
-          hardwareAddr: "6c:4b:90:a6:ff:64"
+          hardwareAddr: "00:e0:4c:03:44:91"
         dhcp: false
         addresses:
           - "10.211.50.15/27"
