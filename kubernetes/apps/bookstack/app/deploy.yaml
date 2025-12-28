@@ -1,0 +1,105 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: bookstack
+  name: dndwiki-bookstack
+  namespace: dndwiki
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: bookstack
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: bookstack
+    spec:
+      containers:
+        - env:
+            - name: APP_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: dndwiki
+                  key: appKey
+            - name: APP_URL
+              valueFrom:
+                secretKeyRef:
+                  name: dndwiki
+                  key: appUrl
+            - name: DB_DATABASE
+              value: dndwiki-db
+            - name: DB_HOST
+              value: dndwiki-db.dndwiki.svc.cluster.local
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: dndwiki
+                  key: rootPassword
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: dndwiki
+                  key: rootUser
+            - name: MAIL_DRIVER
+              value: smtp
+            - name: MAIL_FROM
+              valueFrom:
+                secretKeyRef:
+                  name: dndwiki
+                  key: mailFrom
+            - name: MAIL_FROM_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: dndwiki
+                  key: mailFromName
+            - name: MAIL_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: dndwiki
+                  key: mailHost
+            - name: MAIL_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: dndwiki
+                  key: mailPort
+            - name: MAIL_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: dndwiki
+                  key: mailUsername
+            - name: MAIL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: dndwiki
+                  key: mailPassword
+            - name: MAIL_VERIFY_SSL
+              valueFrom:
+                secretKeyRef:
+                  name: dndwiki
+                  key: mailVerifySsl
+          image: solidnerd/bookstack:25.12.0
+          name: dndwiki-bookstack
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /var/www/bookstack/public/uploads
+              name: uploads
+            - mountPath: /var/www/bookstack/storage/uploads
+              name: storage-uploads
+      restartPolicy: Always
+      securityContext:
+        runAsNonRoot: true
+        fsGroup: 33
+        fsGroupChangePolicy: OnRootMismatch
+      volumes:
+        - name: uploads
+          persistentVolumeClaim:
+            claimName: uploads
+        - name: storage-uploads
+          persistentVolumeClaim:
+            claimName: storage-uploads

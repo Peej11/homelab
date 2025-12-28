@@ -1,0 +1,32 @@
+---
+apiVersion: mysql.oracle.com/v2
+kind: InnoDBCluster
+metadata:
+  name: dndwiki-db
+  namespace: dndwiki
+spec:
+  secretName: dndwiki
+  instances: 3
+  router:
+    instances: 2
+  tlsUseSelfSigned: true
+  datadirVolumeClaimTemplate:
+    accessModes: [ "ReadWriteOnce" ]
+    storageClassName: rook-cephfs
+    resources:
+      requests:
+        storage: 3Gi
+  podSpec:
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: mysql-innodbcluster-mysql-server
+              app.kubernetes.io/instance: mysql-innodbcluster-dndwiki-mysql-server
+          topologyKey: kubernetes.io/hostname
+          namespaces: ["dndwiki"]
+        - labelSelector:
+            matchLabels:
+              app.kubernetes.io/instance: mysql-innodbcluster-dndwiki-db-mysql-server
+          topologyKey: kubernetes.io/hostname
