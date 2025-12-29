@@ -14,7 +14,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: csi-driver-smb
-      version: 1.18.0
+      version: 1.19.1
   install:
     crds: Create
     remediation:
