@@ -1,0 +1,21 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: csi-driver-nfs-alert
+  namespace: flux-system
+spec:
+  summary: "CSI Driver NFS"
+  providerRef:
+    name: discord
+  eventSeverity: info
+  eventSources:
+    - kind: HelmRepository
+      name: '*'
+      namespace: csi-driver-nfs
+    - kind: HelmChart
+      name: '*'
+      namespace: csi-driver-nfs
+    - kind: HelmRelease
+      name: '*'
+      namespace: csi-driver-nfs
