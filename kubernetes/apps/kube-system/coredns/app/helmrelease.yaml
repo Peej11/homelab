@@ -39,6 +39,8 @@ spec:
           - name: autopath
             parameters: "@kubernetes"
           - name: forward
+            parameters: mjolnir.${SECRET_DOMAIN} ${SECRET_DNS}
+          - name: forward
             parameters: . /etc/resolv.conf
           - name: cache
             configBlock: |-
