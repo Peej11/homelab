@@ -30,6 +30,13 @@ spec:
             - count: 2
               paths:
                 - path: /dev/serial/by-id/usb-Nabu_Casa_ZWA-2_80B54EE139C0-if00
+        - --device
+        - |
+          name: dri-video
+          groups:
+            - count: 1
+              paths:
+                - path: /dev/dri/renderD*
         name: generic-device-plugin
         resources:
           requests:
