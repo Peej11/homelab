@@ -90,7 +90,7 @@ spec:
                 secretKeyRef:
                   name: dndwiki
                   key: mailVerifySsl
-          image: solidnerd/bookstack:25.12.0
+          image: solidnerd/bookstack:25.12.1
           name: dndwiki-bookstack
           ports:
             - containerPort: 8080
