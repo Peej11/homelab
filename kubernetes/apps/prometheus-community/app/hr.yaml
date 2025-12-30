@@ -85,7 +85,7 @@ spec:
             token: ''
         rpi-monitoring:
           k8s-system-resource-usage:
-            url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/dashboards/resource_usage.json
+            url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/kubernetes/apps/prometheus-community/dashboards/resource_usage.json
             token: ''
     prometheus:
       prometheusConfigSpec:
