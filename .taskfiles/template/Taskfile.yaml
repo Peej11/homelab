@@ -91,7 +91,7 @@ tasks:
   encrypt-secrets:
     internal: true
     cmds:
-      - for: { var: SECRET_FILES }
+      - for: {var: SECRET_FILES}
         cmd: |
           if [ $(sops filestatus "{{.ITEM}}" | jq ".encrypted") == "false" ]; then
               sops --encrypt --in-place "{{.ITEM}}"
