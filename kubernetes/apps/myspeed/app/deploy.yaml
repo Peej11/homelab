@@ -1,0 +1,42 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myspeed
+  namespace: myspeed
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: myspeed
+      app_name: myspeed
+  template:
+    metadata:
+      labels:
+        app: myspeed
+        app_name: myspeed
+    spec:
+      containers:
+        - name: myspeed
+          image: germannewsmaker/myspeed:1.0.9
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - mountPath: /myspeed/data
+              name: myspeed
+          resources:
+            requests:
+              cpu: 1m
+              memory: 100Mi
+            limits:
+              memory: 100Mi
+          ports:
+            - containerPort: 5216
+              protocol: TCP
+      restartPolicy: Always
+      volumes:
+        - name: myspeed
+          persistentVolumeClaim:
+            claimName: myspeed
