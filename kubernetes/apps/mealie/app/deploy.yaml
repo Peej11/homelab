@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: mealie
-          image: ghcr.io/mealie-recipes/mealie:v3.9.1
+          image: ghcr.io/mealie-recipes/mealie:v3.9.2
           imagePullPolicy: IfNotPresent
           env:
             - name: ALLOW_SIGNUP
