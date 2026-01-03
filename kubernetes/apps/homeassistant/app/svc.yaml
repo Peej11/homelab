@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: homeassistant
+  namespace: homeassistant
+  labels:
+    app.kubernetes.io/name: homeassistant
+spec:
+  type: ClusterIP
+  ports:
+    - name: web-ui
+      port: 8123
+    - name: websocket
+      port: 3000
+    - name: zwave-web-ui
+      port: 8091
+  selector:
+    app.kubernetes.io/name: homeassistant

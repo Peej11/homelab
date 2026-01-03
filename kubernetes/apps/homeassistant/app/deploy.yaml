@@ -1,0 +1,80 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homeassistant
+  namespace: homeassistant
+  labels:
+    app.kubernetes.io/name: homeassistant
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: homeassistant
+  template:
+    metadata:
+      name: homeassistant
+      labels:
+        app.kubernetes.io/name: homeassistant
+    spec:
+      containers:
+        - name: homeassistant
+          image: ghcr.io/home-assistant/home-assistant:2025.12.5
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: TZ
+              value: "America/Chicago"
+          volumeMounts:
+            - name: hass-config
+              mountPath: /config
+            - name: config-file
+              mountPath: /config/configuration.yaml
+              subPath: configuration.yaml
+          resources:
+            requests:
+              cpu: 2m
+              memory: 500Mi
+            limits:
+              memory: 500Mi
+        - name: zwave-js-ui
+          image: ghcr.io/zwave-js/zwave-js-ui:11.2.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8091
+              name: http
+              protocol: TCP
+            - containerPort: 3000
+              name: websocket
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 2m
+              memory: 234Mi
+              squat.ai/zwave-hub: "1"
+            limits:
+              memory: 234Mi
+              squat.ai/zwave-hub: "1"
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+          volumeMounts:
+            - mountPath: /dev/zwave
+              name: zwavestick
+            - mountPath: /usr/src/app/store
+              name: zwave-data
+      volumes:
+        - name: hass-config
+          persistentVolumeClaim:
+            claimName: hass-config
+        - name: config-file
+          configMap:
+            name: homeassistant-configuration
+        - name: zwavestick
+          hostPath:
+            path: /dev/zwave-hub
+        - name: zwave-data
+          persistentVolumeClaim:
+            claimName: zwave-data

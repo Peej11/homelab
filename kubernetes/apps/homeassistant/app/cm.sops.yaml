@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homeassistant-configuration
+  namespace: homeassistant
+data:
+  configuration.yaml: ENC[AES256_GCM,data:dmCWKQNUaaxnM3P6hbHwgT0Skh+8eFg6vSt0q0U2B3dumYmxb/y0bTKRGsIvw6Blms7PhMEtTdz3ZESxPox3DgBa4tTJ8KMdEZqKejPumFN/d58KCpXoOwqij4ci/jmuyhW6ykP0Xir/slbRxopeAY/twvQa1MaqfcsIjIbn5xDedK1GUjdQS8SB+K4IHNJSkrmtUjBa9wGPuPddIh7S+5zISnPMMcy9usS9rmPvMF2e5lxauH6RNd+/IJIvBUjzRuETxaN9jg==,iv:LGE0dVoUbpdO9Ik4HG0jfB4Rqvdx77NnFbgBbIpX/Bw=,tag:+D0Gt6r5ntisXZZ3DWd7nw==,type:str]
+sops:
+  age:
+    - recipient: age15zy2kyfe33wlart8c6e67vlnjls8ktwaf9fkg2plg5nh7xq6kdvq6e6t9v
+      enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBUajg4Rzc4VkFaLzJVVUls
+        aUdXd2ZqZVdOM3pnQmlsNmVtOGtLUmlLNHljCmgyOGl3b2VDOVNTVStzNGFJQTlV
+        TFplS29GcityWE1rZXZaakN4dTdabkkKLS0tIGo5VnUxVnh0eVVsUE1MWEtrTk9u
+        cDJTUVpGdGphSzV2cFl0UkRXRUd6V1kKxZwPBmOPaxnGh9hp1VX2H7zZs2C7j+6y
+        JPEOK4RCxUOwdRsT46fj9CskvNeL2TAqUZz4lM53WTNXuGKOgKtFSQ==
+        -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2026-01-03T23:16:51Z"
+  mac: ENC[AES256_GCM,data:RZPBqOOq9qWdh+CeCJ62/47jTsSw3AJ1WKqeCvODasVOB/jH9yGX6/ZAcucKr4qstsnDkkJjUB5spMYVG49KKu6y/lAWkdgjKi8wkbAtkwVz3h9xOmjU82Fy4CnujKkolEHmRpc5LN6UYof7b7Xlffg/XJfkJ//TB6nJNQ6/bTQ=,iv:B8dMvF8Ts48tk7O5cFBNYDPVmE7FZqZ7nPdsGsXzBQw=,tag:6U7foB0u/XUwJWSVvTyDBA==,type:str]
+  encrypted_regex: ^(data|stringData)$
+  mac_only_encrypted: true
+  version: 3.11.0
