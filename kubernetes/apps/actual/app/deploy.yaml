@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: actual
+  namespace: actual
+  labels:
+    app.kubernetes.io/name: actual
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: actual
+  template:
+    metadata:
+      name: actual
+      labels:
+        app.kubernetes.io/name: actual
+    spec:
+      containers:
+        - name: actual
+          image: ghcr.io/actualbudget/actual:25.12.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PORT
+              value: "5006"
+            - name: ACTUAL_PORT
+              value: "5006"
+          volumeMounts:
+            - name: actual-data
+              mountPath: /data
+          resources:
+            requests:
+              cpu: 26m
+              memory: 170Mi
+            limits:
+              memory: 170Mi
+      volumes:
+        - name: actual-data
+          persistentVolumeClaim:
+            claimName: actual-data
