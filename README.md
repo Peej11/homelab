@@ -1,6 +1,6 @@
 <div align="center">
 
-### Homelab
+### <img src="./res/k8s-logo.png" align="center" width="30px" height="30px"/> Homelab <img src="./res/talos-logo.png" align="center" width="30px" height="30px"/>
 
 _Automatically managed with Flux, Renovate, and Github Actions_ 🤖
 
