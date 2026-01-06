@@ -36,9 +36,9 @@ spec:
           resources:
             requests:
               cpu: 2m
-              memory: 500Mi
+              memory: 550Mi
             limits:
-              memory: 500Mi
+              memory: 550Mi
         - name: zwave-js-ui
           image: ghcr.io/zwave-js/zwave-js-ui:11.9.1
           imagePullPolicy: IfNotPresent
@@ -52,10 +52,10 @@ spec:
           resources:
             requests:
               cpu: 2m
-              memory: 234Mi
+              memory: 250Mi
               squat.ai/zwave-hub: "1"
             limits:
-              memory: 234Mi
+              memory: 250Mi
               squat.ai/zwave-hub: "1"
           securityContext:
             allowPrivilegeEscalation: false
