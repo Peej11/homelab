@@ -20,7 +20,7 @@ cniConfig:
 nodes:
   - hostname: "ironman"
     ipAddress: "10.211.50.10"
-    installDisk: "/dev/sda"
+    installDisk: "/dev/sdb"
     machineSpec:
       secureboot: true
     talosImageURL: factory.talos.dev/installer-secureboot/9c1d1b442d73f96dcd04e81463eb20000ab014062d22e1b083e1773336bc1dd5
@@ -54,7 +54,7 @@ nodes:
         mtu: 1500
   - hostname: "captainamerica"
     ipAddress: "10.211.50.12"
-    installDisk: "/dev/sda"
+    installDisk: "/dev/sdb"
     machineSpec:
       secureboot: true
     talosImageURL: factory.talos.dev/installer-secureboot/9c1d1b442d73f96dcd04e81463eb20000ab014062d22e1b083e1773336bc1dd5
