@@ -1,0 +1,51 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  annotations:
+    kustomize.toolkit.fluxcd.io/force: enabled
+  name: volsync
+  namespace: volsync
+spec:
+  chart:
+    spec:
+      chart: volsync
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: volsync
+      version: 0.14.0
+  install:
+    crds: Create
+    remediation:
+      retries: 3
+  interval: 24h
+  releaseName: volsync
+  timeout: 10m
+  targetNamespace: volsync
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      remediateLastFailure: true
+  values:
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: volsync
+            topologyKey: kubernetes.io/hostname
+    replicaCount: 2
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+      readOnlyRootFilesystem: true
+      resources:
+        limits:
+          cpu: 1000m
+          memory: 1Gi
+        requests:
+          cpu: 100m
+          memory: 64Mi
