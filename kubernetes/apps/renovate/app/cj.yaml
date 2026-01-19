@@ -13,6 +13,7 @@ spec:
   startingDeadlineSeconds: 120
   jobTemplate:
     spec:
+      activeDeadlineSeconds: 900
       template:
         metadata:
           labels:
