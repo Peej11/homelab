@@ -11,7 +11,7 @@ spec:
   dependsOn:
     - name: flux-system
       namespace: flux-system
-    - name: snapshot-crds
+    - name: snapshot-controller-crds
       namespace: flux-system
   decryption:
     provider: sops
