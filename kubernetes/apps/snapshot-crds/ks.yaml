@@ -20,7 +20,7 @@ spec:
       app.kubernetes.io/name: *app
       app.kubernetes.io/namespace: *namespace
   interval: 4h
-  path: ./kubernetes/apps/snapshot-controller/app
+  path: ./kubernetes/apps/snapshot-crds/app
   postBuild:
     substituteFrom:
       - name: cluster-secrets
