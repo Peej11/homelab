@@ -5,12 +5,17 @@ metadata:
   name: mealie
   namespace: mealie
 spec:
-  instances: 3
+  backup:
+    target: primary
+    volumeSnapshot:
+      className: rook-ceph-cephfs-snapclass
+      snapshotOwnerReference: cluster
   bootstrap:
     initdb:
       database: mealie
       owner: mealie
   enableSuperuserAccess: true
+  instances: 3
   storage:
     storageClass: rook-cephfs
     size: 2Gi

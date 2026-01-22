@@ -1,0 +1,14 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: mealie-scheduled-backup
+  namespace: mealie
+spec:
+  immediate: true
+  schedule: "0 0 2 * * *"
+  backupOwnerReference: self
+  cluster:
+    name: mealie
+  method: volumeSnapshot
+  target: primary
