@@ -100,6 +100,12 @@ spec:
         certificateRefs:
           - kind: Secret
             name: ${SECRET_DOMAIN/./-}-production-tls
+    - name: valheim
+      protocol: UDP
+      port: 2456
+      allowedRoutes:
+        namespaces:
+          from: All
 ---
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: BackendTrafficPolicy

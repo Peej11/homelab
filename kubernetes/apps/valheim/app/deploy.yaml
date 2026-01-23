@@ -1,0 +1,128 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: valheim
+  namespace: valheim
+  labels:
+    app.kubernetes.io/name: valheim
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: valheim
+  template:
+    metadata:
+      name: valheim
+      labels:
+        app.kubernetes.io/name: valheim
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values:
+                      - amd64
+      containers:
+        - name: valheim
+          image: ghcr.io/lloesche/valheim-server:sha-20e6258
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: TZ
+              value: "America/Chicago"
+            - name: SERVER_NAME
+              value: "Mjolnir"
+            - name: SERVER_PORT
+              value: "2456"
+            - name: WORLD_NAME
+              value: "Valhalla"
+            - name: SERVER_PASS
+              value: ""
+            - name: SERVER_PUBLIC
+              value: "false"
+            - name: UPDATE_CRON
+              value: "0 6 * * *"
+            - name: UPDATE_IF_IDLE
+              value: "true"
+            - name: RESTART_CRON
+              value: "0 4 * * *"
+            - name: RESTART_IF_IDLE
+              value: "true"
+            - name: BACKUPS
+              value: "true"
+            - name: BACKUPS_CRON
+              value: "0 * * * *"
+            - name: BACKUPS_DIRECTORY
+              value: "/config/backups"
+            - name: BACKUPS_MAX_AGE
+              value: "99999"
+            - name: BACKUPS_MAX_COUNT
+              value: "30"
+            - name: BACKUPS_IF_IDLE
+              value: "false"
+            - name: BACKUPS_ZIP
+              value: "true"
+            - name: VALHEIM_PLUS
+              value: "true"
+            - name: VALHEIM_PLUS_REPO
+              value: "Grantapher/ValheimPlus"
+            - name: VALHEIM_PLUS_RELEASE
+              value: "latest"
+            - name: BEPINEX
+              value: "false"
+            - name: STATUS_HTTP
+              value: "true"
+            - name: STATUS_HTTP_PORT
+              value: "80"
+            - name: STATUS_HTTP_CONF
+              value: "/config/httpd.conf"
+            - name: STATUS_HTTP_HTDOCS
+              value: "/opt/valheim/htdocs"
+          ports:
+            - containerPort: 2456
+              protocol: UDP
+            - containerPort: 2457
+              protocol: UDP
+          readinessProbe:
+            exec:
+              command:
+                - /bin/bash
+                - -c
+                - supervisorctl status valheim-server | awk '{print $2}' | grep -qi ^RUNNING$
+            initialDelaySeconds: 30
+            periodSeconds: 5
+          resources:
+            requests:
+              cpu: 700m
+              memory: 3Gi
+              ephemeral-storage: 1Gi
+            limits:
+              memory: 3Gi
+              ephemeral-storage: 1Gi
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: valheim-plus-config
+              mountPath: /config/valheimplus/valheim_plus.cfg
+              subPath: valheim_plus.cfg
+            - name: data
+              mountPath: /opt/valheim
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: config
+        - name: valheim-plus-config
+          configMap:
+            name: valheim-plus-config
+        - name: data
+          persistentVolumeClaim:
+            claimName: data
