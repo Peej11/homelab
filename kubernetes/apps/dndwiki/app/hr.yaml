@@ -1,0 +1,35 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  annotations:
+    kustomize.toolkit.fluxcd.io/force: enabled
+  name: dndwiki
+  namespace: dndwiki
+spec:
+  chart:
+    spec:
+      chart: wiki
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: requarks
+      version: '2.2.24'
+  install:
+    crds: Create
+    remediation:
+      retries: 3
+  interval: 24h
+  timeout: 10m
+  targetNamespace: dndwiki
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      remediateLastFailure: true
+  values:
+    ingress:
+      enabled: false
+    externalPostgresql:
+      databaseURL: ${fqdn-uri}
+    postgresql:
+      enabled: false

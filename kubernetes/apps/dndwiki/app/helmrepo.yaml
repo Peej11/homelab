@@ -1,0 +1,10 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: requarks
+  namespace: dndwiki
+spec:
+  interval: 1h
+  timeout: 10m
+  url: https://charts.js.wiki

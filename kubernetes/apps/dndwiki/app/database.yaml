@@ -1,0 +1,11 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: dndwiki
+  namespace: dndwiki
+spec:
+  name: dndwiki
+  owner: dndwiki
+  cluster:
+    name: dndwiki
