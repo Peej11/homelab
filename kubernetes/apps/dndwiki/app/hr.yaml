@@ -29,7 +29,10 @@ spec:
   values:
     ingress:
       enabled: false
-    externalPostgresql:
-      databaseURL: ${fqdn-uri}
     postgresql:
       enabled: false
+  valuesFrom:
+    - kind: Secret
+      name: dndwiki-app
+      valuesKey: fqdn-uri
+      targetPath: externalPostgresql.databaseURL
