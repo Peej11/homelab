@@ -27,10 +27,18 @@ spec:
     remediation:
       remediateLastFailure: true
   values:
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: wiki
+            topologyKey: kubernetes.io/hostname
     ingress:
       enabled: false
     postgresql:
       enabled: false
+    replicaCount: 2
   valuesFrom:
     - kind: Secret
       name: dndwiki-app
