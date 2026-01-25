@@ -1,0 +1,12 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: tuppr
+  namespace: tuppr
+spec:
+  interval: 8h
+  provider: generic
+  ref:
+    tag: 0.0.52
+  url: oci://ghcr.io/home-operations/charts/tuppr

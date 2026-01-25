@@ -1,0 +1,29 @@
+apiVersion: tuppr.home-operations.com/v1alpha1
+kind: TalosUpgrade
+metadata:
+  name: cluster
+spec:
+  talos:
+    # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
+    version: v1.12.2
+  policy:
+    debug: true
+    force: false
+    rebootMode: default
+    placement: soft
+    stage: false
+    timeout: 30m
+  healthChecks:
+    - apiVersion: v1
+      kind: Node
+      expr: |
+        status.conditions.filter(c, c.type == "Ready").all(c, c.status == "True")
+      timeout: 10m
+    - apiVersion: ceph.rook.io/v1
+      kind: CephCluster
+      name: rook-ceph
+      namespace: rook-ceph
+      expr: status.ceph.health in ["HEALTH_OK"]
+    - apiVersion: postgresql.cnpg.io/v1
+      kind: Cluster
+      expr: status.phase in ["Cluster in healthy state"]

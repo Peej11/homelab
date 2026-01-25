@@ -1,0 +1,9 @@
+---
+machine:
+  features:
+    kubernetesTalosAPIAccess:
+      allowedKubernetesNamespaces:
+        - tuppr
+      allowedRoles:
+        - os:admin
+      enabled: true
