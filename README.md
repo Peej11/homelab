@@ -2,7 +2,10 @@
 
 ### <img src="./res/k8s-logo.png" align="center" width="30px" height="30px"/> Homelab <img src="./res/talos-logo.png" align="center" width="30px" height="30px"/>
 
-_Automatically managed with Flux, Renovate, and Github Actions_ 🤖
+_... managed with Flux, Renovate, and Github Actions_ 🤖
+
+![Dynamic YAML Badge](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FPeej11%2Fhomelab%2Frefs%2Fheads%2Fmain%2Fkubernetes%2Fapps%2Ftuppr-config%2Fapp%2Ftalosupgrade.yaml&query=%24.spec.talos.version&style=for-the-badge&logo=talos&logoColor=white&label=Talos) ![Dynamic YAML Badge](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FPeej11%2Fhomelab%2Frefs%2Fheads%2Fmain%2Fkubernetes%2Fapps%2Ftuppr-config%2Fapp%2Fkubernetesupgrade.yaml&query=%24.spec.kubernetes.version&style=for-the-badge&logo=kubernetes&logoColor=white&label=Kubernetes
+)
 
 </div>
 
