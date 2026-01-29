@@ -13,8 +13,10 @@
 # Kubernetes
 kubeconfig
 talosconfig
-# Working directories
+# Working directories and files
 **/*tmp/**
+*.tmp.*
+*.tmp
 # Misc.
 .private/
 .task/
