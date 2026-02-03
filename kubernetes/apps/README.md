@@ -93,8 +93,8 @@ Reflector is a Kubernetes addon designed to monitor changes to resources (`secre
 ### [Reloader](https://github.com/stakater/reloader)
 Reloader will watch many resources for `ConfigMap` or `Secret` changes and automatically rollout an update for those changes. Simply add the annotation `reloader.stakater.com/auto: "true"` to your Deployment `.metadata`. See the [documentation](https://github.com/stakater/reloader#how-to-use-reloader) for more examples.
 
-### [Renovate](https://github.com/renovatebot/renovate)
-Renovate is an automated dependency update tool. It helps to update dependencies in your code without needing to do it manually. When Renovate runs on your repo, it looks for references to dependencies (both public and private) and, if there are newer versions available, Renovate can create pull requests to update your versions automatically.
+### [Renovate Operator](https://github.com/mogenius/renovate-operator)
+[Renovate](https://github.com/renovatebot/renovate) is an automated dependency update tool. It helps to update dependencies in your code without needing to do it manually. When Renovate runs on your repo, it looks for references to dependencies (both public and private) and, if there are newer versions available, Renovate can create pull requests to update your versions automatically.
 
 ### [Rook/Ceph](https://github.com/rook/rook)
 Rook is an open source cloud-native storage orchestrator for Kubernetes, providing the platform, framework, and support for Ceph storage to natively integrate with Kubernetes.

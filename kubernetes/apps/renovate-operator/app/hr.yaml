@@ -1,0 +1,29 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: renovate
+  namespace: renovate-operator
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: renovate
+  interval: 24h
+  values:
+    route:
+      enabled: true
+      hostnames: ["renovate.${SECRET_DOMAIN}"]
+      parentRefs:
+        - name: envoy-internal
+          namespace: network
+          sectionName: https
+    webhook:
+      enabled: true
+      port: 8082
+      route:
+        enabled: true
+        hostnames: ["renovate-webhook.${SECRET_DOMAIN}"]
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+            sectionName: https
