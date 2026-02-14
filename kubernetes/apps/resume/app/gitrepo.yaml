@@ -1,0 +1,13 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: resume
+  namespace: resumes
+spec:
+  interval: 1h
+  ref:
+    branch: main
+  secretRef:
+    name: resume
+  timeout: 60s
+  url: ssh://git@github.com/Peej11/resume
