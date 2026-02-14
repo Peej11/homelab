@@ -42,7 +42,12 @@ _... managed with Flux, Renovate, and Github Actions_ 🤖
 | TrueNAS | 128GB | 12 x 8TB HDD RAIDZ3 | TrueNAS Scale |
 
 
-## 🛜 Network 
+<h2>
+    <details>
+        <summary>🛜 Network</summary>
+        <img src="./res/network.jpg" align="center" width="300px" alt="rack"/>
+    </details>
+</h2> 
 
 | Vendor   | Model             | Function                                        |
 |----------|-------------------|-------------------------------------------------|
