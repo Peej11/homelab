@@ -1,6 +1,6 @@
 <div align="center">
 
-### <img src="./res/k8s-logo.png" align="center" width="30px" height="30px"/> Homelab <img src="./res/talos-logo.png" align="center" width="30px" height="30px"/>
+### <img src="./res/k8s-logo.png" align="center" width="30px" height="30px"/> Homelab <img src="./res/talos-logo.png" align="center" width="28px" height="28px"/>
 
 _... managed with Flux, Renovate, and Github Actions_ 🤖
 
@@ -18,16 +18,21 @@ _... managed with Flux, Renovate, and Github Actions_ 🤖
 | [SOPS](https://github.com/getsops/sops)  | K8S secrets and configmap manager to encrypt secrets with GnuPG for storage      |
 
 
-## 🖥️ Nodes
+## 🖥️ Cluster / Nodes
+<details>
+  <summary>Mini-rack</summary>
+  <img src="./res/mini-rack.jpg" align="center" width="300px" alt="rack"/>
+</details>
 
-| System             | RAM  | Storage        | Role   | OS    |
-|--------------------|------|----------------|--------|-------|
-| Radxa Rock 5B      | 32GB | None           | Master | Talos |
-| Lenovo ThinkCentre | 32GB | 256GB NVMe SSD | Master | Talos |
-| Lenovo ThinkCentre | 16GB | 256GB NVMe SSD | Master | Talos |
-| Lenovo ThinkCentre | 16GB | 256GB NVMe SSD | Worker | Talos |
-| Lenovo ThinkCentre | 16GB | 1TB NVMe SSD   | Worker | Talos |
-| Lenovo ThinkCentre | 16GB | 2TB NVMe SSD   | Worker | Talos |
+| System             | RAM  | Storage        | Role      | OS         |
+|--------------------|------|----------------|-----------|------------|
+| Raspberry Pi       | 8GB  | 128GB NVMe SSD | Dashboard | FullPageOS |
+| Radxa Rock 5B      | 32GB | 128GB NVMe SSD | Master    | Talos      |
+| Lenovo ThinkCentre | 32GB | 256GB NVMe SSD | Master    | Talos      |
+| Lenovo ThinkCentre | 16GB | 256GB NVMe SSD | Master    | Talos      |
+| Lenovo ThinkCentre | 16GB | 1TB NVMe SSD   | Worker    | Talos      |
+| Lenovo ThinkCentre | 16GB | 1TB NVMe SSD   | Worker    | Talos      |
+| Lenovo ThinkCentre | 16GB | 2TB NVMe SSD   | Worker    | Talos      |
 
 
 ## 📦 Storage
