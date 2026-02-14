@@ -1,0 +1,13 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: resume-operator
+  namespace: resume-operator
+spec:
+  interval: 1h
+  ref:
+    branch: main
+  secretRef:
+    name: resume-operator
+  timeout: 60s
+  url: ssh://git@github.com/Peej11/resume-operator
