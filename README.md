@@ -17,12 +17,12 @@ _... managed with Flux, Renovate, and Github Actions_ 🤖
 | [Renovate](https://docs.renovatebot.com) | Tool to automate dependency updates                                              |
 | [SOPS](https://github.com/getsops/sops)  | K8S secrets and configmap manager to encrypt secrets with GnuPG for storage      |
 
-
-## 🖥️ Cluster / Nodes
-<details>
-  <summary>Mini-rack</summary>
-  <img src="./res/mini-rack.jpg" align="center" width="300px" alt="rack"/>
-</details>
+<h2>
+    <details>
+        <summary>🖥️ Cluster / Nodes</summary>
+        <img src="./res/mini-rack.jpg" align="center" width="300px" alt="rack"/>
+    </details>
+</h2>
 
 | System             | RAM  | Storage        | Role      | OS         |
 |--------------------|------|----------------|-----------|------------|
