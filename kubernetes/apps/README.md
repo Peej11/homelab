@@ -72,6 +72,9 @@ Jellyfin is a Free Software Media System that puts you in control of managing an
 ### [K8S Gateway](https://github.com/k8s-gateway/k8s_gateway)
 A CoreDNS plugin that is very similar to k8s_external but supporting all types of Kubernetes external resources - Ingress, Service of type LoadBalancer, HTTPRoutes, TLSRoutes, GRPCRoutes from the Gateway API project.
 
+### [Kavita](https://github.com/Kareadita/Kavita)
+Kavita is a fast, feature rich, cross-platform reading server. Built with a focus for being a full solution for all your reading needs. Set up your own server and share your reading collection with your friends and family!
+
 ### [Linkding](https://github.com/sissbruecker/linkding)
 Linkding is a bookmark manager that you can host yourself. It's designed be to be minimal, fast, and easy to set up using Docker.
 

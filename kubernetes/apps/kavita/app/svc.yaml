@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kavita
+  namespace: kavita
+  labels:
+    app.kubernetes.io/name: kavita
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 5000
+  selector:
+    app.kubernetes.io/name: kavita

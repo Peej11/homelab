@@ -1,0 +1,55 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kavita
+  namespace: kavita
+  labels:
+    app.kubernetes.io/name: kavita
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  revisionHistoryLimit: 3
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: kavita
+  template:
+    metadata:
+      name: kavita
+      labels:
+        app.kubernetes.io/name: kavita
+    spec:
+      containers:
+        - name: kavita
+          image: ghcr.io/kareadita/kavita:0.8.9
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 5000
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: 200m
+              memory: 750Mi
+              ephemeral-storage: 1Gi
+            limits:
+              memory: 750Mi
+              ephemeral-storage: 1Gi
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+          volumeMounts:
+            - name: media
+              mountPath: /media
+            - name: config
+              mountPath: /kavita/config
+      volumes:
+        - name: media
+          persistentVolumeClaim:
+            claimName: kavita-media
+        - name: config
+          persistentVolumeClaim:
+            claimName: kavita-config
