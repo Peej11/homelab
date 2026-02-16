@@ -30,14 +30,6 @@ spec:
               port: 5000
             initialDelaySeconds: 30
             periodSeconds: 30
-          resources:
-            requests:
-              cpu: 200m
-              memory: 750Mi
-              ephemeral-storage: 1Gi
-            limits:
-              memory: 750Mi
-              ephemeral-storage: 1Gi
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
