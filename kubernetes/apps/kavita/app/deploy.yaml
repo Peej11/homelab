@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: kavita
-          image: ghcr.io/kareadita/kavita:0.8.9
+          image: ghcr.io/kareadita/kavita:0.8.9@sha256:1f2acae7466d022f037ea09f7989eb7c487f916b881174c7a6de33dbfa8acb39
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:

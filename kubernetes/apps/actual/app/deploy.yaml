@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: actual
-          image: ghcr.io/actualbudget/actual:26.2.0
+          image: ghcr.io/actualbudget/actual:26.2.0@sha256:c34346f87725b9cce5dca5af1a2a9b989127d592cc4c6af5cf4652d4a86def90
           imagePullPolicy: IfNotPresent
           env:
             - name: PORT
