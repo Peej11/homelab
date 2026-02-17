@@ -9,6 +9,10 @@ spec:
     kind: OCIRepository
     name: renovate
   interval: 24h
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      remediateLastFailure: true
   values:
     route:
       enabled: true

@@ -9,6 +9,10 @@ spec:
     kind: OCIRepository
     name: tuppr
   interval: 24h
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      remediateLastFailure: true
   values:
     affinity:
       podAntiAffinity:
