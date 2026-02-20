@@ -12,6 +12,21 @@ spec:
       value: github
     - name: RENOVATE_ENDPOINT
       value: https://api.github.com/
+    - name: RENOVATE_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: renovate-secret
+          key: RENOVATE_TOKEN
+    - name: GITHUB_COM_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: renovate-secret
+          key: GITHUB_COM_TOKEN
+    - name: GITHUB_COM_USER
+      valueFrom:
+        secretKeyRef:
+          name: renovate-secret
+          key: GITHUB_COM_USER
     - name: DOCKERHUB_USERNAME
       valueFrom:
         secretKeyRef:
