@@ -51,6 +51,12 @@ Envoy Gateway is an open source project for managing Envoy Proxy as a standalone
 - [Monitoring Alerts](https://fluxcd.io/flux/monitoring/alerts/) - This guide will help you setup alerts that use the notification controller. Many Flux `kind`s can be monitored and send alerts based on state changes or errors. Cross-namespace references are difficult (by design) so I've done a single secret in `flux-system` as well as the provider which references it. The alert can point to objects in other namespaces so this removes the need for replicating resources across namespaces.
 - [Webhook Receivers](https://fluxcd.io/flux/guides/webhook-receivers/) - With cert-manager installed and the ability to create certificates for custom domains, we can turn Flux into a push-based pipeline that will trigger a sync any time there's a commit.
 
+### [Gatus](https://github.com/TwiN/gatus)
+Gatus is a developer-oriented health dashboard that gives you the ability to monitor your services using HTTP, ICMP, TCP, and even DNS queries as well as evaluate the result of said queries by using a list of conditions on values like the status code, the response time, the certificate expiration, the body and many others. The icing on top is that each of these health checks can be paired with alerting via Slack, Teams, PagerDuty, Discord, Twilio and many more.
+
+### [Gatus Sidecar](https://github.com/home-operations/gatus-sidecar)
+A powerful Kubernetes sidecar that automatically generates Gatus monitoring configuration from Kubernetes resources including Ingress, Gateway API HTTPRoute, and Service resources.
+
 ### [Glance](https://github.com/glanceapp/glance)
 A lightweight, highly customizable dashboard that displays your feeds in a beautiful, streamlined interface.
 
