@@ -6,6 +6,7 @@ resources:
   - ./rbac.yaml
 configMapGenerator:
   - name: gatus-configmap
+    namespace: gatus
     files:
       - ./resources/config.yaml
 generatorOptions:
