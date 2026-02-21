@@ -2,6 +2,9 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
+  annotations:
+    gatus.home-operations.com/endpoint: |
+      name: "Home Assistant"
   name: homeassistant-ui
   namespace: homeassistant
 spec:
@@ -23,6 +26,9 @@ spec:
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
+  annotations:
+    gatus.home-operations.com/endpoint: |
+      name: "Z-wave JS"
   name: zwave-ui
   namespace: homeassistant
 spec:

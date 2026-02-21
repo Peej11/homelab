@@ -2,6 +2,9 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
+  annotations:
+    gatus.home-operations.com/endpoint: |
+      name: "Grafana"
   name: grafana-ui
   namespace: prometheus
 spec:
@@ -23,6 +26,9 @@ spec:
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
+  annotations:
+    gatus.home-operations.com/endpoint: |
+      name: "Prometheus"
   name: prometheus-ui
   namespace: prometheus
 spec:
@@ -44,6 +50,9 @@ spec:
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
+  annotations:
+    gatus.home-operations.com/endpoint: |
+      name: "Alert Manager"
   name: alertmanager-ui
   namespace: prometheus
 spec:

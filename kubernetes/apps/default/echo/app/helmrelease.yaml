@@ -61,6 +61,9 @@ spec:
           - port: http
     route:
       app:
+        annotations:
+          gatus.home-operations.com/endpoint: |
+            name: "Echo"
         hostnames: ["{{ .Release.Name }}.${SECRET_DOMAIN}"]
         parentRefs:
           - name: envoy-external

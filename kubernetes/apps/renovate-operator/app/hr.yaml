@@ -16,6 +16,9 @@ spec:
   values:
     route:
       enabled: true
+      annotations:
+        gatus.home-operations.com/endpoint: |
+          name: "Renovate UI"
       hostnames: ["renovate.${SECRET_DOMAIN}"]
       parentRefs:
         - name: envoy-internal
@@ -28,6 +31,7 @@ spec:
         enabled: true
         annotations:
           gatus.home-operations.com/endpoint: |
+            name: "Renovate Webhook"
             conditions:
               - "[STATUS] == 401"
               - "[RESPONSE_TIME] < 500"
