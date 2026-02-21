@@ -2,6 +2,8 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
+  annotations:
+    gatus.home-operations.com/enabled: "false"
   name: github-webhook
 spec:
   hostnames: ["flux-webhook.${SECRET_DOMAIN}"]
