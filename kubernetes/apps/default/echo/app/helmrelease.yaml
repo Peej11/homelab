@@ -6,7 +6,8 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: echo
+    name: app-template
+    namespace: app-template
   interval: 1h
   values:
     controllers:
