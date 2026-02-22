@@ -40,6 +40,9 @@ spec:
               GATUS_WEB_PORT: &port 80
               GATUS_CONFIG_PATH: /config
               TZ: America/Chicago
+            envFrom:
+              - secretRef:
+                  name: alert-secrets
             probes:
               liveness: &probes
                 enabled: true
