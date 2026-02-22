@@ -14,7 +14,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: requarks
-      version: '2.2.24'
+      version: '3.0.0'
   install:
     crds: Create
     remediation:
