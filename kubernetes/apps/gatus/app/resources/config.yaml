@@ -2,22 +2,22 @@
 alerting:
   discord:
     title: ":helmet_with_cross:"
-    webhook-url: "${DISCORD_WEBHOOK}"
+    webhook-url: ${DISCORD_WEBHOOK}
     default-alert:
       send-on-resolved: true
       failure-threshold: 2
       success-threshold: 2
   homeassistant:
-    url: "https://homeassistant.${SECRET_DOMAIN}"
-    token: "${HOMEASSISTANT_TOKEN}"
+    url: https://homeassistant.${SECRET_DOMAIN}
+    token: ${HOMEASSISTANT_TOKEN}
     default-alert:
       send-on-resolved: true
       failure-threshold: 2
       success-threshold: 2
   pushover:
     title: "Gatus: <endpoint>"
-    application-token: "${PUSHOVER_TOKEN}"
-    user-key: "${PUSHOVER_USER_KEY}"
+    application-token: ${PUSHOVER_TOKEN}
+    user-key: ${PUSHOVER_USER_KEY}
     default-alert:
       send-on-resolved: true
       failure-threshold: 3
