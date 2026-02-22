@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ./hr.yaml
   - ./rbac.yaml
+  - ./secret.sops.yaml
 configMapGenerator:
   - name: gatus-configmap
     namespace: gatus
