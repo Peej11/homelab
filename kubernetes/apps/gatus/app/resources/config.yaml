@@ -5,23 +5,23 @@ alerting:
     webhook-url: ${DISCORD_WEBHOOK}
     default-alert:
       send-on-resolved: true
-      failure-threshold: 2
-      success-threshold: 2
+      failure-threshold: 3
+      success-threshold: 3
   homeassistant:
     url: https://homeassistant.${SECRET_DOMAIN}
     token: ${HOMEASSISTANT_TOKEN}
     default-alert:
       send-on-resolved: true
-      failure-threshold: 2
-      success-threshold: 2
+      failure-threshold: 3
+      success-threshold: 3
   pushover:
     title: "Gatus: <endpoint>"
     application-token: ${PUSHOVER_TOKEN}
     user-key: ${PUSHOVER_USER_KEY}
     default-alert:
       send-on-resolved: true
-      failure-threshold: 3
-      success-threshold: 3
+      failure-threshold: 5
+      success-threshold: 5
 
 connectivity:
   checker:
