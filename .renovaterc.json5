@@ -62,6 +62,14 @@
       ignoreTests: true,
     },
     {
+      description: "Auto-merge Renovate",
+      matchDepNames: ["ghcr.io/renovatebot/renovate"],
+      automerge: true,
+      automergeType: "branch",
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      ignoreTests: true,
+    },
+    {
       matchUpdateTypes: ["major"],
       semanticCommitType: "feat",
       commitMessagePrefix: "{{semanticCommitType}}({{semanticCommitScope}})!:",
