@@ -17,7 +17,7 @@ spec:
     - backendRefs:
         - name: dndwiki-dndwiki
           namespace: dndwiki
-          port: 443
+          port: 80
       matches:
         - path:
             type: PathPrefix
