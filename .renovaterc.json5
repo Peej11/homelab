@@ -62,6 +62,14 @@
       ignoreTests: true,
     },
     {
+      description: "Auto-merge Reflector",
+      matchDepNames: ["ghcr.io/emberstack/helm-charts/reflector"],
+      automerge: true,
+      automergeType: "branch",
+      matchUpdateTypes: ["patch", "digest"],
+      ignoreTests: true,
+    },
+    {
       description: "Auto-merge Renovate",
       matchDepNames: ["ghcr.io/renovatebot/renovate"],
       automerge: true,
