@@ -60,6 +60,8 @@ ui:
       link: https://github.com/Peej11
     - name: Homelab
       link: https://github.com/Peej11/homelab
+  default-filter-by: unstable
+  default-sort-by: health
 
 web:
   port: ${GATUS_WEB_PORT}
