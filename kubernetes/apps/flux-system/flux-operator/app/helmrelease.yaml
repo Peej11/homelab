@@ -11,3 +11,12 @@ spec:
   values:
     serviceMonitor:
       create: true
+    web:
+      httpRoute:
+        enabled: true
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: https
+        hostnames:
+          - flux.${SECRET_DOMAIN}
