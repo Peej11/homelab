@@ -36,9 +36,9 @@ spec:
           resources:
             requests:
               cpu: 2m
-              memory: 550Mi
+              memory: 750Mi
             limits:
-              memory: 550Mi
+              memory: 750Mi
         - name: zwave-js-ui
           image: ghcr.io/zwave-js/zwave-js-ui:11.13.0@sha256:a00ecabf50f4815d98edeb8fe8fc0c29162fb6061424c9f80edd4d314a2469b3
           imagePullPolicy: IfNotPresent
