@@ -7,3 +7,5 @@ resources:
   - ./secret.sops.yaml
   - ./httproute.yaml
   - ./receiver.yaml
+  - ./alert.yaml
+  - ./provider.yaml
