@@ -37,9 +37,9 @@ _... managed with Flux, Renovate, and Github Actions_ 🤖
 
 ## 📦 Storage
 
-| System  | RAM   | Storage             | OS            |
-|---------|-------|---------------------|---------------|
-| TrueNAS | 128GB | 12 x 8TB HDD RAIDZ3 | TrueNAS Scale |
+| System                 | RAM   | Storage             | OS            |
+|------------------------|-------|---------------------|---------------|
+| Supermicro 6028U-TR4T+ | 128GB | 12 x 8TB HDD RAIDZ3 | TrueNAS Scale |
 
 
 <h2>
