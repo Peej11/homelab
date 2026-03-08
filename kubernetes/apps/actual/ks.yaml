@@ -3,7 +3,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app actual
-  namespace: flux-system
+  namespace: actual
   labels:
     app.kubernetes.io/name: *app
     app.kubernetes.io/part-of: &namespace actual
