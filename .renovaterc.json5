@@ -87,6 +87,13 @@
       ignoreTests: true,
     },
     {
+      description: "Separate Talos Updates",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["ghcr.io/siderolabs/installer"],
+      separateMajorMinor: true,
+      separateMinorPatch: true
+    },
+    {
       matchUpdateTypes: ["major"],
       semanticCommitType: "feat",
       commitMessagePrefix: "{{semanticCommitType}}({{semanticCommitScope}})!:",
