@@ -9,10 +9,6 @@ spec:
   extraEnv:
     - name: LOG_LEVEL
       value: debug
-    - name: RENOVATE_PLATFORM
-      value: github
-    - name: RENOVATE_ENDPOINT
-      value: https://api.github.com/
     - name: RENOVATE_TOKEN
       valueFrom:
         secretKeyRef:
@@ -43,6 +39,9 @@ spec:
         [{"hostType":"docker","matchHost":"docker.io","username":"$(DOCKERHUB_USERNAME)","password":"$(DOCKERHUB_TOKEN)"}]
   image: ghcr.io/renovatebot/renovate:43.61.0@sha256:4f43a922cca161f92e65db5d8c2ccfa72346ff7c6ca5a1f89df34697aecf3640
   parallelism: 5
+  provider:
+    endpoint: "https://api.github.com/"
+    name: "github"
   resources:
     requests:
       cpu: 100m
