@@ -37,7 +37,7 @@ spec:
     - name: RENOVATE_HOST_RULES
       value: >-
         [{"hostType":"docker","matchHost":"docker.io","username":"$(DOCKERHUB_USERNAME)","password":"$(DOCKERHUB_TOKEN)"}]
-  image: ghcr.io/renovatebot/renovate:43.72.0@sha256:b181ccac9d81fc8eda53f1695c171843e1c9a309c605154bbfec94826a7c1749
+  image: ghcr.io/renovatebot/renovate:43.73.1@sha256:7bd2b4c87e345f32ec24886221bc2cc6c602b39baad88167516a107c6924d4ed
   parallelism: 5
   provider:
     endpoint: "https://api.github.com/"
