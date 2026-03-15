@@ -24,9 +24,6 @@ spec:
       kind: Cluster
       current: status.phase in ['Cluster in healthy state']
       inProgress: status.phase in ['Setting up primary', 'Waiting for the instances to become active', 'Creating a new replica']
-    - apiVersion: postgresql.cnpg.io/v1
-      kind: Database
-      current: status.applied in ['true']
   interval: 4h
   path: ./kubernetes/apps/sparkyfitness/database
   postBuild:
