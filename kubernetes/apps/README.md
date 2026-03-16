@@ -117,9 +117,6 @@ Rook is an open source cloud-native storage orchestrator for Kubernetes, providi
 ### [Snapshot Controller](https://github.com/kubernetes-csi/external-snapshotter)
 The CSI snapshotter is part of Kubernetes implementation of Container Storage Interface (CSI) and implements both the volume snapshot and the volume group snapshot feature.
 
-### [SparkyFitness](https://github.com/CodeWithCJ/SparkyFitness)
-A self-hosted, privacy-first alternative to MyFitnessPal. Track nutrition, exercise, body metrics, and health data while keeping full control of your data.
-
 ### [Spegel](https://github.com/spegel-org/spegel)
 Spegel enables each node in a Kubernetes cluster to act as a local registry mirror, allowing nodes to share images between themselves. Any image already pulled by a node will be available for any other node in the cluster to pull. This has the benefit of reducing workload startup times and egress traffic as images will be stored locally within the cluster. On top of that it allows the scheduling of new workloads even when external registries are down.
 
