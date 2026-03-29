@@ -1,0 +1,11 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: linkding
+  namespace: linkding
+spec:
+  name: linkding
+  owner: linkding
+  cluster:
+    name: linkding
