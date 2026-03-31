@@ -2,8 +2,48 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app mealie
-  namespace: flux-system
+  name: &db mealie-db
+  namespace: mealie
+  labels:
+    app.kubernetes.io/name: *db
+    app.kubernetes.io/part-of: &namespace mealie
+spec:
+  dependsOn:
+    - name: flux-system
+      namespace: flux-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *db
+      app.kubernetes.io/namespace: *namespace
+  healthCheckExprs:
+    - apiVersion: postgresql.cnpg.io/v1
+      kind: Cluster
+      current: status.phase in ['Cluster in healthy state']
+      inProgress: status.phase in ['Setting up primary', 'Waiting for the instances to become active', 'Creating a new replica']
+  interval: 4h
+  path: ./kubernetes/apps/mealie/database
+  postBuild:
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
+  prune: true
+  retryInterval: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  timeout: 10m
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app mealie-app
+  namespace: mealie
   labels:
     app.kubernetes.io/name: *app
     app.kubernetes.io/part-of: &namespace mealie
@@ -11,6 +51,8 @@ spec:
   dependsOn:
     - name: flux-system
       namespace: flux-system
+    - name: mealie-db
+      namespace: mealie
   decryption:
     provider: sops
     secretRef:
@@ -25,7 +67,7 @@ spec:
     substituteFrom:
       - name: cluster-secrets
         kind: Secret
-  prune: false
+  prune: true
   retryInterval: 5m
   sourceRef:
     kind: GitRepository
