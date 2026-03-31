@@ -31,7 +31,7 @@ spec:
                       - amd64
       containers:
         - name: valheim
-          image: ghcr.io/lloesche/valheim-server:sha-20e6258@sha256:8f1c5fc831c900312b4a47c1fe57bfc03b574c1433ea502f5d8f0ad301a22a83
+          image: ghcr.io/community-valheim-tools/valheim-server:1.1.0@sha256:e8b13da3c44f54a38511c8ac224f2959a437c0b2626cf916683ca7acc8dfb146
           imagePullPolicy: IfNotPresent
           env:
             - name: TZ
