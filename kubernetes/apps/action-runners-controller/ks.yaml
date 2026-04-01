@@ -42,6 +42,8 @@ spec:
   dependsOn:
     - name: flux-system
       namespace: flux-system
+    - name: arc-systems
+      namespace: arc-systems
   decryption:
     provider: sops
     secretRef:
