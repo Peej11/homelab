@@ -1,8 +1,5 @@
 # Applications
 
-### [Actions Runner Controller (ARC)](https://github.com/actions/actions-runner-controller)
-Actions Runner Controller (ARC) is a Kubernetes operator that orchestrates and scales self-hosted runners for GitHub Actions. With ARC, you can create runner scale sets that automatically scale based on the number of workflows running in your repository, organization, or enterprise. Because controlled runners can be ephemeral and based on containers, new runner instances can scale up or down rapidly and cleanly. 
-
 ### [Actual](https://github.com/actualbudget/actual)
 Actual is a local-first personal finance tool. It is 100% free and open-source, written in NodeJS, it has a synchronization element so that all your changes can move between devices without any heavy lifting.
 
