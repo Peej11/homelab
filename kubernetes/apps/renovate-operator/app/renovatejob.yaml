@@ -5,7 +5,8 @@ metadata:
   name: renovate-github-homelab
   namespace: renovate-operator
 spec:
-  discoveryFilter: "Peej11/**"
+  discoveryFilters: 
+    - Peej11/**
   extraEnv:
     - name: LOG_LEVEL
       value: debug
