@@ -3,7 +3,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app renovate-operator
-  namespace: flux-system
+  namespace: renovate-operator
   labels:
     app.kubernetes.io/name: *app
     app.kubernetes.io/part-of: &namespace renovate-operator
@@ -21,6 +21,43 @@ spec:
       app.kubernetes.io/namespace: *namespace
   interval: 4h
   path: ./kubernetes/apps/renovate-operator/app
+  postBuild:
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
+  prune: true
+  retryInterval: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  timeout: 10m
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &config renovate-config
+  namespace: renovate-operator
+  labels:
+    app.kubernetes.io/name: *config
+    app.kubernetes.io/part-of: &namespace renovate-operator
+spec:
+  dependsOn:
+    - name: flux-system
+      namespace: flux-system
+    - name: renovate-operator
+      namespace: renovate-operator
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *config
+      app.kubernetes.io/namespace: *namespace
+  interval: 4h
+  path: ./kubernetes/apps/renovate-operator/config
   postBuild:
     substituteFrom:
       - name: cluster-secrets
