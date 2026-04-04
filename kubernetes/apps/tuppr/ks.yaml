@@ -3,7 +3,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app tuppr
-  namespace: flux-system
+  namespace: tuppr
   labels:
     app.kubernetes.io/name: *app
     app.kubernetes.io/part-of: &namespace tuppr
@@ -21,6 +21,39 @@ spec:
       app.kubernetes.io/namespace: *namespace
   interval: 4h
   path: ./kubernetes/apps/tuppr/app
+  prune: true
+  retryInterval: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  timeout: 10m
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &config tuppr-config
+  namespace: tuppr
+  labels:
+    app.kubernetes.io/name: *config
+    app.kubernetes.io/part-of: &namespace tuppr
+spec:
+  dependsOn:
+    - name: flux-system
+      namespace: flux-system
+    - name: tuppr
+      namespace: tuppr
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *config
+      app.kubernetes.io/namespace: *namespace
+  interval: 4h
+  path: ./kubernetes/apps/tuppr/config
   prune: true
   retryInterval: 5m
   sourceRef:
