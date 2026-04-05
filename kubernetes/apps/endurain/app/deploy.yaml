@@ -62,11 +62,6 @@ spec:
                 secretKeyRef:
                   name: endurain-superuser
                   key: dbname
-            - name: DB_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  name: endurain-superuser
-                  key: dbname
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
