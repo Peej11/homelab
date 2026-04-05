@@ -44,6 +44,9 @@ This driver allows Kubernetes to access SMB servers on both Linux and Windows no
 ### [Device Plugin](https://github.com/squat/generic-device-plugin)
 The generic-device-plugin enables allocating generic Linux devices, such as serial devices, the FUSE device, or video cameras, to Kubernetes Pods. This allows devices that don't require special drivers to be advertised to the cluster and scheduled, enabling various use-cases.
 
+### [Endurain](https://github.com/endurain-project/endurain)
+Endurain is a self-hosted fitness tracking service designed to give users full control over their data and hosting environment. It's similar to Strava but focused on privacy and customization.
+
 ### [Envoy Gateway](https://github.com/envoyproxy/gateway)
 Envoy Gateway is an open source project for managing Envoy Proxy as a standalone or Kubernetes-based application gateway. Gateway API resources are used to dynamically provision and configure the managed Envoy Proxies.
 

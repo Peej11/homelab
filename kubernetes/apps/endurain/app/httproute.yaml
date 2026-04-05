@@ -1,0 +1,24 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  annotations:
+    gatus.home-operations.com/endpoint: |
+      name: "Endurain"
+  name: endurain
+  namespace: endurain
+spec:
+  hostnames: ["endurain.${SECRET_DOMAIN}"]
+  parentRefs:
+    - name: envoy-internal
+      namespace: network
+      sectionName: https
+  rules:
+    - backendRefs:
+        - name: endurain
+          namespace: endurain
+          port: 8080
+      matches:
+        - path:
+            type: PathPrefix
+            value: /
