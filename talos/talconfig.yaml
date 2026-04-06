@@ -126,6 +126,23 @@ nodes:
         mtu: 1500
         vip:
           ip: "10.211.50.3"
+  - hostname: "vision"
+    ipAddress: "10.211.50.16"
+    installDisk: "/dev/nvme0n1"
+    machineSpec:
+      secureboot: true
+    talosImageURL: factory.talos.dev/metal-installer-secureboot/aa4564945219f0b369c4ae15711473fc3057985be00b94bffa56786189226870
+    controlPlane: false
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: "c8:ff:bf:0d:37:27"
+        dhcp: false
+        addresses:
+          - "10.211.50.16/27"
+        routes:
+          - network: "0.0.0.0/0"
+            gateway: "10.211.50.1"
+        mtu: 1500
 
 # Global patches
 patches:

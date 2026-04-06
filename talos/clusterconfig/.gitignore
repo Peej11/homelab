@@ -4,4 +4,5 @@ kubernetes-captainamerica.yaml
 kubernetes-blackwidow.yaml
 kubernetes-hawkeye.yaml
 kubernetes-groot.yaml
+kubernetes-vision.yaml
 talosconfig

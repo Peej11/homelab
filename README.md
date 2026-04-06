@@ -34,19 +34,14 @@ _... managed with Flux, Renovate, and Github Actions_ 🤖
 | Lenovo ThinkCentre | 16GB | 1TB NVMe SSD   | Worker    | Talos      |
 | Lenovo ThinkCentre | 16GB | 2TB NVMe SSD   | Worker    | Talos      |
 | Lenovo ThinkCentre | 16GB | 2TB NVMe SSD   | Worker    | Talos      |
+| AOOSTAR WTR MAX    | 32GB | None           | Worker    | Talos      |
 
 
-<h2>
-    <details>
-        <summary>📦 Storage</summary>
-        <img src="./res/storage.jpg" align="center" width="300px" alt="storage"/>
-    </details>
-</h2>
+## 📦 Storage
 
 | System                 | RAM   | Storage             | OS            |
 |------------------------|-------|---------------------|---------------|
 | Supermicro 6028U-TR4T+ | 128GB | 12 x 8TB HDD RAIDZ3 | TrueNAS Scale |
-| AOOSTAR WTR MAX        | 32GB  | 6 x 16TB HDD RAIDZ3 | TrueNAS Scale |
 
 
 <h2>
