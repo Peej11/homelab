@@ -102,6 +102,9 @@ Test analysis software that records your internet speed for up to 30 days.
 ### [Node Feature Discovery](https://github.com/kubernetes-sigs/node-feature-discovery)
 Node Feature Discovery is an addon to detect node capabilities for Kubernetes. It detects hardware features available on each node in a Kubernetes cluster, and advertises those features using node labels and optionally node extended resources, annotations and node taints. Node Feature Discovery is compatible with any recent version of Kubernetes (v1.24+).
 
+### [Nvidia Device Plugin](https://github.com/NVIDIA/k8s-device-plugin)
+The NVIDIA device plugin for Kubernetes is a Daemonset that allows you to automatically expose the number of GPUs on each nodes of your cluster, keep track of the health of your GPUs, and run GPU enabled containers in your Kubernetes cluster.
+
 ### [Prometheus](https://github.com/prometheus/prometheus)
 Prometheus is a great systems monitoring and alerting toolkit. It's the datasource that is used by Grafana to display your cluster statistics and information. This install is a part of the [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) which is helpful for monitoring a K8S cluster.
 

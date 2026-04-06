@@ -1,0 +1,33 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app nvidia-device-plugin
+  namespace: nvidia-device-plugin
+  labels:
+    app.kubernetes.io/name: *app
+    app.kubernetes.io/part-of: &namespace nvidia-device-plugin
+spec:
+  dependsOn:
+    - name: flux-system
+      namespace: flux-system
+    - name: node-feature-discovery
+      namespace: node-feature-discovery
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+      app.kubernetes.io/namespace: *namespace
+  interval: 4h
+  path: ./kubernetes/apps/nvidia-device-plugin/app
+  prune: true
+  retryInterval: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  timeout: 10m
+  wait: false
