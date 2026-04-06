@@ -55,7 +55,7 @@ spec:
               memory: 1Gi
       containers:
         - name: localai
-          image: quay.io/go-skynet/local-ai:v4.1.1-gpu-hipblas@sha256:56ef8edb50ec28941307ad2dc73e00812d5d2333eed3dd6143d9d1acce838a4d
+          image: quay.io/go-skynet/local-ai:v4.1.2-gpu-hipblas@sha256:a82c2770e3993a88d04ad822d59a6ff977e319899fc069801cf1a4904bf7090f
           ports:
             - name: http
               containerPort: 8080
