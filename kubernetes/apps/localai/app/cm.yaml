@@ -1,0 +1,24 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gemma-2-2b
+  namespace: localai
+  labels:
+    app.kubernetes.io/name: localai
+data:
+  gemma-2-2b.yaml: |
+    name: gemma-2-2b
+    backend: llama-cpp
+    parameters:
+      model: gemma-2-2b-it-Q4_K_M.gguf
+      context_size: 8192
+      threads: 6
+    template:
+      chat_message: |
+        {{if eq .RoleName "user"}}<start_of_turn>user
+        {{.Content}}<end_of_turn>
+        {{else if eq .RoleName "assistant"}}<start_of_turn>model
+        {{.Content}}<end_of_turn>
+        {{else if eq .RoleName "system"}}{{.Content}}
+        {{end}}

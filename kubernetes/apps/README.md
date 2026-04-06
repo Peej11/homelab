@@ -87,6 +87,9 @@ Kavita is a fast, feature rich, cross-platform reading server. Built with a focu
 ### [Linkding](https://github.com/sissbruecker/linkding)
 Linkding is a bookmark manager that you can host yourself. It's designed be to be minimal, fast, and easy to set up using Docker.
 
+### [LocalAI](https://github.com/mudler/LocalAI)
+LocalAI is the open-source AI engine. Run any model - LLMs, vision, voice, image, video - on any hardware. No GPU required.
+
 ### [Mealie](https://github.com/mealie-recipes/mealie/)
 Mealie is a self-hosted recipe manager, meal planner, and shopping list application.
 
