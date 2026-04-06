@@ -1,0 +1,12 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: node-feature-discovery
+  namespace: node-feature-discovery
+spec:
+  interval: 8h
+  provider: generic
+  ref:
+    tag: 0.18.3
+  url: oci://gcr.io/k8s-staging-nfd/charts/node-feature-discovery

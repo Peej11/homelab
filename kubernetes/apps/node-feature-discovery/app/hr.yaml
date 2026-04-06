@@ -7,14 +7,9 @@ metadata:
   name: node-feature-discovery
   namespace: node-feature-discovery
 spec:
-  chart:
-    spec:
-      chart: node-feature-discovery
-      reconcileStrategy: ChartVersion
-      sourceRef:
-        kind: HelmRepository
-        name: node-feature-discovery
-      version: 0.18.3
+  chartRef:
+    kind: OCIRepository
+    name: node-feature-discovery
   install:
     crds: Create
     remediation:

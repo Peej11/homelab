@@ -3,7 +3,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app node-feature-discovery
-  namespace: flux-system
+  namespace: node-feature-discovery
   labels:
     app.kubernetes.io/name: *app
     app.kubernetes.io/part-of: &namespace node-feature-discovery
