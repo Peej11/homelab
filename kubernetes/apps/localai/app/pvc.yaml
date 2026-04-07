@@ -12,7 +12,7 @@ spec:
   storageClassName: rook-cephfs
   resources:
     requests:
-      storage: 100Gi
+      storage: 150Gi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
