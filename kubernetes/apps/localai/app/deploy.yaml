@@ -26,19 +26,23 @@ spec:
               containerPort: 8080
               protocol: TCP
           env:
-            - name: THREADS
-              value: "6"
-            - name: MODELS_PATH
-              value: /models
-            - name: PARALLEL_REQUESTS
-              value: "1"
-            - name: CONTEXT_SIZE
-              value: "8192"
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: localai-app
+                  key: fqdn-uri
+                  optional: false
+          envFrom:
+            - secretRef: 
+                name: localai-environment
+                optional: false
           volumeMounts:
             - name: models
               mountPath: /models
             - name: backends
               mountPath: /backends
+            - name: data
+              mountPath: /data
           resources:
             requests:
               cpu: "4"
@@ -72,3 +76,6 @@ spec:
         - name: backends
           persistentVolumeClaim:
             claimName: localai-backends
+        - name: data
+          persistentVolumeClaim:
+            claimName: localai-data

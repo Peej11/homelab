@@ -1,0 +1,14 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: localai-scheduled-backup
+  namespace: localai
+spec:
+  immediate: true
+  schedule: "0 0 7 * * *"
+  backupOwnerReference: self
+  cluster:
+    name: localai
+  method: volumeSnapshot
+  target: primary

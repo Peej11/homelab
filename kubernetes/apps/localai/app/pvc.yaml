@@ -28,3 +28,18 @@ spec:
   resources:
     requests:
       storage: 50Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: localai-data
+  namespace: localai
+  labels:
+    app.kubernetes.io/name: localai
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: rook-cephfs
+  resources:
+    requests:
+      storage: 20Gi
