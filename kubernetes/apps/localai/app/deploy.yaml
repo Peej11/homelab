@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: localai
-          image: quay.io/go-skynet/local-ai:v4.1.2-gpu-nvidia-cuda-13@sha256:87619f8fd7f95936a034d50b739861b465ebfc61d0c876a391bce2f09eabae40
+          image: quay.io/go-skynet/local-ai:v4.1.3-gpu-nvidia-cuda-13@sha256:60698083e10e2739523a7b55e6bbfa8a83ac86bb5715ca9eaca243f6cdd21f1a
           ports:
             - name: http
               containerPort: 8080
