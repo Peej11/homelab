@@ -18,4 +18,4 @@ spec:
   instances: 3
   storage:
     storageClass: rook-cephfs
-    size: 256Mi
+    size: 2Gi
