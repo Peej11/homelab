@@ -17,50 +17,23 @@ spec:
       labels:
         app.kubernetes.io/name: mealie
     spec:
+      securityContext:
+        runAsUser: 911
+        runAsGroup: 911
+        fsGroup: 911
+        runAsNonRoot: true
       containers:
         - name: mealie
           image: ghcr.io/mealie-recipes/mealie:v3.14.0@sha256:b9fac07e6daaabd8c29d0dc97965c2f500ce7d6b188b0c51f494627f23ad32f2
           imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: mealie-config
           env:
             - name: ALLOW_SIGNUP
               value: "false"
             - name: DB_ENGINE
               value: "postgres"
-            - name: BASE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: mealie-config
-                  key: BASE_URL
-            - name: OPENAI_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: mealie-config
-                  key: OPENAI_API_KEY
-            - name: SMTP_FROM_EMAIL
-              valueFrom:
-                secretKeyRef:
-                  name: mealie-config
-                  key: SMTP_FROM_EMAIL
-            - name: SMTP_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: mealie-config
-                  key: SMTP_HOST
-            - name: SMTP_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mealie-config
-                  key: SMTP_PASSWORD
-            - name: SMTP_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: mealie-config
-                  key: SMTP_PORT
-            - name: SMTP_USER
-              valueFrom:
-                secretKeyRef:
-                  name: mealie-config
-                  key: SMTP_USER
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
@@ -98,6 +71,13 @@ spec:
               memory: 700Mi
             limits:
               memory: 700Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            capabilities:
+              drop: ["ALL"]
+            seccompProfile:
+              type: RuntimeDefault
           startupProbe:
             httpGet:
               path: /api/app/about
