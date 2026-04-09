@@ -20,20 +20,33 @@ spec:
       labels:
         app.kubernetes.io/name: jellyfin
     spec:
+      runtimeClassName: nvidia
       containers:
         - name: jellyfin
           image: ghcr.io/jellyfin/jellyfin:10.11.8@sha256:93227545077893cc9516f28b3adb733b67bc4691f41b6167428a2a0e3220b81c
           imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8096
+              protocol: TCP
+            - name: https
+              containerPort: 8920
+              protocol: TCP
           resources:
             requests:
               cpu: 1000m
               memory: 2048Mi
-              squat.ai/dri-video: "1"
+              nvidia.com/gpu: "1"
             limits:
               memory: 2048Mi
-              squat.ai/dri-video: "1"
+              nvidia.com/gpu: "1"
           securityContext:
-            privileged: true
+            privileged: false
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+            seccompProfile:
+              type: RuntimeDefault
           volumeMounts:
             - name: media
               mountPath: /media
@@ -46,19 +59,19 @@ spec:
           livenessProbe:
             httpGet:
               path: /System/Ping
-              port: 8096
+              port: http
             initialDelaySeconds: 30
             periodSeconds: 30
           readinessProbe:
             httpGet:
               path: /System/Ping
-              port: 8096
+              port: http
             initialDelaySeconds: 30
             periodSeconds: 30
           startupProbe:
             httpGet:
               path: /System/Ping
-              port: 8096
+              port: http
             initialDelaySeconds: 30
             periodSeconds: 5
             failureThreshold: 10
