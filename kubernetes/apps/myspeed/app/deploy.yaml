@@ -33,8 +33,25 @@ spec:
             limits:
               memory: 100Mi
           ports:
-            - containerPort: 5216
+            - name: http
+              containerPort: 5216
               protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+            seccompProfile:
+              type: RuntimeDefault
+          livenessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          readinessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
       restartPolicy: Always
       volumes:
         - name: myspeed
