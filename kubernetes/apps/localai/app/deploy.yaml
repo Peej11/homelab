@@ -43,6 +43,10 @@ spec:
               mountPath: /backends
             - name: data
               mountPath: /data
+            - name: tmp
+              mountPath: /tmp
+            - name: root
+              mountPath: /root
           resources:
             requests:
               cpu: "4"
@@ -52,6 +56,13 @@ spec:
               cpu: "6"
               memory: 8Gi
               nvidia.com/gpu: "1"
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+            seccompProfile:
+              type: RuntimeDefault
           readinessProbe:
             httpGet:
               path: /readyz
@@ -79,3 +90,9 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: localai-data
+        - name: tmp
+          emptyDir:
+            sizeLimit: 20Gi
+        - name: root
+          emptyDir:
+            sizeLimit: 1Gi
