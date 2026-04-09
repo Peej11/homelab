@@ -98,6 +98,22 @@ spec:
               memory: 700Mi
             limits:
               memory: 700Mi
+          startupProbe:
+            httpGet:
+              path: /api/app/about
+              port: 9000
+            failureThreshold: 30
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /api/app/about
+              port: 9000
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /api/app/about
+              port: 9000
+            periodSeconds: 10
       restartPolicy: Always
       volumes:
         - name: mealie
