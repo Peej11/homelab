@@ -17,6 +17,9 @@ spec:
   dashboard:
     enabled: true
   dataDirHostPath: /var/lib/rook
+  disruptionManagement:
+    managePodBudgets: true
+    osdMaintenanceTimeout: 30
   mgr:
     count: 3
     allowMultiplePerNode: false
@@ -31,19 +34,3 @@ spec:
     allowOsdCrushWeightUpdate: false
     useAllNodes: true
     useAllDevices: true
-    #nodes:
-    #  - name: blackwidow
-    #    devices:
-    #      - name: "/dev/disk/by-id/ata-SAMSUNG_SSD_PM871b_M.2_2280_256GB_S3U0NE0K101064"
-    #  - name: captainamerica
-    #    devices:
-    #      - name: "/dev/disk/by-id/nvme-PC611_NVMe_SK_hynix_256GB_ND0AN50951010A92Y"
-    #  - name: hawkeye
-    #    devices:
-    #      - name: "/dev/disk/by-id/ata-LITEON_L8H-256V2G-11_M.2_2280_256GB_TW0MGNHV550855AGB32L"
-    #  - name: ironman
-    #    devices:
-    #      - name: "/dev/disk/by-id/nvme-THNSN5256GPU7_NVMe_TOSHIBA_256GB__665B31NOKTNX"
-    #  - name: thor
-    #    devices:
-    #      - name: "/dev/disk/by-id/nvme-SAMSUNG_MZVLB256HBHQ-000L7_S4ELNF2M929966"
