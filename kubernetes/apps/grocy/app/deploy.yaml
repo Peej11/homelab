@@ -17,6 +17,9 @@ spec:
       labels:
         app.kubernetes.io/name: grocy
     spec:
+      securityContext:
+        fsGroup: 911
+        fsGroupChangePolicy: OnRootMismatch
       containers:
         - name: grocy
           image: lscr.io/linuxserver/grocy:4.6.0@sha256:3734cf765d943120afc9b98ae36ac980bd498d37cd269cd5ad6be3c993ba22a2
@@ -33,6 +36,33 @@ spec:
               memory: 90Mi
             limits:
               memory: 90Mi
+          securityContext:
+            capabilities:
+              drop: ["ALL"]
+              add:
+                - CHOWN
+                - DAC_OVERRIDE
+                - FOWNER
+                - SETUID
+                - SETGID
+                - NET_BIND_SERVICE
+            seccompProfile:
+              type: RuntimeDefault
+          livenessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 15
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
       restartPolicy: Always
       volumes:
         - name: grocy
