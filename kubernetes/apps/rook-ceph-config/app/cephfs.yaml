@@ -6,11 +6,13 @@ metadata:
   namespace: rook-ceph
 spec:
   metadataPool:
+    deviceClass: nvme
     failureDomain: host
     replicated:
       size: 3
   dataPools:
     - name: tank
+      deviceClass: nvme
       failureDomain: host
       replicated:
         size: 3
