@@ -56,10 +56,32 @@ spec:
                 secretKeyRef:
                   name: linkding-config
                   key: LD_SUPERUSER_PASSWORD
+          ports:
+            - name: http
+              containerPort: 9090
+              protocol: TCP
           resources:
             requests:
               cpu: 2m
               memory: 256Mi
             limits:
               memory: 256Mi
+          securityContext:
+            capabilities:
+              drop: ["ALL"]
+              add: ["CHOWN", "SETGID", "SETUID", "DAC_OVERRIDE", "FOWNER"]
+            seccompProfile:
+              type: RuntimeDefault
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
       restartPolicy: Always
