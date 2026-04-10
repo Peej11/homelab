@@ -23,8 +23,9 @@ spec:
     - name: cryo
       deviceClass: hdd
       failureDomain: osd
-      replicated:
-        size: 3
+      erasureCoded:
+        dataChunks: 3
+        codingChunks: 2
       parameters:
         pg_num: "128"
         pgp_num: "128"
