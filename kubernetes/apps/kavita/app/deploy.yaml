@@ -24,15 +24,35 @@ spec:
         - name: kavita
           image: ghcr.io/kareadita/kavita:0.8.9@sha256:1f2acae7466d022f037ea09f7989eb7c487f916b881174c7a6de33dbfa8acb39
           imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 5000
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 50m
+              memory: 512Mi
+            limits:
+              memory: 512Mi
           livenessProbe:
             httpGet:
               path: /api/health
-              port: 5000
+              port: http
             initialDelaySeconds: 30
             periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
+            capabilities:
+              drop: ["ALL"]
+            seccompProfile:
+              type: RuntimeDefault
           volumeMounts:
             - name: media
               mountPath: /media
