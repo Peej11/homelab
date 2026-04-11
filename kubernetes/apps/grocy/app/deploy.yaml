@@ -38,7 +38,8 @@ spec:
               memory: 90Mi
           securityContext:
             capabilities:
-              drop: ["ALL"]
+              drop:
+                - ALL
               add:
                 - CHOWN
                 - DAC_OVERRIDE

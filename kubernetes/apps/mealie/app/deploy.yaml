@@ -75,7 +75,8 @@ spec:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: false
             capabilities:
-              drop: ["ALL"]
+              drop:
+                - ALL
             seccompProfile:
               type: RuntimeDefault
           startupProbe:

@@ -50,7 +50,8 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
             capabilities:
-              drop: ["ALL"]
+              drop:
+                - ALL
             seccompProfile:
               type: RuntimeDefault
           volumeMounts:
