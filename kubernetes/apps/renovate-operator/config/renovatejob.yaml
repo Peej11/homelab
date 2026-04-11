@@ -7,34 +7,12 @@ metadata:
 spec:
   discoveryFilters: 
     - Peej11/**
+  extraEnvFrom:
+    - secretRef:
+        name: renovate-secret
   extraEnv:
     - name: LOG_LEVEL
       value: debug
-    - name: RENOVATE_TOKEN
-      valueFrom:
-        secretKeyRef:
-          name: renovate-secret
-          key: RENOVATE_TOKEN
-    - name: GITHUB_COM_TOKEN
-      valueFrom:
-        secretKeyRef:
-          name: renovate-secret
-          key: GITHUB_COM_TOKEN
-    - name: GITHUB_COM_USER
-      valueFrom:
-        secretKeyRef:
-          name: renovate-secret
-          key: GITHUB_COM_USER
-    - name: DOCKERHUB_USERNAME
-      valueFrom:
-        secretKeyRef:
-          name: renovate-secret
-          key: DOCKERHUB_USERNAME
-    - name: DOCKERHUB_TOKEN
-      valueFrom:
-        secretKeyRef:
-          name: renovate-secret
-          key: DOCKERHUB_TOKEN
     - name: RENOVATE_HOST_RULES
       value: >-
         [{"hostType":"docker","matchHost":"docker.io","username":"$(DOCKERHUB_USERNAME)","password":"$(DOCKERHUB_TOKEN)"}]
