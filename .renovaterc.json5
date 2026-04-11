@@ -45,6 +45,15 @@
       minimumGroupSize: 3,
     },
     {
+      description: "Rook Ceph Image Group",
+      groupName: "Rook/Ceph",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["quay.io/ceph/ceph"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+    },
+    {
       description: "Kube Prometheus Stack Group",
       groupName: "kube-prometheus-stack",
       matchPackageNames: ["ghcr.io/prometheus-community/charts/kube-prometheus-stack", "kube-prometheus-stack"],
