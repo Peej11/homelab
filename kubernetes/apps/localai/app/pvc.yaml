@@ -9,10 +9,10 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: rook-cephfs
+  storageClassName: rook-cephfs-cryo
   resources:
     requests:
-      storage: 200Gi
+      storage: 1Ti
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
