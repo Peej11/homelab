@@ -17,6 +17,16 @@ spec:
       labels:
         app.kubernetes.io/name: linkding
     spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values:
+                      - amd64
       containers:
         - name: linkding
           image: ghcr.io/sissbruecker/linkding:1.45.0@sha256:61b2eb9eed8e5772a473fb7f1f8923e046cb8cbbeb50e88150afd5ff287d4060
@@ -46,16 +56,9 @@ spec:
                 secretKeyRef:
                   name: linkding-app
                   key: port
-            - name: LD_SUPERUSER_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: linkding-config
-                  key: LD_SUPERUSER_NAME
-            - name: LD_SUPERUSER_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: linkding-config
-                  key: LD_SUPERUSER_PASSWORD
+          envFrom:
+            - secretRef:
+                name: linkding-config
           ports:
             - name: http
               containerPort: 9090
