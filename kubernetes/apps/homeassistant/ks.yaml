@@ -11,6 +11,8 @@ spec:
   dependsOn:
     - name: flux-system
       namespace: flux-system
+    - name: device-plugin
+      namespace: kube-system
   decryption:
     provider: sops
     secretRef:
