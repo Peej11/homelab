@@ -53,10 +53,10 @@ spec:
             requests:
               cpu: 2m
               memory: 250Mi
-              squat.ai/zwave-hub: "1"
+              devic.es/zwave-hub: "1"
             limits:
               memory: 250Mi
-              squat.ai/zwave-hub: "1"
+              devic.es/zwave-hub: "1"
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false

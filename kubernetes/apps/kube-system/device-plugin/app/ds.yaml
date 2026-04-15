@@ -22,7 +22,7 @@ spec:
         - operator: "Exists"
           effect: "NoSchedule"
       containers:
-        - image: squat/generic-device-plugin:0.1.0@sha256:66e03b1f9975a79fa17f5a87ea4f0c71467bbb71f50c76841eec8b0c5f41e8c1
+        - image: squat/generic-device-plugin:0.2.0@sha256:66c8d5c270eb2b721f1064c549b9b7898152a6d2f0163380a5d37dc7636c20ff
           args:
             - --device
             - |
@@ -31,13 +31,6 @@ spec:
                 - count: 2
                   paths:
                     - path: /dev/serial/by-id/usb-Nabu_Casa_ZWA-2_80B54EE139C0-if00
-            - --device
-            - |
-              name: dri-video
-              groups:
-                - count: 1
-                  paths:
-                    - path: /dev/dri/renderD*
           name: generic-device-plugin
           resources:
             requests:
