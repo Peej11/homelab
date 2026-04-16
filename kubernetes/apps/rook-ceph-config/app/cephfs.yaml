@@ -27,8 +27,8 @@ spec:
         dataChunks: 3
         codingChunks: 2
       parameters:
-        pg_num: "128"
-        pgp_num: "128"
+        pg_num: "256"
+        pgp_num: "256"
       crushRoot: default
   preserveFilesystemOnDelete: true
   metadataServer:
