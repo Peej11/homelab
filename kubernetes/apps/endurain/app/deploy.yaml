@@ -112,6 +112,7 @@ spec:
             capabilities:
               add:
                 - CHOWN
+                - DAC_OVERRIDE
                 - SETGID
                 - SETUID
               drop:
