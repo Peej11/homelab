@@ -8,5 +8,5 @@ spec:
   interval: 8h
   provider: generic
   ref:
-    tag: 0.1.4
+    tag: 0.1.6
   url: oci://ghcr.io/home-operations/charts/tuppr
