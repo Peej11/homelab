@@ -125,9 +125,9 @@ spec:
           resources:
             requests:
               cpu: 350m
-              memory: 500Mi
+              memory: 650Mi
             limits:
-              memory: 500Mi
+              memory: 650Mi
       restartPolicy: Always
       volumes:
         - name: data
