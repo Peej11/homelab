@@ -41,6 +41,9 @@ This driver allows Kubernetes to access NFS servers on both Linux and Windows no
 ### [CSI Driver SMB](https://github.com/kubernetes-csi/csi-driver-smb)
 This driver allows Kubernetes to access SMB servers on both Linux and Windows nodes, plugin name: `smb.csi.k8s.io`.
 
+### [Descheduler](https://github.com/kubernetes-sigs/descheduler)
+The descheduler can be used to rebalance clusters by evicting pods that can potentially be scheduled on better nodes. In its default configuration, it runs as a CronJob to periodically check and optimize pod placement based on configurable strategies.
+
 ### [Device Plugin](https://github.com/squat/generic-device-plugin)
 The generic-device-plugin enables allocating generic Linux devices, such as serial devices, the FUSE device, or video cameras, to Kubernetes Pods. This allows devices that don't require special drivers to be advertised to the cluster and scheduled, enabling various use-cases.
 
