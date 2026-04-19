@@ -1,0 +1,47 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vllm-inference
+  namespace: vllm
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: vllm
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: vllm
+    spec:
+      runtimeClassName: nvidia
+      containers:
+      - name: vllm
+        image: vllm/vllm-openai:v0.19.1@sha256:2622f38a0aa646c15ccc27bd5033911a58fd94ac69fd8f86aba0692d77cfe5b9
+        command: ["/bin/sh", "-c"]
+        args:
+          - vllm serve Qwen/Qwen3.5-4B --gpu-memory-utilization 0.7 --max-model-len 163840
+        env:
+        - name: HF_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: hf-token-secret
+              key: token
+        ports:
+          - containerPort: 8000
+        resources:
+          requests:
+            cpu: 50m
+            nvidia.com/gpu: "1"
+          limits:
+            memory: 16Gi
+            nvidia.com/gpu: "1"
+        volumeMounts:
+          - name: vllm-models
+            mountPath: /root/.cache/huggingface
+      volumes:
+      - name: vllm-models
+        persistentVolumeClaim:
+          claimName: vllm-models

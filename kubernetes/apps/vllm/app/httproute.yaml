@@ -1,0 +1,24 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  annotations:
+    gatus.home-operations.com/endpoint: |
+      name: "vLLM"
+  name: vllm
+  namespace: vllm
+spec:
+  hostnames: ["vllm.${SECRET_DOMAIN}"]
+  parentRefs:
+    - name: envoy-internal
+      namespace: network
+      sectionName: https
+  rules:
+    - backendRefs:
+        - name: vllm-inference
+          namespace: vllm
+          port: 8000
+      matches:
+        - path:
+            type: PathPrefix
+            value: /

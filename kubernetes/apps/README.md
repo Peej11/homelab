@@ -138,6 +138,9 @@ A Kubernetes controller for managing automated upgrades of Talos Linux and Kuber
 ### [Valheim Game Server](https://github.com/lloesche/valheim-server-docker)
 Valheim Server in a Docker Container (with BepInEx and ValheimPlus support)
 
+### [vLLM](https://github.com/vllm-project/vllm)
+vLLM is a fast and easy-to-use library for LLM inference and serving.
+
 ### [Wiki.js](https://github.com/Requarks/wiki)
 A modern, lightweight, and powerful wiki app built on NodeJS
 
