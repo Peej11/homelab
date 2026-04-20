@@ -141,6 +141,9 @@ Valheim Server in a Docker Container (with BepInEx and ValheimPlus support)
 ### [vLLM](https://github.com/vllm-project/vllm)
 vLLM is a fast and easy-to-use library for LLM inference and serving.
 
+### [VolSync](https://github.com/backube/volsync)
+VolSync asynchronously replicates Kubernetes persistent volumes between clusters using either rsync or rclone. It also supports creating backups of persistent volumes via restic.
+
 ### [Wiki.js](https://github.com/Requarks/wiki)
 A modern, lightweight, and powerful wiki app built on NodeJS
 
