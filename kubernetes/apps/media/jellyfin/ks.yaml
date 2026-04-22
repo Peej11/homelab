@@ -3,14 +3,14 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app jellyfin
-  namespace: flux-system
+  namespace: media
   labels:
     app.kubernetes.io/name: *app
-    app.kubernetes.io/part-of: &namespace jellyfin
+    app.kubernetes.io/part-of: &namespace media
 spec:
   dependsOn:
-    - name: flux-system
-      namespace: flux-system
+    - name: storage
+      namespace: media
   decryption:
     provider: sops
     secretRef:
@@ -20,7 +20,7 @@ spec:
       app.kubernetes.io/name: *app
       app.kubernetes.io/namespace: *namespace
   interval: 4h
-  path: ./kubernetes/apps/jellyfin/app
+  path: ./kubernetes/apps/media/jellyfin/app
   postBuild:
     substituteFrom:
       - name: cluster-secrets

@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: jellyfin
-  namespace: jellyfin
+  namespace: media
   labels:
     app.kubernetes.io/name: jellyfin
   annotations:
@@ -79,7 +79,7 @@ spec:
       volumes:
         - name: media
           persistentVolumeClaim:
-            claimName: jellyfin-media
+            claimName: pvc-media-smb
         - name: config
           persistentVolumeClaim:
             claimName: jellyfin-config

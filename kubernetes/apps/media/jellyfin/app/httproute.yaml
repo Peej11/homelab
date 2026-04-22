@@ -6,7 +6,7 @@ metadata:
     gatus.home-operations.com/endpoint: |
       name: "Jellyfin"
   name: jellyfin
-  namespace: jellyfin
+  namespace: media
 spec:
   hostnames: ["jellyfin.${SECRET_DOMAIN}"]
   parentRefs:
@@ -16,7 +16,7 @@ spec:
   rules:
     - backendRefs:
         - name: jellyfin
-          namespace: jellyfin
+          namespace: media
           port: 8096
       matches:
         - path:

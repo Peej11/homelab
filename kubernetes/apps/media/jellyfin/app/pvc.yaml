@@ -2,21 +2,8 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: jellyfin-media
-  namespace: jellyfin
-spec:
-  accessModes:
-    - ReadOnlyMany
-  volumeName: pv-smb-media
-  resources:
-    requests:
-      storage: 1Mi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
   name: jellyfin-config
-  namespace: jellyfin
+  namespace: media
 spec:
   accessModes:
     - ReadWriteMany
@@ -29,7 +16,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: jellyfin-cache
-  namespace: jellyfin
+  namespace: media
 spec:
   accessModes:
     - ReadWriteMany
