@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kavita
-  namespace: kavita
+  namespace: media
   labels:
     app.kubernetes.io/name: kavita
   annotations:
@@ -62,7 +62,7 @@ spec:
       volumes:
         - name: media
           persistentVolumeClaim:
-            claimName: kavita-media
+            claimName: pvc-media-smb
         - name: config
           persistentVolumeClaim:
             claimName: kavita-config

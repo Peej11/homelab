@@ -6,7 +6,7 @@ metadata:
     gatus.home-operations.com/endpoint: |
       name: "Kavita"
   name: kavita
-  namespace: kavita
+  namespace: media
 spec:
   hostnames: ["kavita.${SECRET_DOMAIN}"]
   parentRefs:
@@ -16,7 +16,7 @@ spec:
   rules:
     - backendRefs:
         - name: kavita
-          namespace: kavita
+          namespace: media
           port: 5000
       matches:
         - path:
