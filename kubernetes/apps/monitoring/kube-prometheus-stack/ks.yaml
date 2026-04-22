@@ -3,10 +3,10 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app kube-prometheus-stack
-  namespace: flux-system
+  namespace: monitoring
   labels:
     app.kubernetes.io/name: *app
-    app.kubernetes.io/part-of: &namespace prometheus
+    app.kubernetes.io/part-of: &namespace monitoring
 spec:
   dependsOn:
     - name: flux-system
@@ -20,7 +20,7 @@ spec:
       app.kubernetes.io/name: *app
       app.kubernetes.io/namespace: *namespace
   interval: 4h
-  path: ./kubernetes/apps/prometheus-community/app
+  path: ./kubernetes/apps/monitoring/kube-prometheus-stack
   postBuild:
     substituteFrom:
       - name: cluster-secrets

@@ -4,8 +4,8 @@ kind: HelmRelease
 metadata:
   annotations:
     kustomize.toolkit.fluxcd.io/force: enabled
-  name: prometheus
-  namespace: prometheus
+  name: kube-prometheus-stack
+  namespace: monitoring
 spec:
   chart:
     spec:
@@ -85,7 +85,7 @@ spec:
             token: ''
         rpi-monitoring:
           k8s-system-resource-usage:
-            url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/kubernetes/apps/prometheus-community/dashboards/resource_usage.json
+            url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/kubernetes/apps/monitoring/dashboards/resource_usage.json
             token: ''
     prometheus:
       prometheusConfigSpec:

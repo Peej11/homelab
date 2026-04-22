@@ -2,8 +2,8 @@
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
 metadata:
-  name: prometheus-alert
-  namespace: flux-system
+  name: kube-prometheus-stack-alert
+  namespace: monitoring
 spec:
   summary: "Kube-Prometheus-Stack"
   providerRef:
@@ -11,11 +11,11 @@ spec:
   eventSeverity: info
   eventSources:
     - kind: HelmRepository
-      name: '*'
-      namespace: prometheus
+      name: 'prometheus-community'
+      namespace: monitoring
     - kind: HelmChart
-      name: '*'
-      namespace: prometheus
+      name: 'monitoring-kube-prometheus-stack'
+      namespace: monitoring
     - kind: HelmRelease
-      name: '*'
-      namespace: prometheus
+      name: 'kube-prometheus-stack'
+      namespace: monitoring

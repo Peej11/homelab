@@ -6,7 +6,7 @@ metadata:
     gatus.home-operations.com/endpoint: |
       name: "Grafana"
   name: grafana-ui
-  namespace: prometheus
+  namespace: monitoring
 spec:
   hostnames: ["grafana.${SECRET_DOMAIN}"]
   parentRefs:
@@ -15,8 +15,8 @@ spec:
       sectionName: https
   rules:
     - backendRefs:
-        - name: prometheus-grafana
-          namespace: prometheus
+        - name: kube-prometheus-stack-grafana
+          namespace: monitoring
           port: 80
       matches:
         - path:
@@ -30,7 +30,7 @@ metadata:
     gatus.home-operations.com/endpoint: |
       name: "Prometheus"
   name: prometheus-ui
-  namespace: prometheus
+  namespace: monitoring
 spec:
   hostnames: ["prometheus.${SECRET_DOMAIN}"]
   parentRefs:
@@ -39,8 +39,8 @@ spec:
       sectionName: https
   rules:
     - backendRefs:
-        - name: prometheus-kube-prometheus-prometheus
-          namespace: prometheus
+        - name: kube-prometheus-stack-prometheus
+          namespace: monitoring
           port: 9090
       matches:
         - path:
@@ -54,7 +54,7 @@ metadata:
     gatus.home-operations.com/endpoint: |
       name: "Alert Manager"
   name: alertmanager-ui
-  namespace: prometheus
+  namespace: monitoring
 spec:
   hostnames: ["alertmanager.${SECRET_DOMAIN}"]
   parentRefs:
@@ -63,8 +63,8 @@ spec:
       sectionName: https
   rules:
     - backendRefs:
-        - name: prometheus-kube-prometheus-alertmanager
-          namespace: prometheus
+        - name: kube-prometheus-stack-alertmanager
+          namespace: monitoring
           port: 9093
       matches:
         - path:
