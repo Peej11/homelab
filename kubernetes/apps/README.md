@@ -108,6 +108,9 @@ Node Feature Discovery is an addon to detect node capabilities for Kubernetes. I
 ### [Nvidia Device Plugin](https://github.com/NVIDIA/k8s-device-plugin)
 The NVIDIA device plugin for Kubernetes is a Daemonset that allows you to automatically expose the number of GPUs on each nodes of your cluster, keep track of the health of your GPUs, and run GPU enabled containers in your Kubernetes cluster.
 
+### [Open WebUI](https://github.com/open-webui/open-webui)
+Open WebUI is an extensible, feature-rich, and user-friendly self-hosted AI platform designed to operate entirely offline. It supports various LLM runners like Ollama and OpenAI-compatible APIs, with built-in inference engine for RAG, making it a powerful AI deployment solution.
+
 ### [Prometheus](https://github.com/prometheus/prometheus)
 Prometheus is a great systems monitoring and alerting toolkit. It's the datasource that is used by Grafana to display your cluster statistics and information. This install is a part of the [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) which is helpful for monitoring a K8S cluster.
 
