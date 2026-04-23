@@ -29,6 +29,8 @@ spec:
               containerPort: 8080
               protocol: TCP
           env:
+            - name: ENABLE_PERSISTENT_CONFIG
+              value: "false"
             - name: ENABLE_OLLAMA_API
               value: "false"
             - name: OPENAI_API_BASE_URL
@@ -47,6 +49,8 @@ spec:
               value: "true"
             - name: WEBUI_SESSION_COOKIE_SAME_SITE
               value: "strict"
+            - name: WEBUI_URL
+              value: "https://openwebui.${SECRET_DOMAIN}"
             - name: CORS_ALLOW_ORIGIN
               value: "https://openwebui.${SECRET_DOMAIN}"
             - name: HSTS
@@ -65,6 +69,9 @@ spec:
               value: "false"
             - name: ENABLE_CODE_EXECUTION
               value: "false"
+          envFrom:
+            - secretRef:
+                name: openwebui-config
           resources:
             requests:
               cpu: 500m
