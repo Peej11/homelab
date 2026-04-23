@@ -69,6 +69,8 @@ spec:
               value: "false"
             - name: ENABLE_CODE_EXECUTION
               value: "false"
+            - name: ENABLE_SIGNUP
+              value: "false"
           envFrom:
             - secretRef:
                 name: openwebui-config
