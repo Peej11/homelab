@@ -2,7 +2,47 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app openwebui
+  name: &db openwebui-db
+  namespace: openwebui
+  labels:
+    app.kubernetes.io/name: *db
+    app.kubernetes.io/part-of: &namespace openwebui
+spec:
+  dependsOn:
+    - name: flux-system
+      namespace: flux-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *db
+      app.kubernetes.io/namespace: *namespace
+  healthCheckExprs:
+    - apiVersion: postgresql.cnpg.io/v1
+      kind: Cluster
+      current: status.phase in ['Cluster in healthy state']
+      inProgress: status.phase in ['Setting up primary', 'Waiting for the instances to become active', 'Creating a new replica']
+  interval: 4h
+  path: ./kubernetes/apps/openwebui/database
+  postBuild:
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
+  prune: true
+  retryInterval: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  timeout: 10m
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app openwebui-app
   namespace: openwebui
   labels:
     app.kubernetes.io/name: *app
@@ -11,6 +51,8 @@ spec:
   dependsOn:
     - name: flux-system
       namespace: flux-system
+    - name: openwebui-db
+      namespace: openwebui
   decryption:
     provider: sops
     secretRef:

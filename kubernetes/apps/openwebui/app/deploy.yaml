@@ -38,6 +38,33 @@ spec:
                 secretKeyRef:
                   name: auth-api-key
                   key: api-key
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: openwebui-app
+                  key: uri
+            - name: WEBUI_SESSION_COOKIE_SECURE
+              value: "true"
+            - name: WEBUI_SESSION_COOKIE_SAME_SITE
+              value: "strict"
+            - name: CORS_ALLOW_ORIGIN
+              value: "https://openwebui.${SECRET_DOMAIN}"
+            - name: HSTS
+              value: "max-age=31536000;includeSubDomains"
+            - name: XFRAME_OPTIONS
+              value: "DENY"
+            - name: XCONTENT_TYPE
+              value: "nosniff"
+            - name: REFERRER_POLICY
+              value: "strict-origin-when-cross-origin"
+            - name: OFFLINE_MODE
+              value: "true"
+            - name: ENABLE_OPENAI_API_PASSTHROUGH
+              value: "false"
+            - name: ENABLE_COMMUNITY_SHARING
+              value: "false"
+            - name: ENABLE_CODE_EXECUTION
+              value: "false"
           resources:
             requests:
               cpu: 500m
