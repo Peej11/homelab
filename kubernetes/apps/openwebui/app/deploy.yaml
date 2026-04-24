@@ -71,6 +71,27 @@ spec:
               value: "false"
             - name: ENABLE_SIGNUP
               value: "false"
+            - name: ENABLE_WEB_SEARCH
+              value: "true"
+            - name: WEB_SEARCH_ENGINE
+              value: "brave"
+            - name: WEB_SEARCH_RESULT_COUNT
+              value: "3"
+            - name: WEB_SEARCH_CONCURRENT_REQUESTS
+              value: "1"
+            - name: BYPASS_EMBEDDING_AND_RETRIEVAL
+              value: "false"
+            - name: RAG_EMBEDDING_ENGINE
+              value: "openai"
+            - name: RAG_OPENAI_API_BASE_URL
+              value: "http://vllm-embedding.vllm.svc.cluster.local:8000/v1"
+            - name: RAG_OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: auth-api-key
+                  key: api-key
+            - name: RAG_EMBEDDING_MODEL
+              value: "Qwen/Qwen3-Embedding-0.6B"
           envFrom:
             - secretRef:
                 name: openwebui-config
