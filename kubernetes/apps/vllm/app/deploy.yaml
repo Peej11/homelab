@@ -24,7 +24,7 @@ spec:
         image: vllm/vllm-openai:v0.19.1@sha256:2622f38a0aa646c15ccc27bd5033911a58fd94ac69fd8f86aba0692d77cfe5b9
         command: ["/bin/sh", "-c"]
         args:
-          - vllm serve google/gemma-4-E4B-it --gpu-memory-utilization 0.75 --max-model-len 65536 --api-key $VLLM_API_KEY
+          - vllm serve google/gemma-4-E4B-it --gpu-memory-utilization 0.75 --enforce-eager --max-model-len 64K --api-key $VLLM_API_KEY
         env:
         - name: VLLM_LOGGING_LEVEL
           value: DEBUG
