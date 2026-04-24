@@ -4,7 +4,7 @@ kind: HTTPRoute
 metadata:
   annotations:
     gatus.home-operations.com/endpoint: |
-      name: "vLLM"
+      name: "vLLM Inference Route"
       url: https://vllm.${SECRET_DOMAIN}/health
   name: vllm
   namespace: vllm
