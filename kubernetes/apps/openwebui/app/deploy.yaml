@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: openwebui
-          image: ghcr.io/open-webui/open-webui:0.9.1-slim@sha256:90ad9a705f553143c04f9807d05beda12dfc9d895882aafb45d542236f2dab28
+          image: ghcr.io/open-webui/open-webui:v0.9.2-slim@sha256:b7cf13745bdd2510152fb1c6276193c33805236222b28f1c411dc912a73bdc2b
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
