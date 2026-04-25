@@ -3,3 +3,14 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: myspeed
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny
+  namespace: myspeed
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
