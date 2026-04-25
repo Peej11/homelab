@@ -2,17 +2,6 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: default-deny
-  namespace: vllm
-spec:
-  podSelector: {}
-  policyTypes:
-    - Ingress
-    - Egress
----
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
   name: allow-vllm-inference
   namespace: vllm
 spec:
