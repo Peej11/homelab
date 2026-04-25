@@ -5,3 +5,33 @@ metadata:
   name: endurain
   labels:
     app.kubernetes.io/cnpg-operator: "true"
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny
+  namespace: endurain
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-icmp
+  namespace: endurain
+spec:
+  endpointSelector: {}
+  ingress:
+    - fromEntities:
+        - all
+      icmps:
+        - fields:
+            - type: 0
+              family: IPv4
+            - type: 3
+              family: IPv4
+            - type: 8
+              family: IPv4
