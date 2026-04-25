@@ -2,8 +2,48 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app dndwiki
-  namespace: flux-system
+  name: &db dndwiki-db
+  namespace: dndwiki
+  labels:
+    app.kubernetes.io/name: *db
+    app.kubernetes.io/part-of: &namespace dndwiki
+spec:
+  dependsOn:
+    - name: flux-system
+      namespace: flux-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: dndwiki
+      app.kubernetes.io/namespace: *namespace
+  healthCheckExprs:
+    - apiVersion: postgresql.cnpg.io/v1
+      kind: Cluster
+      current: status.phase in ['Cluster in healthy state']
+      inProgress: status.phase in ['Setting up primary', 'Waiting for the instances to become active', 'Creating a new replica']
+  interval: 4h
+  path: ./kubernetes/apps/dndwiki/database
+  postBuild:
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
+  prune: false
+  retryInterval: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  timeout: 10m
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app dndwiki-app
+  namespace: dndwiki
   labels:
     app.kubernetes.io/name: *app
     app.kubernetes.io/part-of: &namespace dndwiki
@@ -11,6 +51,8 @@ spec:
   dependsOn:
     - name: flux-system
       namespace: flux-system
+    - name: dndwiki-db
+      namespace: dndwiki
   decryption:
     provider: sops
     secretRef:
