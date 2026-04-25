@@ -3,3 +3,33 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: renovate-operator
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny
+  namespace: renovate-operator
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-icmp
+  namespace: renovate-operator
+spec:
+  endpointSelector: {}
+  ingress:
+    - fromEntities:
+        - all
+      icmps:
+        - fields:
+            - type: 0
+              family: IPv4
+            - type: 3
+              family: IPv4
+            - type: 8
+              family: IPv4
