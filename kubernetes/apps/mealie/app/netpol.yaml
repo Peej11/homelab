@@ -61,4 +61,4 @@ spec:
         - protocol: TCP
           port: 443
         - protocol: TCP
-          port: 587
+          port: 2525
