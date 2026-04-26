@@ -22,6 +22,7 @@ _... managed with Flux, Renovate, and Github Actions_ 🤖
     <details>
         <summary>🖥️ Cluster / Nodes</summary>
         <img src="./res/mini-rack.jpg" align="center" width="300px" alt="rack"/>
+        <img src="./res/storage-gpu.jpg" align="center" width="300px" alt="rack"/>
     </details>
 </h2>
 
