@@ -34,3 +34,17 @@ spec:
           port: 8082
   egress:
     - {}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-renovate-operator-crd-install
+  namespace: renovate-operator
+spec:
+  podSelector:
+    matchLabels:
+      job-name: renovate-renovate-operator-crd-install
+  policyTypes:
+    - Egress
+  egress:
+    - {}
