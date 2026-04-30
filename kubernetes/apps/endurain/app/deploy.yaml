@@ -28,7 +28,7 @@ spec:
                       - amd64
       containers:
         - name: endurain
-          image: codeberg.org/endurain-project/endurain:v0.17.8@sha256:05d9a9e6a15ab0929ec2d8dacf4000a05bbf11d7ce2742fdb47027a481e91f51
+          image: codeberg.org/endurain-project/endurain:v0.17.8@sha256:d252c06bb2a70d66800ad853af54a96c68fa12d93625e0fa96cfe433411817da
           imagePullPolicy: IfNotPresent
           env:
             - name: TZ
