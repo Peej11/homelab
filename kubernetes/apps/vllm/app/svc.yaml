@@ -12,9 +12,9 @@ spec:
   selector:
     app.kubernetes.io/name: vllm
   ports:
-  - protocol: TCP
-    port: 8000
-    targetPort: 8000
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
   type: ClusterIP
 ---
 apiVersion: v1
@@ -30,7 +30,7 @@ spec:
   selector:
     app.kubernetes.io/name: vllm-embedding
   ports:
-  - protocol: TCP
-    port: 8000
-    targetPort: 8000
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
   type: ClusterIP

@@ -20,59 +20,59 @@ spec:
     spec:
       runtimeClassName: nvidia
       containers:
-      - name: vllm
-        image: vllm/vllm-openai:v0.20.0@sha256:04563c302537a91aa49ebdfbceda96111c5712275999b7e8804fa598f0b5641d
-        command: ["/bin/sh", "-c"]
-        args:
-          - vllm serve google/gemma-4-E4B-it --gpu-memory-utilization 0.75 --enforce-eager --max-model-len 64K --api-key $VLLM_API_KEY
-        env:
-        - name: VLLM_LOGGING_LEVEL
-          value: DEBUG
-        - name: VLLM_API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: auth-api-key
-              key: api-key
-        - name: HF_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: hf-token-secret
-              key: token
-        ports:
-          - name: http
-            containerPort: 8000
-        startupProbe:
-          httpGet:
-            path: /health
-            port: http
-          initialDelaySeconds: 30
-          periodSeconds: 10
-          failureThreshold: 30
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: http
-          periodSeconds: 30
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: http
-          periodSeconds: 10
-        resources:
-          requests:
-            cpu: 50m
-            memory: 4Gi
-            nvidia.com/gpu: "1"
-          limits:
-            memory: 8Gi
-            nvidia.com/gpu: "1"
-        volumeMounts:
-          - name: vllm-models
-            mountPath: /root/.cache/huggingface
+        - name: vllm
+          image: vllm/vllm-openai:v0.20.0@sha256:04563c302537a91aa49ebdfbceda96111c5712275999b7e8804fa598f0b5641d
+          command: ["/bin/sh", "-c"]
+          args:
+            - vllm serve google/gemma-4-E4B-it --gpu-memory-utilization 0.75 --enforce-eager --max-model-len 64K --api-key $VLLM_API_KEY
+          env:
+            - name: VLLM_LOGGING_LEVEL
+              value: DEBUG
+            - name: VLLM_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: auth-api-key
+                  key: api-key
+            - name: HF_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: hf-token-secret
+                  key: token
+          ports:
+            - name: http
+              containerPort: 8000
+          startupProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 30
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 50m
+              memory: 4Gi
+              nvidia.com/gpu: "1"
+            limits:
+              memory: 8Gi
+              nvidia.com/gpu: "1"
+          volumeMounts:
+            - name: vllm-models
+              mountPath: /root/.cache/huggingface
       volumes:
-      - name: vllm-models
-        persistentVolumeClaim:
-          claimName: vllm-models
+        - name: vllm-models
+          persistentVolumeClaim:
+            claimName: vllm-models
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -95,56 +95,56 @@ spec:
     spec:
       runtimeClassName: nvidia
       containers:
-      - name: vllm
-        image: vllm/vllm-openai:v0.20.0@sha256:04563c302537a91aa49ebdfbceda96111c5712275999b7e8804fa598f0b5641d
-        command: ["/bin/sh", "-c"]
-        args:
-          - vllm serve Qwen/Qwen3-Embedding-0.6B --gpu-memory-utilization 0.12 --max-model-len 8192 --api-key $VLLM_API_KEY
-        env:
-        - name: VLLM_LOGGING_LEVEL
-          value: DEBUG
-        - name: VLLM_API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: auth-api-key
-              key: api-key
-        - name: HF_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: hf-token-secret
-              key: token
-        ports:
-          - name: http
-            containerPort: 8000
-        startupProbe:
-          httpGet:
-            path: /health
-            port: http
-          initialDelaySeconds: 30
-          periodSeconds: 10
-          failureThreshold: 30
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: http
-          periodSeconds: 30
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: http
-          periodSeconds: 10
-        resources:
-          requests:
-            cpu: 50m
-            memory: 1Gi
-            nvidia.com/gpu: "1"
-          limits:
-            memory: 3Gi
-            nvidia.com/gpu: "1"
-        volumeMounts:
-          - name: vllm-models
-            mountPath: /root/.cache/huggingface
+        - name: vllm
+          image: vllm/vllm-openai:v0.20.0@sha256:04563c302537a91aa49ebdfbceda96111c5712275999b7e8804fa598f0b5641d
+          command: ["/bin/sh", "-c"]
+          args:
+            - vllm serve Qwen/Qwen3-Embedding-0.6B --gpu-memory-utilization 0.12 --max-model-len 8192 --api-key $VLLM_API_KEY
+          env:
+            - name: VLLM_LOGGING_LEVEL
+              value: DEBUG
+            - name: VLLM_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: auth-api-key
+                  key: api-key
+            - name: HF_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: hf-token-secret
+                  key: token
+          ports:
+            - name: http
+              containerPort: 8000
+          startupProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 30
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 50m
+              memory: 1Gi
+              nvidia.com/gpu: "1"
+            limits:
+              memory: 3Gi
+              nvidia.com/gpu: "1"
+          volumeMounts:
+            - name: vllm-models
+              mountPath: /root/.cache/huggingface
       volumes:
-      - name: vllm-models
-        persistentVolumeClaim:
-          claimName: vllm-models
+        - name: vllm-models
+          persistentVolumeClaim:
+            claimName: vllm-models

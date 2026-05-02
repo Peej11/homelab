@@ -5,7 +5,7 @@ metadata:
   name: renovate-github-homelab
   namespace: renovate-operator
 spec:
-  discoveryFilters: 
+  discoveryFilters:
     - Peej11/**
   extraEnvFrom:
     - secretRef:
