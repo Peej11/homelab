@@ -21,7 +21,7 @@ spec:
       runtimeClassName: nvidia
       containers:
         - name: vllm
-          image: vllm/vllm-openai:v0.20.1@sha256:f9c4a601eb2141d6fbf2614df449ce322cbadc40d40683f17796703b2a730c89
+          image: vllm/vllm-openai:v0.20.1@sha256:9eff9734a30b6713a8566217d36f8277630fd2d31cec7f0a0292835901a23aa4
           command: ["/bin/sh", "-c"]
           args:
             - vllm serve google/gemma-4-E4B-it --gpu-memory-utilization 0.75 --enforce-eager --max-model-len 64K --api-key $VLLM_API_KEY
@@ -96,7 +96,7 @@ spec:
       runtimeClassName: nvidia
       containers:
         - name: vllm
-          image: vllm/vllm-openai:v0.20.1@sha256:f9c4a601eb2141d6fbf2614df449ce322cbadc40d40683f17796703b2a730c89
+          image: vllm/vllm-openai:v0.20.1@sha256:9eff9734a30b6713a8566217d36f8277630fd2d31cec7f0a0292835901a23aa4
           command: ["/bin/sh", "-c"]
           args:
             - vllm serve Qwen/Qwen3-Embedding-0.6B --gpu-memory-utilization 0.12 --max-model-len 8192 --api-key $VLLM_API_KEY
