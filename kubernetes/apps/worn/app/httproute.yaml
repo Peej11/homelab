@@ -1,0 +1,24 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  annotations:
+    gatus.home-operations.com/endpoint: |
+      name: "Worn"
+  name: worn
+  namespace: worn
+spec:
+  hostnames: ["worn.${SECRET_DOMAIN}"]
+  parentRefs:
+    - name: envoy-internal
+      namespace: network
+      sectionName: https
+  rules:
+    - backendRefs:
+        - name: worn-ui
+          namespace: worn
+          port: 8080
+      matches:
+        - path:
+            type: PathPrefix
+            value: /

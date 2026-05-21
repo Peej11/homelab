@@ -147,5 +147,8 @@ VolSync asynchronously replicates Kubernetes persistent volumes between clusters
 ### [Wiki.js](https://github.com/Requarks/wiki)
 A modern, lightweight, and powerful wiki app built on NodeJS
 
+### [Worn](https://github.com/Peej11/worn)
+Vibe coded app to link gear to Apple Fitness workouts and alert on user-defined intervals for maintenance or replacement.
+
 ### [Z-Wave JS UI](https://github.com/zwave-js/zwave-js-ui)
 Z-Wave control panel and MQTT gateway. Either can be enabled separately or both together. I've paired this with Home Assistant so I can control z-wave switches and outlets around the home via [this dongle](https://a.co/d/9HZfxjH). By running this in the same pod as Home Assistant, it's still accessible from HA via localhost and keeps the services and ingresses simple.

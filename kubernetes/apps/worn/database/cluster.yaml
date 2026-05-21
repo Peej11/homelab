@@ -1,0 +1,15 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: worn
+  namespace: worn
+spec:
+  bootstrap:
+    initdb:
+      database: worn
+      owner: worn
+  instances: 3
+  storage:
+    storageClass: rook-cephfs
+    size: 2Gi
