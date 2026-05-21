@@ -96,6 +96,14 @@
       ignoreTests: true,
     },
     {
+      description: "Auto-merge Worn",
+      matchPackageNames: ["ghcr.io/peej11/worn"],
+      automerge: true,
+      automergeType: "branch",
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      ignoreTests: true,
+    },
+    {
       description: "Separate Talos Updates",
       matchDatasources: ["docker"],
       matchPackageNames: ["ghcr.io/siderolabs/installer"],
