@@ -30,7 +30,7 @@ spec:
                       - amd64
       containers:
         - name: server
-          image: ghcr.io/peej11/worn:0.11.0@sha256:c2bfa2e7de02f85e026752001d16a2630ccb74325a4da48f29120d3ec0f71f1f
+          image: ghcr.io/peej11/worn:0.11.1@sha256:5300fa0d34ed0775adc3ff2418f0482e38fea8b142e9d32807eb27729f0886d9
           imagePullPolicy: IfNotPresent
           env:
             - name: LISTEN_ADDR
