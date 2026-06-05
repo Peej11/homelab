@@ -47,9 +47,6 @@ The descheduler can be used to rebalance clusters by evicting pods that can pote
 ### [Device Plugin](https://github.com/squat/generic-device-plugin)
 The generic-device-plugin enables allocating generic Linux devices, such as serial devices, the FUSE device, or video cameras, to Kubernetes Pods. This allows devices that don't require special drivers to be advertised to the cluster and scheduled, enabling various use-cases.
 
-### [Endurain](https://github.com/endurain-project/endurain)
-Endurain is a self-hosted fitness tracking service designed to give users full control over their data and hosting environment. It's similar to Strava but focused on privacy and customization.
-
 ### [Envoy Gateway](https://github.com/envoyproxy/gateway)
 Envoy Gateway is an open source project for managing Envoy Proxy as a standalone or Kubernetes-based application gateway. Gateway API resources are used to dynamically provision and configure the managed Envoy Proxies.
 
@@ -125,9 +122,6 @@ Rook is an open source cloud-native storage orchestrator for Kubernetes, providi
 
 ### [Snapshot Controller](https://github.com/kubernetes-csi/external-snapshotter)
 The CSI snapshotter is part of Kubernetes implementation of Container Storage Interface (CSI) and implements both the volume snapshot and the volume group snapshot feature.
-
-### [SparkyFitness](https://github.com/CodeWithCJ/SparkyFitness)
-A self-hosted, privacy-first alternative to MyFitnessPal. Track nutrition, exercise, body metrics, and health data while keeping full control of your data.
 
 ### [Spegel](https://github.com/spegel-org/spegel)
 Spegel enables each node in a Kubernetes cluster to act as a local registry mirror, allowing nodes to share images between themselves. Any image already pulled by a node will be available for any other node in the cluster to pull. This has the benefit of reducing workload startup times and egress traffic as images will be stored locally within the cluster. On top of that it allows the scheduling of new workloads even when external registries are down.
