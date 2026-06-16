@@ -6,12 +6,8 @@ metadata:
   namespace: renovate-operator
 spec:
   podSelector:
-    matchExpressions:
-      - key: renovate-operator.mogenius.com/job-type
-        operator: In
-        values:
-          - executor
-          - discovery
+    matchLabels:
+      app.kubernetes.io/name: renovate-job
   policyTypes:
     - Egress
   egress:
