@@ -49,14 +49,30 @@ spec:
             seccompProfile:
               type: RuntimeDefault
           volumeMounts:
-            - name: media
-              mountPath: /media
             - name: config
               mountPath: /config
             - name: cache
               mountPath: /cache
             - name: transcode
               mountPath: /transcode
+            - name: dvr
+              mountPath: /media/dvr
+              readOnly: true
+            - name: movies
+              mountPath: /media/movies
+              readOnly: true
+            - name: music
+              mountPath: /media/music
+              readOnly: true
+            - name: preroll
+              mountPath: /media/preroll
+              readOnly: true
+            - name: tv
+              mountPath: /media/tv
+              readOnly: true
+            - name: workouts
+              mountPath: /media/workouts
+              readOnly: true
           livenessProbe:
             httpGet:
               path: /System/Ping
@@ -77,9 +93,6 @@ spec:
             periodSeconds: 5
             failureThreshold: 10
       volumes:
-        - name: media
-          persistentVolumeClaim:
-            claimName: pvc-media-smb
         - name: config
           persistentVolumeClaim:
             claimName: jellyfin-config
@@ -89,3 +102,21 @@ spec:
         - name: transcode
           emptyDir:
             sizeLimit: 8Gi
+        - name: dvr
+          persistentVolumeClaim:
+            claimName: media-dvr
+        - name: movies
+          persistentVolumeClaim:
+            claimName: media-movies
+        - name: music
+          persistentVolumeClaim:
+            claimName: media-music
+        - name: preroll
+          persistentVolumeClaim:
+            claimName: media-preroll
+        - name: tv
+          persistentVolumeClaim:
+            claimName: media-tv
+        - name: workouts
+          persistentVolumeClaim:
+            claimName: media-workouts

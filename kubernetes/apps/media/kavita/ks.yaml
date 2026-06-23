@@ -2,14 +2,16 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app kavita
+  name: &app media-kavita
   namespace: media
   labels:
     app.kubernetes.io/name: *app
     app.kubernetes.io/part-of: &namespace media
 spec:
   dependsOn:
-    - name: storage
+    - name: flux-system
+      namespace: flux-system
+    - name: media-storage
       namespace: media
   decryption:
     provider: sops

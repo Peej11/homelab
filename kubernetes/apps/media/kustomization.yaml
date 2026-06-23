@@ -6,3 +6,4 @@ resources:
   - ./storage/ks.yaml
   - ./jellyfin/ks.yaml
   - ./kavita/ks.yaml
+  - ./backups/ks.yaml

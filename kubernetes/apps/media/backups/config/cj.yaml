@@ -1,0 +1,528 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: rsync-audiobooks
+  namespace: media
+spec:
+  schedule: "0 0,6,12,18 * * *"
+  timeZone: "America/Chicago"
+  concurrencyPolicy: Replace
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: rsync
+              image: ghcr.io/peej11/rsync:3.4.3@sha256:6c60edc6a23dcc47aeeb391ab1e7180bd2e93a49f7c30ee68b078af8eb5a9429
+              command:
+                - /bin/sh
+                - -c
+                - rsync --bwlimit=5000 -avh --progress --delete /src/audiobooks/ /dst/
+              volumeMounts:
+                - name: mjolnir-media
+                  mountPath: /src
+                  readOnly: true
+                - name: media-audiobooks
+                  mountPath: /dst
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+                limits:
+                  memory: 256Mi
+          volumes:
+            - name: mjolnir-media
+              persistentVolumeClaim:
+                claimName: pvc-media-smb
+                readOnly: true
+            - name: media-audiobooks
+              persistentVolumeClaim:
+                claimName: media-audiobooks
+          restartPolicy: OnFailure
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: rsync-books
+  namespace: media
+spec:
+  schedule: "0 1,7,13,19 * * *"
+  timeZone: "America/Chicago"
+  concurrencyPolicy: Replace
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: rsync
+              image: ghcr.io/peej11/rsync:3.4.3@sha256:6c60edc6a23dcc47aeeb391ab1e7180bd2e93a49f7c30ee68b078af8eb5a9429
+              command:
+                - /bin/sh
+                - -c
+                - rsync --bwlimit=5000 -avh --progress --delete /src/books/ /dst/
+              volumeMounts:
+                - name: mjolnir-media
+                  mountPath: /src
+                  readOnly: true
+                - name: media-books
+                  mountPath: /dst
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+                limits:
+                  memory: 256Mi
+          volumes:
+            - name: mjolnir-media
+              persistentVolumeClaim:
+                claimName: pvc-media-smb
+                readOnly: true
+            - name: media-books
+              persistentVolumeClaim:
+                claimName: media-books
+          restartPolicy: OnFailure
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: rsync-downloads
+  namespace: media
+spec:
+  schedule: "0 2,8,14,20 * * *"
+  timeZone: "America/Chicago"
+  concurrencyPolicy: Replace
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: rsync
+              image: ghcr.io/peej11/rsync:3.4.3@sha256:6c60edc6a23dcc47aeeb391ab1e7180bd2e93a49f7c30ee68b078af8eb5a9429
+              command:
+                - /bin/sh
+                - -c
+                - rsync --bwlimit=5000 -avh --progress --delete /src/downloads/ /dst/
+              volumeMounts:
+                - name: mjolnir-media
+                  mountPath: /src
+                  readOnly: true
+                - name: media-downloads
+                  mountPath: /dst
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 512Mi
+                limits:
+                  memory: 1Gi
+          volumes:
+            - name: mjolnir-media
+              persistentVolumeClaim:
+                claimName: pvc-media-smb
+                readOnly: true
+            - name: media-downloads
+              persistentVolumeClaim:
+                claimName: media-downloads
+          restartPolicy: OnFailure
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: rsync-dvr
+  namespace: media
+spec:
+  schedule: "0 3,9,15,21 * * *"
+  timeZone: "America/Chicago"
+  concurrencyPolicy: Replace
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: rsync
+              image: ghcr.io/peej11/rsync:3.4.3@sha256:6c60edc6a23dcc47aeeb391ab1e7180bd2e93a49f7c30ee68b078af8eb5a9429
+              command:
+                - /bin/sh
+                - -c
+                - rsync --bwlimit=5000 -avh --progress --delete /src/dvr/ /dst/
+              volumeMounts:
+                - name: mjolnir-media
+                  mountPath: /src
+                  readOnly: true
+                - name: media-dvr
+                  mountPath: /dst
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+                limits:
+                  memory: 256Mi
+          volumes:
+            - name: mjolnir-media
+              persistentVolumeClaim:
+                claimName: pvc-media-smb
+                readOnly: true
+            - name: media-dvr
+              persistentVolumeClaim:
+                claimName: media-dvr
+          restartPolicy: OnFailure
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: rsync-movies
+  namespace: media
+spec:
+  schedule: "0 4,10,16,22 * * *"
+  timeZone: "America/Chicago"
+  concurrencyPolicy: Replace
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: rsync
+              image: ghcr.io/peej11/rsync:3.4.3@sha256:6c60edc6a23dcc47aeeb391ab1e7180bd2e93a49f7c30ee68b078af8eb5a9429
+              command:
+                - /bin/sh
+                - -c
+                - rsync --bwlimit=5000 -avh --progress --delete /src/movies/ /dst/
+              volumeMounts:
+                - name: mjolnir-media
+                  mountPath: /src
+                  readOnly: true
+                - name: media-movies
+                  mountPath: /dst
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 512Mi
+                limits:
+                  memory: 2Gi
+          volumes:
+            - name: mjolnir-media
+              persistentVolumeClaim:
+                claimName: pvc-media-smb
+                readOnly: true
+            - name: media-movies
+              persistentVolumeClaim:
+                claimName: media-movies
+          restartPolicy: OnFailure
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: rsync-music
+  namespace: media
+spec:
+  schedule: "0 5,11,17,23 * * *"
+  timeZone: "America/Chicago"
+  concurrencyPolicy: Replace
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: rsync
+              image: ghcr.io/peej11/rsync:3.4.3@sha256:6c60edc6a23dcc47aeeb391ab1e7180bd2e93a49f7c30ee68b078af8eb5a9429
+              command:
+                - /bin/sh
+                - -c
+                - rsync --bwlimit=5000 -avh --progress --delete /src/music/ /dst/
+              volumeMounts:
+                - name: mjolnir-media
+                  mountPath: /src
+                  readOnly: true
+                - name: media-music
+                  mountPath: /dst
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+                limits:
+                  memory: 256Mi
+          volumes:
+            - name: mjolnir-media
+              persistentVolumeClaim:
+                claimName: pvc-media-smb
+                readOnly: true
+            - name: media-music
+              persistentVolumeClaim:
+                claimName: media-music
+          restartPolicy: OnFailure
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: rsync-photos
+  namespace: media
+spec:
+  schedule: "0 0,6,12,18 * * *"
+  timeZone: "America/Chicago"
+  concurrencyPolicy: Replace
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: rsync
+              image: ghcr.io/peej11/rsync:3.4.3@sha256:6c60edc6a23dcc47aeeb391ab1e7180bd2e93a49f7c30ee68b078af8eb5a9429
+              command:
+                - /bin/sh
+                - -c
+                - rsync --bwlimit=5000 -avh --progress --delete /src/photos/ /dst/
+              volumeMounts:
+                - name: mjolnir-media
+                  mountPath: /src
+                  readOnly: true
+                - name: media-photos
+                  mountPath: /dst
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+                limits:
+                  memory: 256Mi
+          volumes:
+            - name: mjolnir-media
+              persistentVolumeClaim:
+                claimName: pvc-media-smb
+                readOnly: true
+            - name: media-photos
+              persistentVolumeClaim:
+                claimName: media-photos
+          restartPolicy: OnFailure
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: rsync-preroll
+  namespace: media
+spec:
+  schedule: "0 4,10,16,22 * * *"
+  timeZone: "America/Chicago"
+  concurrencyPolicy: Replace
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: rsync
+              image: ghcr.io/peej11/rsync:3.4.3@sha256:6c60edc6a23dcc47aeeb391ab1e7180bd2e93a49f7c30ee68b078af8eb5a9429
+              command:
+                - /bin/sh
+                - -c
+                - rsync --bwlimit=5000 -avh --progress --delete /src/preroll/ /dst/
+              volumeMounts:
+                - name: mjolnir-media
+                  mountPath: /src
+                  readOnly: true
+                - name: media-preroll
+                  mountPath: /dst
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+                limits:
+                  memory: 256Mi
+          volumes:
+            - name: mjolnir-media
+              persistentVolumeClaim:
+                claimName: pvc-media-smb
+                readOnly: true
+            - name: media-preroll
+              persistentVolumeClaim:
+                claimName: media-preroll
+          restartPolicy: OnFailure
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: rsync-processed
+  namespace: media
+spec:
+  schedule: "0 2,8,14,20 * * *"
+  timeZone: "America/Chicago"
+  concurrencyPolicy: Replace
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: rsync
+              image: ghcr.io/peej11/rsync:3.4.3@sha256:6c60edc6a23dcc47aeeb391ab1e7180bd2e93a49f7c30ee68b078af8eb5a9429
+              command:
+                - /bin/sh
+                - -c
+                - rsync --bwlimit=5000 -avh --progress --delete /src/processed/ /dst/
+              volumeMounts:
+                - name: mjolnir-media
+                  mountPath: /src
+                  readOnly: true
+                - name: media-processed
+                  mountPath: /dst
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+                limits:
+                  memory: 256Mi
+          volumes:
+            - name: mjolnir-media
+              persistentVolumeClaim:
+                claimName: pvc-media-smb
+                readOnly: true
+            - name: media-processed
+              persistentVolumeClaim:
+                claimName: media-processed
+          restartPolicy: OnFailure
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: rsync-rips
+  namespace: media
+spec:
+  schedule: "0 3,9,15,21 * * *"
+  timeZone: "America/Chicago"
+  concurrencyPolicy: Replace
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: rsync
+              image: ghcr.io/peej11/rsync:3.4.3@sha256:6c60edc6a23dcc47aeeb391ab1e7180bd2e93a49f7c30ee68b078af8eb5a9429
+              command:
+                - /bin/sh
+                - -c
+                - rsync --bwlimit=5000 -avh --progress --delete /src/rips/ /dst/
+              volumeMounts:
+                - name: mjolnir-media
+                  mountPath: /src
+                  readOnly: true
+                - name: media-rips
+                  mountPath: /dst
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 512Mi
+                limits:
+                  memory: 2Gi
+          volumes:
+            - name: mjolnir-media
+              persistentVolumeClaim:
+                claimName: pvc-media-smb
+                readOnly: true
+            - name: media-rips
+              persistentVolumeClaim:
+                claimName: media-rips
+          restartPolicy: OnFailure
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: rsync-tv
+  namespace: media
+spec:
+  schedule: "0 1,7,13,19 * * *"
+  timeZone: "America/Chicago"
+  concurrencyPolicy: Replace
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: rsync
+              image: ghcr.io/peej11/rsync:3.4.3@sha256:6c60edc6a23dcc47aeeb391ab1e7180bd2e93a49f7c30ee68b078af8eb5a9429
+              command:
+                - /bin/sh
+                - -c
+                - rsync --bwlimit=5000 -avh --progress --delete /src/tv/ /dst/
+              volumeMounts:
+                - name: mjolnir-media
+                  mountPath: /src
+                  readOnly: true
+                - name: media-tv
+                  mountPath: /dst
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 512Mi
+                limits:
+                  memory: 2Gi
+          volumes:
+            - name: mjolnir-media
+              persistentVolumeClaim:
+                claimName: pvc-media-smb
+                readOnly: true
+            - name: media-tv
+              persistentVolumeClaim:
+                claimName: media-tv
+          restartPolicy: OnFailure
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: rsync-workouts
+  namespace: media
+spec:
+  schedule: "0 5,11,17,23 * * *"
+  timeZone: "America/Chicago"
+  concurrencyPolicy: Replace
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: rsync
+              image: ghcr.io/peej11/rsync:3.4.3@sha256:6c60edc6a23dcc47aeeb391ab1e7180bd2e93a49f7c30ee68b078af8eb5a9429
+              command:
+                - /bin/sh
+                - -c
+                - rsync --bwlimit=5000 -avh --progress --delete /src/workouts/ /dst/
+              volumeMounts:
+                - name: mjolnir-media
+                  mountPath: /src
+                  readOnly: true
+                - name: media-workouts
+                  mountPath: /dst
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+                limits:
+                  memory: 256Mi
+          volumes:
+            - name: mjolnir-media
+              persistentVolumeClaim:
+                claimName: pvc-media-smb
+                readOnly: true
+            - name: media-workouts
+              persistentVolumeClaim:
+                claimName: media-workouts
+          restartPolicy: OnFailure

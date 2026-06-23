@@ -55,14 +55,21 @@ spec:
             seccompProfile:
               type: RuntimeDefault
           volumeMounts:
-            - name: media
-              mountPath: /media
             - name: config
               mountPath: /kavita/config
+            - name: audiobooks
+              mountPath: /media/audiobooks
+              readOnly: true
+            - name: books
+              mountPath: /media/books
+              readOnly: true
       volumes:
-        - name: media
-          persistentVolumeClaim:
-            claimName: pvc-media-smb
         - name: config
           persistentVolumeClaim:
             claimName: kavita-config
+        - name: audiobooks
+          persistentVolumeClaim:
+            claimName: media-audiobooks
+        - name: books
+          persistentVolumeClaim:
+            claimName: media-books
