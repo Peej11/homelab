@@ -129,6 +129,9 @@ The CSI snapshotter is part of Kubernetes implementation of Container Storage In
 ### [Spegel](https://github.com/spegel-org/spegel)
 Spegel enables each node in a Kubernetes cluster to act as a local registry mirror, allowing nodes to share images between themselves. Any image already pulled by a node will be available for any other node in the cluster to pull. This has the benefit of reducing workload startup times and egress traffic as images will be stored locally within the cluster. On top of that it allows the scheduling of new workloads even when external registries are down.
 
+### [Tautulli](https://github.com/Tautulli/Tautulli)
+Tautulli is a monitoring and tracking tool for Plex, providing stats on watch history, streams, and library activity. Uses the mirrored [home-operations/tautulli](https://github.com/home-operations/containers/pkgs/container/tautulli) image.
+
 ### [Tuppr](https://github.com/home-operations/tuppr)
 A Kubernetes controller for managing automated upgrades of Talos Linux and Kubernetes.
 
