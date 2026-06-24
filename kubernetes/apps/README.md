@@ -75,9 +75,6 @@ Home Assistant is a home automation toolkit that lets you automate and control y
 ### [Homepage](https://github.com/gethomepage/homepage)
 A modern, fully static, fast, secure fully proxied, highly customizable application dashboard with integrations for over 100 services and translations into multiple languages. Easily configured via YAML files or through docker label discovery.
 
-### [Jellyfin](https://github.com/jellyfin/jellyfin/)
-Jellyfin is a Free Software Media System that puts you in control of managing and streaming your media. It is an alternative to the proprietary Emby and Plex, to provide media from a dedicated server to end-user devices via multiple apps.
-
 ### [K8S Gateway](https://github.com/k8s-gateway/k8s_gateway)
 A CoreDNS plugin that is very similar to k8s_external but supporting all types of Kubernetes external resources - Ingress, Service of type LoadBalancer, HTTPRoutes, TLSRoutes, GRPCRoutes from the Gateway API project.
 
