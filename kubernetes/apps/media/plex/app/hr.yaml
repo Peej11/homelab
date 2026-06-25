@@ -78,6 +78,7 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |
             name: "Plex"
+            conditions: ["[STATUS] == 401"]
         hostnames:
           - "plex.${SECRET_DOMAIN}"
         parentRefs:
