@@ -1,0 +1,109 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app handbrake
+  namespace: media
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: app-template
+  interval: 1h
+  values:
+    controllers:
+      handbrake:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: docker.io/jlesage/handbrake
+              tag: v26.03.3@sha256:2b1eb1e34cf2edba2590c3ab768206a11cf8916fbe8a8a3391fe74d9eabcdce0
+              pullPolicy: IfNotPresent
+            env:
+              TZ: America/Chicago
+              USER_ID: "1000"
+              GROUP_ID: "1000"
+              KEEP_APP_RUNNING: "1"
+              AUTOMATED_CONVERSION: "0"
+              WEB_FILE_MANAGER: "1"
+              WEB_FILE_MANAGER_ALLOWED_PATHS: "/storage,/output"
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 5800
+                  initialDelaySeconds: 30
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 5800
+                  initialDelaySeconds: 15
+                  periodSeconds: 5
+                  failureThreshold: 30
+            resources:
+              requests:
+                cpu: 500m
+                memory: 1Gi
+                nvidia.com/gpu: "1"
+              limits:
+                memory: 4Gi
+                nvidia.com/gpu: "1"
+    defaultPodOptions:
+      runtimeClassName: nvidia
+    service:
+      app:
+        ports:
+          http:
+            port: 5800
+    route:
+      app:
+        annotations:
+          gatus.home-operations.com/endpoint: |
+            name: "HandBrake"
+        hostnames:
+          - "handbrake.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: https
+    persistence:
+      config:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteMany
+        size: 5Gi
+        storageClass: rook-cephfs
+        retain: true
+        globalMounts:
+          - path: /config
+      storage:
+        existingClaim: media-rips
+        globalMounts:
+          - path: /storage
+      output:
+        existingClaim: media-processed
+        globalMounts:
+          - path: /output
+    rawResources:
+      securitypolicy:
+        forceRename: handbrake
+        manifest:
+          apiVersion: gateway.envoyproxy.io/v1alpha1
+          kind: SecurityPolicy
+          spec:
+            targetRefs:
+              - group: gateway.networking.k8s.io
+                kind: HTTPRoute
+                name: handbrake
+            basicAuth:
+              users:
+                name: handbrake-basic-auth

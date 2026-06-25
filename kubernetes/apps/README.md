@@ -69,6 +69,9 @@ Grafana lets you query, visualize, alert on, and explore your metrics, logs, and
 ### [Grocy](https://github.com/grocy/grocy)
 Grocy is a web-based self-hosted groceries & household management solution for your home. Uses the LinuxServer [Docker image](https://hub.docker.com/r/linuxserver/grocy).
 
+### [HandBrake](https://github.com/HandBrake/HandBrake)
+HandBrake is an open-source video transcoder for converting media into widely supported formats. Runs the [jlesage/handbrake](https://hub.docker.com/r/jlesage/handbrake) web-GUI image with NVENC encoding to convert files from the rips PVC into the processed library; the web UI is protected by an Envoy Gateway `SecurityPolicy` with basic auth.
+
 ### [Home Assistant](https://github.com/home-assistant/core)
 Home Assistant is a home automation toolkit that lets you automate and control your home. Changes to `configuration.yaml` are required if you want to place Home Assistant behind a proxy. When doing the first-time install, disable the mount that maps the configmap to the pod. Let the deployment create the directory and necessary files first, then reconfigure the deployment to use your configmap which can be updated as needed. Reloader will take care of restarting it if you do any further configuration changes. Use `ws://localhost:3000` for the web-socket address in the z-wave integration instead of the detected IP address since the pod IP can change with restarts.
 
