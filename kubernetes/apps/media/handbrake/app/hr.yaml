@@ -70,6 +70,7 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |
             name: "HandBrake"
+            conditions: ["[STATUS] == 401"]
         hostnames:
           - "handbrake.${SECRET_DOMAIN}"
         parentRefs:
