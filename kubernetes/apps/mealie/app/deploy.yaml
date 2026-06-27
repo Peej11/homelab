@@ -24,7 +24,7 @@ spec:
         runAsNonRoot: true
       containers:
         - name: mealie
-          image: ghcr.io/mealie-recipes/mealie:v3.19.2@sha256:f68e959bf66f4f458893ea58facac71690fe6f2ac7a31466b5cecb41b4e99c02
+          image: ghcr.io/mealie-recipes/mealie:v3.20.1@sha256:9b680f5dad8618e69317a005e083a00a699845fb2a72c392a558a4e2898aed20
           imagePullPolicy: IfNotPresent
           envFrom:
             - secretRef:
