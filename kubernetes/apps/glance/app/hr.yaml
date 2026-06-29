@@ -1,0 +1,143 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app glance
+  namespace: glance
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: app-template
+  interval: 1h
+  values:
+    controllers:
+      glance:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: glanceapp/glance
+              tag: v0.8.5@sha256:32ab73d80f2b8b5fb0735b0431deb36b93fbb6b2fb43592449b0178c8b83e350
+              pullPolicy: IfNotPresent
+            envFrom:
+              - configMapRef:
+                  name: glance-env
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 8080
+                  initialDelaySeconds: 30
+                  periodSeconds: 30
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: 8080
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+            resources:
+              requests:
+                cpu: 1m
+                memory: 30Mi
+              limits:
+                memory: 30Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+              seccompProfile:
+                type: RuntimeDefault
+    service:
+      app:
+        ports:
+          http:
+            port: 8080
+    route:
+      app:
+        annotations:
+          gatus.home-operations.com/endpoint: |
+            name: "Glance"
+        hostnames:
+          - "www.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: https
+    persistence:
+      config:
+        type: configMap
+        name: glance-config
+        globalMounts:
+          - path: /app/config
+      assets:
+        type: configMap
+        name: glance-assets
+        globalMounts:
+          - path: /app/assets
+      localtime:
+        type: configMap
+        name: glance-localtime
+        globalMounts:
+          - path: /etc/localtime
+            subPath: localtime
+            readOnly: true
+    rawResources:
+      networkpolicy:
+        forceRename: allow-glance
+        manifest:
+          apiVersion: networking.k8s.io/v1
+          kind: NetworkPolicy
+          spec:
+            podSelector:
+              matchLabels:
+                app.kubernetes.io/name: glance
+            policyTypes:
+              - Ingress
+              - Egress
+            ingress:
+              - from:
+                  - namespaceSelector:
+                      matchLabels:
+                        kubernetes.io/metadata.name: network
+                    podSelector:
+                      matchLabels:
+                        gateway.envoyproxy.io/owning-gateway-name: envoy-internal
+                ports:
+                  - protocol: TCP
+                    port: 8080
+            egress:
+              - to:
+                  - namespaceSelector:
+                      matchLabels:
+                        kubernetes.io/metadata.name: kube-system
+                    podSelector:
+                      matchLabels:
+                        app.kubernetes.io/name: coredns
+                ports:
+                  - protocol: UDP
+                    port: 53
+              - to:
+                  - namespaceSelector: {}
+                    podSelector:
+                      matchLabels:
+                        home.arpa/monitored: "true"
+              - to:
+                  - ipBlock:
+                      cidr: 0.0.0.0/0
+                      except:
+                        - 10.0.0.0/8
+                        - 172.16.0.0/12
+                        - 192.168.0.0/16
+                ports:
+                  - protocol: TCP
+                    port: 443
+                  - protocol: TCP
+                    port: 80
