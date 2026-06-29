@@ -1,0 +1,159 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app linkding
+  namespace: linkding
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: app-template
+  interval: 1h
+  values:
+    controllers:
+      linkding:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/sissbruecker/linkding
+              tag: 1.45.0@sha256:61b2eb9eed8e5772a473fb7f1f8923e046cb8cbbeb50e88150afd5ff287d4060
+              pullPolicy: IfNotPresent
+            env:
+              LD_LOG_X_FORWARDED_FOR: "true"
+              LD_DB_ENGINE: postgres
+              LD_DB_USER:
+                valueFrom:
+                  secretKeyRef:
+                    name: linkding-app
+                    key: username
+              LD_DB_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: linkding-app
+                    key: password
+              LD_DB_HOST:
+                valueFrom:
+                  secretKeyRef:
+                    name: linkding-app
+                    key: host
+              LD_DB_PORT:
+                valueFrom:
+                  secretKeyRef:
+                    name: linkding-app
+                    key: port
+            envFrom:
+              - secretRef:
+                  name: linkding-config
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: 9090
+                  initialDelaySeconds: 30
+                  periodSeconds: 30
+              readiness: *probes
+            resources:
+              requests:
+                cpu: 2m
+                memory: 256Mi
+              limits:
+                memory: 256Mi
+            securityContext:
+              capabilities:
+                drop:
+                  - ALL
+                add:
+                  - CHOWN
+                  - SETGID
+                  - SETUID
+                  - DAC_OVERRIDE
+                  - FOWNER
+              seccompProfile:
+                type: RuntimeDefault
+    defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values:
+                      - amd64
+    service:
+      app:
+        ports:
+          http:
+            port: 9090
+    route:
+      app:
+        annotations:
+          gatus.home-operations.com/endpoint: |
+            name: "Linkding"
+        hostnames:
+          - "linkding.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: https
+    rawResources:
+      networkpolicy:
+        forceRename: allow-linkding
+        manifest:
+          apiVersion: networking.k8s.io/v1
+          kind: NetworkPolicy
+          spec:
+            podSelector:
+              matchLabels:
+                app.kubernetes.io/name: linkding
+            policyTypes:
+              - Ingress
+              - Egress
+            ingress:
+              - from:
+                  - namespaceSelector:
+                      matchLabels:
+                        kubernetes.io/metadata.name: network
+                    podSelector:
+                      matchLabels:
+                        gateway.envoyproxy.io/owning-gateway-name: envoy-internal
+                ports:
+                  - protocol: TCP
+                    port: 9090
+            egress:
+              - to:
+                  - namespaceSelector:
+                      matchLabels:
+                        kubernetes.io/metadata.name: kube-system
+                    podSelector:
+                      matchLabels:
+                        app.kubernetes.io/name: coredns
+                ports:
+                  - protocol: UDP
+                    port: 53
+              - to:
+                  - podSelector:
+                      matchLabels:
+                        cnpg.io/cluster: linkding
+                ports:
+                  - protocol: TCP
+                    port: 5432
+              - to:
+                  - ipBlock:
+                      cidr: 0.0.0.0/0
+                      except:
+                        - 10.0.0.0/8
+                        - 172.16.0.0/12
+                        - 192.168.0.0/16
+                ports:
+                  - protocol: TCP
+                    port: 443
+                  - protocol: TCP
+                    port: 80
