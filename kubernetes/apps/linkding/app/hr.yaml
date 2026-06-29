@@ -77,6 +77,8 @@ spec:
               seccompProfile:
                 type: RuntimeDefault
     defaultPodOptions:
+      labels:
+        home.arpa/monitored: "true"
       affinity:
         nodeAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -124,6 +126,12 @@ spec:
                     podSelector:
                       matchLabels:
                         gateway.envoyproxy.io/owning-gateway-name: envoy-internal
+                  - namespaceSelector:
+                      matchLabels:
+                        kubernetes.io/metadata.name: glance
+                    podSelector:
+                      matchLabels:
+                        app.kubernetes.io/name: glance
                 ports:
                   - protocol: TCP
                     port: 9090
