@@ -14,7 +14,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: csi-driver-nfs
-      version: 4.13.3
+      version: 4.13.4
   install:
     crds: Create
     remediation:
