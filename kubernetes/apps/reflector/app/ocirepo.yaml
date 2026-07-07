@@ -8,5 +8,5 @@ spec:
   interval: 8h
   provider: generic
   ref:
-    tag: 10.0.56
+    tag: 10.0.57
   url: oci://ghcr.io/emberstack/helm-charts/reflector
