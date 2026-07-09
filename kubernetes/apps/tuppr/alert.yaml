@@ -1,0 +1,25 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Provider
+metadata:
+  name: discord
+  namespace: tuppr
+spec:
+  type: discord
+  secretRef:
+    name: discord-webhook
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: tuppr-alert
+  namespace: tuppr
+spec:
+  summary: "Tuppr"
+  providerRef:
+    name: discord
+  eventSeverity: info
+  eventSources:
+    - kind: Kustomization
+      name: '*'
+      namespace: tuppr
