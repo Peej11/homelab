@@ -1,0 +1,85 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Provider
+metadata:
+  name: discord
+  namespace: media
+spec:
+  type: discord
+  secretRef:
+    name: discord-webhook
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: media-backups-alert
+  namespace: media
+spec:
+  summary: "Media Backups"
+  providerRef:
+    name: discord
+  eventSeverity: info
+  eventSources:
+    - kind: Kustomization
+      name: 'media-backups'
+      namespace: media
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: media-handbrake-alert
+  namespace: media
+spec:
+  summary: "Media HandBrake"
+  providerRef:
+    name: discord
+  eventSeverity: info
+  eventSources:
+    - kind: Kustomization
+      name: 'media-handbrake'
+      namespace: media
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: media-plex-alert
+  namespace: media
+spec:
+  summary: "Media Plex"
+  providerRef:
+    name: discord
+  eventSeverity: info
+  eventSources:
+    - kind: Kustomization
+      name: 'media-plex'
+      namespace: media
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: media-storage-alert
+  namespace: media
+spec:
+  summary: "Media Storage"
+  providerRef:
+    name: discord
+  eventSeverity: info
+  eventSources:
+    - kind: Kustomization
+      name: 'media-storage'
+      namespace: media
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: media-tautulli-alert
+  namespace: media
+spec:
+  summary: "Media Tautulli"
+  providerRef:
+    name: discord
+  eventSeverity: info
+  eventSources:
+    - kind: Kustomization
+      name: 'media-tautulli'
+      namespace: media
