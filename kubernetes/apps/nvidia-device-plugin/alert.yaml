@@ -1,0 +1,25 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Provider
+metadata:
+  name: discord
+  namespace: nvidia-device-plugin
+spec:
+  type: discord
+  secretRef:
+    name: discord-webhook
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: nvidia-device-plugin-alert
+  namespace: nvidia-device-plugin
+spec:
+  summary: "NVIDIA Device Plugin"
+  providerRef:
+    name: discord
+  eventSeverity: info
+  eventSources:
+    - kind: Kustomization
+      name: '*'
+      namespace: nvidia-device-plugin
