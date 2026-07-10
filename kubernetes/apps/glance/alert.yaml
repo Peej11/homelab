@@ -25,3 +25,6 @@ spec:
     - kind: Kustomization
       name: '*'
       namespace: glance
+    - kind: HelmRelease
+      name: '*'
+      namespace: glance
