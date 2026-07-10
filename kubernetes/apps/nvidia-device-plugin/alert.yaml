@@ -25,3 +25,9 @@ spec:
     - kind: Kustomization
       name: '*'
       namespace: nvidia-device-plugin
+    - kind: HelmRelease
+      name: '*'
+      namespace: nvidia-device-plugin
+    - kind: HelmRepository
+      name: '*'
+      namespace: nvidia-device-plugin
