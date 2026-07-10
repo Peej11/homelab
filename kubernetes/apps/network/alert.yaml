@@ -1,0 +1,102 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Provider
+metadata:
+  name: discord
+  namespace: network
+spec:
+  type: discord
+  secretRef:
+    name: discord-webhook
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: cloudflare-dns-alert
+  namespace: network
+spec:
+  summary: "Cloudflare DNS"
+  providerRef:
+    name: discord
+  eventSeverity: info
+  exclusionList:
+    - "Dependencies do not meet ready condition"
+  eventSources:
+    - kind: Kustomization
+      name: 'cloudflare-dns'
+      namespace: network
+    - kind: HelmRelease
+      name: 'cloudflare-dns'
+      namespace: network
+    - kind: OCIRepository
+      name: 'cloudflare-dns'
+      namespace: network
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: cloudflare-tunnel-alert
+  namespace: network
+spec:
+  summary: "Cloudflare Tunnel"
+  providerRef:
+    name: discord
+  eventSeverity: info
+  exclusionList:
+    - "Dependencies do not meet ready condition"
+  eventSources:
+    - kind: Kustomization
+      name: 'cloudflare-tunnel'
+      namespace: network
+    - kind: HelmRelease
+      name: 'cloudflare-tunnel'
+      namespace: network
+    - kind: OCIRepository
+      name: 'cloudflare-tunnel'
+      namespace: network
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: envoy-gateway-alert
+  namespace: network
+spec:
+  summary: "Envoy Gateway"
+  providerRef:
+    name: discord
+  eventSeverity: info
+  exclusionList:
+    - "Dependencies do not meet ready condition"
+  eventSources:
+    - kind: Kustomization
+      name: 'envoy-gateway'
+      namespace: network
+    - kind: HelmRelease
+      name: 'envoy-gateway'
+      namespace: network
+    - kind: OCIRepository
+      name: 'envoy-gateway'
+      namespace: network
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: k8s-gateway-alert
+  namespace: network
+spec:
+  summary: "K8s Gateway"
+  providerRef:
+    name: discord
+  eventSeverity: info
+  exclusionList:
+    - "Dependencies do not meet ready condition"
+  eventSources:
+    - kind: Kustomization
+      name: 'k8s-gateway'
+      namespace: network
+    - kind: HelmRelease
+      name: 'k8s-gateway'
+      namespace: network
+    - kind: OCIRepository
+      name: 'k8s-gateway'
+      namespace: network
