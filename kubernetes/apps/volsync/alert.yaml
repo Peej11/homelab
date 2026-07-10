@@ -25,3 +25,9 @@ spec:
     - kind: Kustomization
       name: '*'
       namespace: volsync
+    - kind: HelmRelease
+      name: '*'
+      namespace: volsync
+    - kind: HelmRepository
+      name: '*'
+      namespace: volsync
