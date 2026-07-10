@@ -21,5 +21,20 @@ spec:
   eventSeverity: info
   eventSources:
     - kind: Kustomization
-      name: '*'
+      name: 'tuppr'
+      namespace: tuppr
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: tuppr-config-alert
+  namespace: tuppr
+spec:
+  summary: "Tuppr Config"
+  providerRef:
+    name: discord
+  eventSeverity: info
+  eventSources:
+    - kind: Kustomization
+      name: 'tuppr-config'
       namespace: tuppr
