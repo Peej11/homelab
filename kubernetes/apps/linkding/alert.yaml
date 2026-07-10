@@ -12,14 +12,29 @@ spec:
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
 metadata:
-  name: linkding-alert
+  name: linkding-app-alert
   namespace: linkding
 spec:
-  summary: "Linkding"
+  summary: "Linkding App"
   providerRef:
     name: discord
   eventSeverity: info
   eventSources:
     - kind: Kustomization
-      name: '*'
+      name: 'linkding-app'
+      namespace: linkding
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: linkding-db-alert
+  namespace: linkding
+spec:
+  summary: "Linkding Database"
+  providerRef:
+    name: discord
+  eventSeverity: info
+  eventSources:
+    - kind: Kustomization
+      name: 'linkding-db'
       namespace: linkding
