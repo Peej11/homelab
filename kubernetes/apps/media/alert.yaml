@@ -32,7 +32,7 @@ metadata:
   name: media-handbrake-alert
   namespace: media
 spec:
-  summary: "Media HandBrake"
+  summary: "HandBrake"
   providerRef:
     name: discord
   eventSeverity: info
@@ -52,7 +52,7 @@ metadata:
   name: media-plex-alert
   namespace: media
 spec:
-  summary: "Media Plex"
+  summary: "Plex"
   providerRef:
     name: discord
   eventSeverity: info
@@ -89,7 +89,7 @@ metadata:
   name: media-tautulli-alert
   namespace: media
 spec:
-  summary: "Media Tautulli"
+  summary: "Tautulli"
   providerRef:
     name: discord
   eventSeverity: info
