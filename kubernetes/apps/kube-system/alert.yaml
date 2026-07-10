@@ -25,6 +25,12 @@ spec:
     - kind: Kustomization
       name: 'cilium'
       namespace: kube-system
+    - kind: HelmRelease
+      name: 'cilium'
+      namespace: kube-system
+    - kind: OCIRepository
+      name: 'cilium'
+      namespace: kube-system
 ---
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
@@ -42,6 +48,12 @@ spec:
     - kind: Kustomization
       name: 'coredns'
       namespace: kube-system
+    - kind: HelmRelease
+      name: 'coredns'
+      namespace: kube-system
+    - kind: OCIRepository
+      name: 'coredns'
+      namespace: kube-system
 ---
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
@@ -57,6 +69,12 @@ spec:
     - "Dependencies do not meet ready condition"
   eventSources:
     - kind: Kustomization
+      name: 'descheduler'
+      namespace: kube-system
+    - kind: HelmRelease
+      name: 'descheduler'
+      namespace: kube-system
+    - kind: HelmRepository
       name: 'descheduler'
       namespace: kube-system
 ---
@@ -93,6 +111,12 @@ spec:
     - kind: Kustomization
       name: 'metrics-server'
       namespace: kube-system
+    - kind: HelmRelease
+      name: 'metrics-server'
+      namespace: kube-system
+    - kind: OCIRepository
+      name: 'metrics-server'
+      namespace: kube-system
 ---
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
@@ -110,6 +134,12 @@ spec:
     - kind: Kustomization
       name: 'reloader'
       namespace: kube-system
+    - kind: HelmRelease
+      name: 'reloader'
+      namespace: kube-system
+    - kind: OCIRepository
+      name: 'reloader'
+      namespace: kube-system
 ---
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
@@ -125,5 +155,11 @@ spec:
     - "Dependencies do not meet ready condition"
   eventSources:
     - kind: Kustomization
+      name: 'spegel'
+      namespace: kube-system
+    - kind: HelmRelease
+      name: 'spegel'
+      namespace: kube-system
+    - kind: OCIRepository
       name: 'spegel'
       namespace: kube-system
