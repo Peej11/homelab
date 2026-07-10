@@ -25,6 +25,12 @@ spec:
     - kind: Kustomization
       name: 'dndwiki-app'
       namespace: dndwiki
+    - kind: HelmRelease
+      name: 'dndwiki'
+      namespace: dndwiki
+    - kind: HelmRepository
+      name: 'requarks'
+      namespace: dndwiki
 ---
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
