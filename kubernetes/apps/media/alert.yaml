@@ -42,6 +42,9 @@ spec:
     - kind: Kustomization
       name: 'media-handbrake'
       namespace: media
+    - kind: HelmRelease
+      name: 'handbrake'
+      namespace: media
 ---
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
@@ -58,6 +61,9 @@ spec:
   eventSources:
     - kind: Kustomization
       name: 'media-plex'
+      namespace: media
+    - kind: HelmRelease
+      name: 'plex'
       namespace: media
 ---
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
@@ -92,4 +98,7 @@ spec:
   eventSources:
     - kind: Kustomization
       name: 'media-tautulli'
+      namespace: media
+    - kind: HelmRelease
+      name: 'tautulli'
       namespace: media
