@@ -19,6 +19,8 @@ spec:
   providerRef:
     name: discord
   eventSeverity: info
+  exclusionList:
+    - "Dependencies do not meet ready condition"
   eventSources:
     - kind: Kustomization
       name: 'cilium'
@@ -34,6 +36,8 @@ spec:
   providerRef:
     name: discord
   eventSeverity: info
+  exclusionList:
+    - "Dependencies do not meet ready condition"
   eventSources:
     - kind: Kustomization
       name: 'coredns'
@@ -49,6 +53,8 @@ spec:
   providerRef:
     name: discord
   eventSeverity: info
+  exclusionList:
+    - "Dependencies do not meet ready condition"
   eventSources:
     - kind: Kustomization
       name: 'descheduler'
@@ -64,6 +70,8 @@ spec:
   providerRef:
     name: discord
   eventSeverity: info
+  exclusionList:
+    - "Dependencies do not meet ready condition"
   eventSources:
     - kind: Kustomization
       name: 'device-plugin'
@@ -79,6 +87,8 @@ spec:
   providerRef:
     name: discord
   eventSeverity: info
+  exclusionList:
+    - "Dependencies do not meet ready condition"
   eventSources:
     - kind: Kustomization
       name: 'metrics-server'
@@ -94,6 +104,8 @@ spec:
   providerRef:
     name: discord
   eventSeverity: info
+  exclusionList:
+    - "Dependencies do not meet ready condition"
   eventSources:
     - kind: Kustomization
       name: 'reloader'
@@ -109,6 +121,8 @@ spec:
   providerRef:
     name: discord
   eventSeverity: info
+  exclusionList:
+    - "Dependencies do not meet ready condition"
   eventSources:
     - kind: Kustomization
       name: 'spegel'

@@ -19,6 +19,8 @@ spec:
   providerRef:
     name: discord
   eventSeverity: info
+  exclusionList:
+    - "Dependencies do not meet ready condition"
   eventSources:
     - kind: Kustomization
       name: 'media-backups'
@@ -34,6 +36,8 @@ spec:
   providerRef:
     name: discord
   eventSeverity: info
+  exclusionList:
+    - "Dependencies do not meet ready condition"
   eventSources:
     - kind: Kustomization
       name: 'media-handbrake'
@@ -49,6 +53,8 @@ spec:
   providerRef:
     name: discord
   eventSeverity: info
+  exclusionList:
+    - "Dependencies do not meet ready condition"
   eventSources:
     - kind: Kustomization
       name: 'media-plex'
@@ -64,6 +70,8 @@ spec:
   providerRef:
     name: discord
   eventSeverity: info
+  exclusionList:
+    - "Dependencies do not meet ready condition"
   eventSources:
     - kind: Kustomization
       name: 'media-storage'
@@ -79,6 +87,8 @@ spec:
   providerRef:
     name: discord
   eventSeverity: info
+  exclusionList:
+    - "Dependencies do not meet ready condition"
   eventSources:
     - kind: Kustomization
       name: 'media-tautulli'
