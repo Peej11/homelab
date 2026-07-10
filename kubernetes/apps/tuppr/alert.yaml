@@ -25,6 +25,12 @@ spec:
     - kind: Kustomization
       name: 'tuppr'
       namespace: tuppr
+    - kind: HelmRelease
+      name: 'tuppr'
+      namespace: tuppr
+    - kind: OCIRepository
+      name: 'tuppr'
+      namespace: tuppr
 ---
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
