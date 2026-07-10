@@ -1,0 +1,30 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Provider
+metadata:
+  name: discord
+  namespace: default
+spec:
+  type: discord
+  secretRef:
+    name: discord-webhook
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: echo-alert
+  namespace: default
+spec:
+  summary: "Echo"
+  providerRef:
+    name: discord
+  eventSeverity: info
+  exclusionList:
+    - "Dependencies do not meet ready condition"
+  eventSources:
+    - kind: Kustomization
+      name: 'echo'
+      namespace: default
+    - kind: HelmRelease
+      name: 'echo'
+      namespace: default
