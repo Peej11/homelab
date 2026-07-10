@@ -1,0 +1,61 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Provider
+metadata:
+  name: discord
+  namespace: flux-system
+spec:
+  type: discord
+  secretRef:
+    name: discord-webhook
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: flux-instance-alert
+  namespace: flux-system
+spec:
+  summary: "Flux Instance"
+  providerRef:
+    name: discord
+  eventSeverity: error
+  eventSources:
+    - kind: GitRepository
+      name: 'flux-system'
+      namespace: flux-system
+    - kind: Kustomization
+      name: 'flux-system'
+      namespace: flux-system
+    - kind: Kustomization
+      name: 'cluster-apps'
+      namespace: flux-system
+    - kind: Kustomization
+      name: 'flux-instance'
+      namespace: flux-system
+    - kind: OCIRepository
+      name: 'flux-instance'
+      namespace: flux-system
+    - kind: HelmRelease
+      name: 'flux-instance'
+      namespace: flux-system
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: flux-operator-alert
+  namespace: flux-system
+spec:
+  summary: "Flux Operator"
+  providerRef:
+    name: discord
+  eventSeverity: error
+  eventSources:
+    - kind: Kustomization
+      name: 'flux-operator'
+      namespace: flux-system
+    - kind: OCIRepository
+      name: 'flux-operator'
+      namespace: flux-system
+    - kind: HelmRelease
+      name: 'flux-operator'
+      namespace: flux-system
