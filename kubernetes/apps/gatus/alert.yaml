@@ -25,3 +25,6 @@ spec:
     - kind: Kustomization
       name: '*'
       namespace: gatus
+    - kind: HelmRelease
+      name: '*'
+      namespace: gatus
