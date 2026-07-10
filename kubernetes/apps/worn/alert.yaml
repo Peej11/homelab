@@ -12,14 +12,29 @@ spec:
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
 metadata:
-  name: worn-alert
+  name: worn-app-alert
   namespace: worn
 spec:
-  summary: "Worn"
+  summary: "Worn App"
   providerRef:
     name: discord
   eventSeverity: info
   eventSources:
     - kind: Kustomization
-      name: '*'
+      name: 'worn-app'
+      namespace: worn
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: worn-db-alert
+  namespace: worn
+spec:
+  summary: "Worn Database"
+  providerRef:
+    name: discord
+  eventSeverity: info
+  eventSources:
+    - kind: Kustomization
+      name: 'worn-db'
       namespace: worn
