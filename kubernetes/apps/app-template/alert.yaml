@@ -1,0 +1,25 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Provider
+metadata:
+  name: discord
+  namespace: app-template
+spec:
+  type: discord
+  secretRef:
+    name: discord-webhook
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: app-template-alert
+  namespace: app-template
+spec:
+  summary: "App Template"
+  providerRef:
+    name: discord
+  eventSeverity: info
+  eventSources:
+    - kind: OCIRepository
+      name: 'app-template'
+      namespace: app-template
