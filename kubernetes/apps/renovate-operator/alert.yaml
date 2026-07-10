@@ -25,6 +25,12 @@ spec:
     - kind: Kustomization
       name: 'renovate-operator'
       namespace: renovate-operator
+    - kind: HelmRelease
+      name: 'renovate'
+      namespace: renovate-operator
+    - kind: OCIRepository
+      name: 'renovate'
+      namespace: renovate-operator
 ---
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
