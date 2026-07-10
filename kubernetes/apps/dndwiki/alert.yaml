@@ -12,14 +12,29 @@ spec:
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
 metadata:
-  name: dndwiki-alert
+  name: dndwiki-app-alert
   namespace: dndwiki
 spec:
-  summary: "DnD Wiki"
+  summary: "DnD Wiki App"
   providerRef:
     name: discord
   eventSeverity: info
   eventSources:
     - kind: Kustomization
-      name: '*'
+      name: 'dndwiki-app'
+      namespace: dndwiki
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: dndwiki-db-alert
+  namespace: dndwiki
+spec:
+  summary: "DnD Wiki Database"
+  providerRef:
+    name: discord
+  eventSeverity: info
+  eventSources:
+    - kind: Kustomization
+      name: 'dndwiki-db'
       namespace: dndwiki
