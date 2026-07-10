@@ -63,6 +63,30 @@ spec:
               editable: true
               options:
                 path: /var/lib/grafana/dashboards/rpi-monitoring
+            - name: 'grafana-dashboards-network'
+              orgId: 1
+              folder: 'Network'
+              type: file
+              disableDeletion: true
+              editable: true
+              options:
+                path: /var/lib/grafana/dashboards/grafana-dashboards-network
+            - name: 'grafana-dashboards-certs'
+              orgId: 1
+              folder: 'Certificates'
+              type: file
+              disableDeletion: true
+              editable: true
+              options:
+                path: /var/lib/grafana/dashboards/grafana-dashboards-certs
+            - name: 'grafana-dashboards-nodes'
+              orgId: 1
+              folder: 'Nodes'
+              type: file
+              disableDeletion: true
+              editable: true
+              options:
+                path: /var/lib/grafana/dashboards/grafana-dashboards-nodes
       dashboards:
         grafana-dashboards-kubernetes:
           k8s-system-api-server:
@@ -86,6 +110,24 @@ spec:
         rpi-monitoring:
           k8s-system-resource-usage:
             url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/kubernetes/apps/monitoring/dashboards/resource_usage.json
+            token: ''
+        grafana-dashboards-network:
+          envoy-proxy-global:
+            url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/kubernetes/apps/monitoring/dashboards/network/envoy-proxy-global.json
+            token: ''
+          envoy-clusters:
+            url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/kubernetes/apps/monitoring/dashboards/network/envoy-clusters.json
+            token: ''
+          cloudflared:
+            url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/kubernetes/apps/monitoring/dashboards/network/cloudflared.json
+            token: ''
+        grafana-dashboards-certs:
+          cert-manager:
+            url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/kubernetes/apps/monitoring/dashboards/certs/cert-manager.json
+            token: ''
+        grafana-dashboards-nodes:
+          node-exporter-full:
+            url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/kubernetes/apps/monitoring/dashboards/nodes/node-exporter-full.json
             token: ''
     prometheus:
       prometheusConfigSpec:
