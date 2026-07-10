@@ -10,10 +10,7 @@ spec:
     name: discord
   eventSeverity: info
   eventSources:
-    - kind: HelmRepository
-      name: '*'
-      namespace: node-feature-discovery
-    - kind: HelmChart
+    - kind: OCIRepository
       name: '*'
       namespace: node-feature-discovery
     - kind: HelmRelease
