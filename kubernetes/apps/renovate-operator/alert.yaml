@@ -21,5 +21,20 @@ spec:
   eventSeverity: info
   eventSources:
     - kind: Kustomization
-      name: '*'
+      name: 'renovate-operator'
+      namespace: renovate-operator
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: renovate-config-alert
+  namespace: renovate-operator
+spec:
+  summary: "Renovate Config"
+  providerRef:
+    name: discord
+  eventSeverity: info
+  eventSources:
+    - kind: Kustomization
+      name: 'renovate-config'
       namespace: renovate-operator
