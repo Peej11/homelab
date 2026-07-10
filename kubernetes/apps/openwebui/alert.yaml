@@ -12,14 +12,29 @@ spec:
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
 metadata:
-  name: openwebui-alert
+  name: openwebui-app-alert
   namespace: openwebui
 spec:
-  summary: "Open WebUI"
+  summary: "Open WebUI App"
   providerRef:
     name: discord
   eventSeverity: info
   eventSources:
     - kind: Kustomization
-      name: '*'
+      name: 'openwebui-app'
+      namespace: openwebui
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: openwebui-db-alert
+  namespace: openwebui
+spec:
+  summary: "Open WebUI Database"
+  providerRef:
+    name: discord
+  eventSeverity: info
+  eventSources:
+    - kind: Kustomization
+      name: 'openwebui-db'
       namespace: openwebui
