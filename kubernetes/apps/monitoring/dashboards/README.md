@@ -22,6 +22,7 @@ Each subdirectory maps to a dashboard provider (Grafana folder) in `hr.yaml`:
 | `network`        | Network        | `grafana-dashboards-network`   |
 | `certs`          | Certificates   | `grafana-dashboards-certs`     |
 | `nodes`          | Nodes          | `grafana-dashboards-nodes`     |
+| `storage`        | Storage        | `grafana-dashboards-storage`   |
 
 The Kubernetes folder (`grafana-dashboards-kubernetes`) is provisioned directly from the
 upstream [dotdc](https://github.com/dotdc/grafana-dashboards-kubernetes) repo and is not

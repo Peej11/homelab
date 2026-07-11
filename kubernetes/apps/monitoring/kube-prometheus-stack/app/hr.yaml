@@ -87,6 +87,14 @@ spec:
               editable: true
               options:
                 path: /var/lib/grafana/dashboards/grafana-dashboards-nodes
+            - name: 'grafana-dashboards-storage'
+              orgId: 1
+              folder: 'Storage'
+              type: file
+              disableDeletion: true
+              editable: true
+              options:
+                path: /var/lib/grafana/dashboards/grafana-dashboards-storage
       dashboards:
         grafana-dashboards-kubernetes:
           k8s-system-api-server:
@@ -128,6 +136,16 @@ spec:
         grafana-dashboards-nodes:
           node-exporter-full:
             url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/kubernetes/apps/monitoring/dashboards/nodes/node-exporter-full.json
+            token: ''
+        grafana-dashboards-storage:
+          ceph-cluster:
+            url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/kubernetes/apps/monitoring/dashboards/storage/ceph-cluster.json
+            token: ''
+          ceph-osd:
+            url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/kubernetes/apps/monitoring/dashboards/storage/ceph-osd.json
+            token: ''
+          ceph-pools:
+            url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/kubernetes/apps/monitoring/dashboards/storage/ceph-pools.json
             token: ''
     prometheus:
       prometheusConfigSpec:
