@@ -24,3 +24,6 @@ spec:
     crds: CreateReplace
     remediation:
       remediateLastFailure: true
+  values:
+    monitoring:
+      enabled: true
