@@ -109,7 +109,7 @@ spec:
             token: ''
         rpi-monitoring:
           k8s-system-resource-usage:
-            url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/kubernetes/apps/monitoring/dashboards/resource_usage.json
+            url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/kubernetes/apps/monitoring/dashboards/rpi-monitoring/resource_usage.json
             token: ''
         grafana-dashboards-network:
           envoy-proxy-global:
