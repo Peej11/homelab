@@ -25,6 +25,10 @@ spec:
     crds: CreateReplace
     remediation:
       remediateLastFailure: true
+  valuesFrom:
+    - kind: ConfigMap
+      name: kube-prometheus-stack-ksm-flux
+      valuesKey: values.yaml
   values:
     alertmanager:
       alertmanagerSpec:
@@ -95,6 +99,14 @@ spec:
               editable: true
               options:
                 path: /var/lib/grafana/dashboards/grafana-dashboards-storage
+            - name: 'grafana-dashboards-flux'
+              orgId: 1
+              folder: 'Flux'
+              type: file
+              disableDeletion: true
+              editable: true
+              options:
+                path: /var/lib/grafana/dashboards/grafana-dashboards-flux
       dashboards:
         grafana-dashboards-kubernetes:
           k8s-system-api-server:
@@ -146,6 +158,13 @@ spec:
             token: ''
           ceph-pools:
             url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/kubernetes/apps/monitoring/dashboards/storage/ceph-pools.json
+            token: ''
+        grafana-dashboards-flux:
+          flux-cluster:
+            url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/kubernetes/apps/monitoring/dashboards/flux/flux-cluster.json
+            token: ''
+          flux-control-plane:
+            url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/kubernetes/apps/monitoring/dashboards/flux/flux-control-plane.json
             token: ''
     prometheus:
       prometheusConfigSpec:
