@@ -24,6 +24,7 @@ Each subdirectory maps to a dashboard provider (Grafana folder) in `hr.yaml`:
 | `nodes`          | Nodes          | `grafana-dashboards-nodes`     |
 | `storage`        | Storage        | `grafana-dashboards-storage`   |
 | `flux`           | Flux           | `grafana-dashboards-flux`      |
+| `cnpg-databases` | CNPG Databases | `grafana-dashboards-cnpg-databases` |
 
 The Kubernetes folder (`grafana-dashboards-kubernetes`) is provisioned directly from the
 upstream [dotdc](https://github.com/dotdc/grafana-dashboards-kubernetes) repo and is not

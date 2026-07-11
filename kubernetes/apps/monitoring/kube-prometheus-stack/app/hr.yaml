@@ -107,6 +107,14 @@ spec:
               editable: true
               options:
                 path: /var/lib/grafana/dashboards/grafana-dashboards-flux
+            - name: 'grafana-dashboards-cnpg-databases'
+              orgId: 1
+              folder: 'CNPG Databases'
+              type: file
+              disableDeletion: true
+              editable: true
+              options:
+                path: /var/lib/grafana/dashboards/grafana-dashboards-cnpg-databases
       dashboards:
         grafana-dashboards-kubernetes:
           k8s-system-api-server:
@@ -165,6 +173,10 @@ spec:
             token: ''
           flux-control-plane:
             url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/kubernetes/apps/monitoring/dashboards/flux/flux-control-plane.json
+            token: ''
+        grafana-dashboards-cnpg-databases:
+          cnpg:
+            url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/kubernetes/apps/monitoring/dashboards/cnpg-databases/cnpg.json
             token: ''
     prometheus:
       prometheusConfigSpec:

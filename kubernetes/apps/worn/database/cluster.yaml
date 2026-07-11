@@ -10,6 +10,8 @@ spec:
       database: worn
       owner: worn
   instances: 3
+  monitoring:
+    enablePodMonitor: true
   storage:
     storageClass: rook-cephfs
     size: 2Gi

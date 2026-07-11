@@ -16,6 +16,8 @@ spec:
       owner: openwebui
   enableSuperuserAccess: true
   instances: 3
+  monitoring:
+    enablePodMonitor: true
   storage:
     storageClass: rook-cephfs
     size: 5Gi
