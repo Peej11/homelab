@@ -4,4 +4,5 @@ kind: Kustomization
 resources:
   - ./helmrepo.yaml
   - ./hr.yaml
+  - ./rbac.yaml
   - ./secret.sops.yaml
