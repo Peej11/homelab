@@ -7,11 +7,13 @@ metadata:
 spec:
   cephConfig:
     global:
-      osd_pool_default_size: "1"
-      mon_warn_on_pool_no_redundancy: "false"
       bdev_flock_retry: "20"
       bluefs_buffered_io: "false"
       mon_data_avail_warn: "10"
+    osd:
+      osd_mclock_profile: "high_recovery_ops"
+      osd_mclock_override_recovery_settings: "true"
+      osd_max_backfills: "3"
   cephVersion:
     image: quay.io/ceph/ceph:v20.2.2@sha256:6b4b5ae33acd3d736eb26d2a19238bce71a22f9cfb99cca887ba6312d0957644
   dashboard:
