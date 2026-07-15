@@ -31,10 +31,10 @@ _... managed with Flux, Renovate, and Github Actions_ 🤖
 | Raspberry Pi       | 8GB  | 128GB NVMe SSD   | Dashboard | FullPageOS |
 | Radxa Rock 5B      | 32GB | 1TB NVMe SSD     | Master    | Talos      |
 | Lenovo ThinkCentre | 32GB | 1TB NVMe SSD     | Master    | Talos      |
-| Lenovo ThinkCentre | 16GB | 1TB NVMe SSD     | Master    | Talos      |
-| Lenovo ThinkCentre | 16GB | 1TB NVMe SSD     | Worker    | Talos      |
-| Lenovo ThinkCentre | 16GB | 2TB NVMe SSD     | Worker    | Talos      |
-| Lenovo ThinkCentre | 16GB | 2TB NVMe SSD     | Worker    | Talos      |
+| Lenovo ThinkCentre | 32GB | 1TB NVMe SSD     | Master    | Talos      |
+| Lenovo ThinkCentre | 32GB | 1TB NVMe SSD     | Worker    | Talos      |
+| Lenovo ThinkCentre | 32GB | 2TB NVMe SSD     | Worker    | Talos      |
+| Lenovo ThinkCentre | 32GB | 2TB NVMe SSD     | Worker    | Talos      |
 | AOOSTAR WTR MAX    | 32GB | 6x 16TB SATA HDD | Worker    | Talos      |
 
 
