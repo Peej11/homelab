@@ -54,7 +54,7 @@ spec:
               folder: 'Kubernetes'
               type: file
               disableDeletion: true
-              editable: true
+              editable: false
               options:
                 path: /var/lib/grafana/dashboards/grafana-dashboards-kubernetes
             - name: 'rpi-monitoring'
@@ -62,7 +62,7 @@ spec:
               folder: 'RPi Monitoring'
               type: file
               disableDeletion: true
-              editable: true
+              editable: false
               options:
                 path: /var/lib/grafana/dashboards/rpi-monitoring
             - name: 'grafana-dashboards-network'
@@ -70,7 +70,7 @@ spec:
               folder: 'Network'
               type: file
               disableDeletion: true
-              editable: true
+              editable: false
               options:
                 path: /var/lib/grafana/dashboards/grafana-dashboards-network
             - name: 'grafana-dashboards-certs'
@@ -78,7 +78,7 @@ spec:
               folder: 'Certificates'
               type: file
               disableDeletion: true
-              editable: true
+              editable: false
               options:
                 path: /var/lib/grafana/dashboards/grafana-dashboards-certs
             - name: 'grafana-dashboards-nodes'
@@ -86,7 +86,7 @@ spec:
               folder: 'Nodes'
               type: file
               disableDeletion: true
-              editable: true
+              editable: false
               options:
                 path: /var/lib/grafana/dashboards/grafana-dashboards-nodes
             - name: 'grafana-dashboards-storage'
@@ -94,7 +94,7 @@ spec:
               folder: 'Storage'
               type: file
               disableDeletion: true
-              editable: true
+              editable: false
               options:
                 path: /var/lib/grafana/dashboards/grafana-dashboards-storage
             - name: 'grafana-dashboards-flux'
@@ -102,7 +102,7 @@ spec:
               folder: 'Flux'
               type: file
               disableDeletion: true
-              editable: true
+              editable: false
               options:
                 path: /var/lib/grafana/dashboards/grafana-dashboards-flux
             - name: 'grafana-dashboards-cnpg-databases'
@@ -110,7 +110,7 @@ spec:
               folder: 'CNPG Databases'
               type: file
               disableDeletion: true
-              editable: true
+              editable: false
               options:
                 path: /var/lib/grafana/dashboards/grafana-dashboards-cnpg-databases
       dashboards:
