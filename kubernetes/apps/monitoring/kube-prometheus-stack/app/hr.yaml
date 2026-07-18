@@ -36,6 +36,16 @@ spec:
         podAntiAffinity: hard
         podAntiAffinityTopologyKey: kubernetes.io/hostname
     grafana:
+      replicas: 2
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: grafana
+      service:
+        sessionAffinity: ClientIP
       admin:
         existingSecret: grafana-credentials
         userKey: admin-user
