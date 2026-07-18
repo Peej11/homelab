@@ -39,14 +39,12 @@ spec:
         userKey: admin-user
         passwordKey: admin-password
       persistence:
-        enabled: true
-        type: sts
-        storageClassName: "rook-cephfs"
-        accessModes:
-          - ReadWriteMany
-        size: 30Gi
-        finalizers:
-          - kubernetes.io/pvc-protection
+        enabled: false
+      grafana.ini:
+        auth.anonymous:
+          enabled: true
+          org_name: Main Org.
+          org_role: Viewer
       dashboardProviders:
         dashboardproviders.yaml:
           apiVersion: 1
