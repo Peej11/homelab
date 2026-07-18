@@ -89,7 +89,8 @@
         "showUnfilled": true,
         "sizing": "auto",
         "text": {
-          "valueSize": 22
+          "valueSize": 20,
+          "titleSize": 16
         },
         "valueMode": "color"
       },
@@ -235,7 +236,8 @@
         },
         "showPercentChange": false,
         "text": {
-          "valueSize": 32
+          "valueSize": 26,
+          "titleSize": 16
         },
         "textMode": "value_and_name",
         "wideLayout": true

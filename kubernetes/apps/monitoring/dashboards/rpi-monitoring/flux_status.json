@@ -21,7 +21,7 @@
       }
     ]
   },
-  "description": "At-a-glance Flux health for the rack kiosk. Row 1: reconcilers (Kustomizations/HelmReleases). Row 2: sources (Git/OCI/Helm repos, charts, buckets). Bars show percent ready per kind; the stat shows absolute problem counts.",
+  "description": "At-a-glance Flux health for the rack kiosk: one row per resource kind with total, not-ready and suspended counts.",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
@@ -35,159 +35,136 @@
       },
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "continuous-RdYlGr"
+          "custom": {
+            "align": "left",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "inspect": false
           },
           "mappings": [],
-          "max": 1,
-          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "red",
+                "color": "text",
                 "value": 0
-              },
-              {
-                "color": "green",
-                "value": 1
               }
             ]
           },
-          "unit": "percentunit"
+          "unit": "none"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Not Ready"
+            },
+            "properties": [
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    },
+                    {
+                      "color": "red",
+                      "value": 1
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background",
+                  "mode": "gradient"
+                }
+              },
+              {
+                "id": "custom.align",
+                "value": "center"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Suspended"
+            },
+            "properties": [
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    },
+                    {
+                      "color": "orange",
+                      "value": 1
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background",
+                  "mode": "gradient"
+                }
+              },
+              {
+                "id": "custom.align",
+                "value": "center"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total"
+            },
+            "properties": [
+              {
+                "id": "custom.align",
+                "value": "center"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
-        "h": 13,
-        "w": 17,
+        "h": 26,
+        "w": 24,
         "x": 0,
         "y": 0
       },
       "id": 1,
       "options": {
-        "displayMode": "lcd",
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": false
-        },
-        "maxVizHeight": 300,
-        "minVizHeight": 10,
-        "minVizWidth": 0,
-        "namePlacement": "auto",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+        "cellHeight": "lg",
+        "footer": {
+          "countRows": false,
           "fields": "",
-          "values": false
+          "reducer": [
+            "sum"
+          ],
+          "show": false
         },
-        "showUnfilled": true,
-        "sizing": "auto",
-        "text": {
-          "valueSize": 62
-        },
-        "valueMode": "color"
-      },
-      "pluginVersion": "12.3.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "sum by (customresource_kind) (gotk_resource_info{ready=\"True\", customresource_kind=~\"Kustomization|HelmRelease\"}) / count by (customresource_kind) (gotk_resource_info{customresource_kind=~\"Kustomization|HelmRelease\"})",
-          "legendFormat": "{{customresource_kind}}",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Reconcilers Ready",
-      "transparent": true,
-      "type": "bargauge"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [],
-          "noValue": "0",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": 0
-              },
-              {
-                "color": "red",
-                "value": 1
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": [
+        "showHeader": true,
+        "sortBy": [
           {
-            "matcher": {
-              "id": "byFrameRefID",
-              "options": "Suspended"
-            },
-            "properties": [
-              {
-                "id": "thresholds",
-                "value": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "green",
-                      "value": 0
-                    },
-                    {
-                      "color": "yellow",
-                      "value": 1
-                    }
-                  ]
-                }
-              }
-            ]
+            "displayName": "Kind",
+            "desc": false
           }
         ]
       },
-      "gridPos": {
-        "h": 13,
-        "w": 7,
-        "x": 17,
-        "y": 0
-      },
-      "id": 2,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "horizontal",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "text": {
-          "valueSize": 48
-        },
-        "textMode": "value_and_name",
-        "wideLayout": true
-      },
       "pluginVersion": "12.3.0",
       "targets": [
         {
@@ -196,241 +173,73 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "count(gotk_resource_info{customresource_kind=~\"Kustomization|HelmRelease\", ready=~\"False|Unknown\"}) or vector(0)",
-          "legendFormat": "Not Ready",
-          "range": true,
-          "refId": "NotReady"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "count(gotk_resource_info{customresource_kind=~\"Kustomization|HelmRelease\", suspended=\"true\"}) or vector(0)",
-          "legendFormat": "Suspended",
-          "range": true,
-          "refId": "Suspended"
-        }
-      ],
-      "title": "Reconciler Problems",
-      "transparent": true,
-      "type": "stat"
-    },
-    {
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 13
-      },
-      "id": 3,
-      "options": {
-        "code": {
-          "language": "plaintext",
-          "showLineNumbers": false,
-          "showMiniMap": false
-        },
-        "content": "",
-        "mode": "html"
-      },
-      "pluginVersion": "12.3.0",
-      "title": "",
-      "transparent": true,
-      "type": "text"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "continuous-RdYlGr"
-          },
-          "mappings": [],
-          "max": 1,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "red",
-                "value": 0
-              },
-              {
-                "color": "green",
-                "value": 1
-              }
-            ]
-          },
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 13,
-        "w": 17,
-        "x": 0,
-        "y": 14
-      },
-      "id": 4,
-      "options": {
-        "displayMode": "lcd",
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": false
-        },
-        "maxVizHeight": 300,
-        "minVizHeight": 10,
-        "minVizWidth": 0,
-        "namePlacement": "auto",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showUnfilled": true,
-        "sizing": "auto",
-        "text": {
-          "valueSize": 62
-        },
-        "valueMode": "color"
-      },
-      "pluginVersion": "12.3.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "sum by (customresource_kind) (gotk_resource_info{ready=\"True\", customresource_kind=~\"GitRepository|OCIRepository|HelmRepository|HelmChart|Bucket\"}) / count by (customresource_kind) (gotk_resource_info{customresource_kind=~\"GitRepository|OCIRepository|HelmRepository|HelmChart|Bucket\"})",
-          "legendFormat": "{{customresource_kind}}",
-          "range": true,
+          "expr": "count by (customresource_kind) (gotk_resource_info)",
+          "format": "table",
+          "instant": true,
+          "range": false,
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "count by (customresource_kind) (gotk_resource_info{ready=~\"False|Unknown\"}) or count by (customresource_kind) (gotk_resource_info) * 0",
+          "format": "table",
+          "instant": true,
+          "range": false,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "count by (customresource_kind) (gotk_resource_info{suspended=\"true\"}) or count by (customresource_kind) (gotk_resource_info) * 0",
+          "format": "table",
+          "instant": true,
+          "range": false,
+          "refId": "C"
         }
       ],
-      "title": "Sources Ready",
-      "transparent": true,
-      "type": "bargauge"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [],
-          "noValue": "0",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": 0
-              },
-              {
-                "color": "red",
-                "value": 1
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byFrameRefID",
-              "options": "Suspended"
-            },
-            "properties": [
-              {
-                "id": "thresholds",
-                "value": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "green",
-                      "value": 0
-                    },
-                    {
-                      "color": "yellow",
-                      "value": 1
-                    }
-                  ]
-                }
-              }
-            ]
+      "title": "Flux Resources",
+      "transformations": [
+        {
+          "id": "joinByField",
+          "options": {
+            "byField": "customresource_kind",
+            "mode": "outer"
           }
-        ]
-      },
-      "gridPos": {
-        "h": 13,
-        "w": 7,
-        "x": 17,
-        "y": 14
-      },
-      "id": 5,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "horizontal",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "text": {
-          "valueSize": 48
-        },
-        "textMode": "value_and_name",
-        "wideLayout": true
-      },
-      "pluginVersion": "12.3.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "count(gotk_resource_info{customresource_kind=~\"GitRepository|OCIRepository|HelmRepository|HelmChart|Bucket\", ready=~\"False|Unknown\"}) or vector(0)",
-          "legendFormat": "Not Ready",
-          "range": true,
-          "refId": "NotReady"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "count(gotk_resource_info{customresource_kind=~\"GitRepository|OCIRepository|HelmRepository|HelmChart|Bucket\", suspended=\"true\"}) or vector(0)",
-          "legendFormat": "Suspended",
-          "range": true,
-          "refId": "Suspended"
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "Time 1": true,
+              "Time 2": true,
+              "Time 3": true
+            },
+            "includeByName": {},
+            "indexByName": {
+              "customresource_kind": 0,
+              "Value #A": 1,
+              "Value #B": 2,
+              "Value #C": 3
+            },
+            "renameByName": {
+              "customresource_kind": "Kind",
+              "Value #A": "Total",
+              "Value #B": "Not Ready",
+              "Value #C": "Suspended"
+            }
+          }
         }
       ],
-      "title": "Source Problems",
       "transparent": true,
-      "type": "stat"
+      "type": "table"
     }
   ],
   "preload": false,
