@@ -251,15 +251,6 @@ spec:
             url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/kubernetes/apps/monitoring/dashboards/cnpg-databases/cnpg.json
             token: ''
     prometheus:
-      prometheusConfigSpec:
-        storageSpec:
-          volumeClaimTemplate:
-            spec:
-              storageClassName: rook-cephfs
-              accessModes: ["ReadWriteMany"]
-              resources:
-                requests:
-                  storage: 30Gi
       prometheusSpec:
         replicas: 2
         podAntiAffinity: hard
@@ -269,3 +260,12 @@ spec:
         ruleSelectorNilUsesHelmValues: false
         scrapeConfigSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
+        retentionSize: 25GiB
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: rook-cephfs
+              accessModes: ["ReadWriteMany"]
+              resources:
+                requests:
+                  storage: 30Gi
