@@ -33,6 +33,8 @@ spec:
     alertmanager:
       alertmanagerSpec:
         replicas: 2
+        podAntiAffinity: hard
+        podAntiAffinityTopologyKey: kubernetes.io/hostname
     grafana:
       admin:
         existingSecret: grafana-credentials
