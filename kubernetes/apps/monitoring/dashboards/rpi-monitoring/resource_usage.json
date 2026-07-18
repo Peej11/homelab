@@ -524,7 +524,8 @@
   "schemaVersion": 42,
   "tags": [
     "Kubernetes",
-    "Prometheus"
+    "Prometheus",
+    "rpi-monitoring"
   ],
   "templating": {
     "list": [
