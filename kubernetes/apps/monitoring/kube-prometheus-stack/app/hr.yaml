@@ -196,6 +196,8 @@ spec:
                   storage: 30Gi
       prometheusSpec:
         replicas: 2
+        podAntiAffinity: hard
+        podAntiAffinityTopologyKey: kubernetes.io/hostname
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
         ruleSelectorNilUsesHelmValues: false
