@@ -57,6 +57,62 @@ spec:
           enabled: true
           org_name: Main Org.
           org_role: Viewer
+      extraContainers: |
+        - name: ensure-playlist
+          image: curlimages/curl:8.11.1
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          env:
+            - name: GRAFANA_USER
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-credentials
+                  key: admin-user
+            - name: GRAFANA_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-credentials
+                  key: admin-password
+          resources:
+            requests:
+              cpu: 1m
+              memory: 32Mi
+            limits:
+              memory: 32Mi
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -eu
+              G="http://localhost:3000"
+              API="$G/apis/playlist.grafana.app/v0alpha1/namespaces/default/playlists"
+              n=0
+              until curl -sf -o /dev/null "$G/api/health"; do
+                n=$((n + 1))
+                [ "$n" -gt 60 ] && echo "grafana not ready after 5m" && exit 1
+                sleep 5
+              done
+              while true; do
+                code=$(curl -s -o /dev/null -w '%{http_code}' -u "$GRAFANA_USER:$GRAFANA_PASS" "$API/rpi-monitoring")
+                if [ "$code" = "404" ]; then
+                  echo "creating playlist rpi-monitoring"
+                  curl -sf -u "$GRAFANA_USER:$GRAFANA_PASS" -H 'Content-Type: application/json' -X POST "$API" -d '{
+                    "apiVersion": "playlist.grafana.app/v0alpha1",
+                    "kind": "Playlist",
+                    "metadata": { "name": "rpi-monitoring" },
+                    "spec": { "title": "RPi Monitoring", "interval": "30s", "items": [ { "type": "dashboard_by_tag", "value": "rpi-monitoring" } ] }
+                  }' && echo "created"
+                elif [ "$code" = "200" ]; then
+                  echo "playlist present"
+                else
+                  echo "unexpected status $code"
+                fi
+                sleep 300
+              done
       dashboardProviders:
         dashboardproviders.yaml:
           apiVersion: 1
