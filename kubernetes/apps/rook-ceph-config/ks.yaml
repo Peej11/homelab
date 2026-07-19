@@ -13,6 +13,8 @@ spec:
       namespace: flux-system
     - name: rook-ceph
       namespace: flux-system
+    - name: rook-ceph-csi-driver
+      namespace: flux-system
   decryption:
     provider: sops
     secretRef:

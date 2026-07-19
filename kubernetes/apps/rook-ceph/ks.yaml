@@ -33,3 +33,32 @@ spec:
     namespace: flux-system
   timeout: 10m
   wait: false
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app rook-ceph-csi-driver
+  namespace: flux-system
+  labels:
+    app.kubernetes.io/name: *app
+    app.kubernetes.io/part-of: &namespace rook-ceph
+spec:
+  dependsOn:
+    - name: flux-system
+      namespace: flux-system
+    - name: rook-ceph
+      namespace: flux-system
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+      app.kubernetes.io/namespace: *namespace
+  interval: 4h
+  path: ./kubernetes/apps/rook-ceph/csi-driver
+  prune: true
+  retryInterval: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  timeout: 10m
+  wait: false
