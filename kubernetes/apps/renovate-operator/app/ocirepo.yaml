@@ -8,5 +8,5 @@ spec:
   interval: 8h
   provider: generic
   ref:
-    tag: 5.3.0
+    tag: 5.4.0
   url: oci://ghcr.io/mogenius/helm-charts/renovate-operator
