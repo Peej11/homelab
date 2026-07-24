@@ -1,0 +1,65 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: shares-3dprint
+  namespace: shares
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: rook-cephfs-cryo
+  resources:
+    requests:
+      storage: 70Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: shares-utilities
+  namespace: shares
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: rook-cephfs-cryo
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: shares-emulation
+  namespace: shares
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: rook-cephfs-cryo
+  resources:
+    requests:
+      storage: 500Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: shares-james
+  namespace: shares
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: rook-cephfs
+  resources:
+    requests:
+      storage: 350Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: shares-shanna
+  namespace: shares
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: rook-cephfs
+  resources:
+    requests:
+      storage: 800Gi

@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: samba-config
+  namespace: shares
+data:
+  config.yml: ENC[AES256_GCM,data:A8eDlyR06F5dkYc5XHzrzw/0hIpIrMEP05mbORswolWmtoWc7m0c+UfuMk4eyRFUhYBQBwS0BOFh97ZA0uMYJbl0RPj3aOBK3VvxiDnu++VprM/Kq2NdSW/24RjAfzZvm6PiMTgmBnGud8ndU2B05lMpsA3snABJoRLbFn5TlYdqDQ78Zi+Psvc/O3Z1NPAxEs80hDfTikNM+kiGejHAuF+ggIbToEN7CMh89xlK3HMwh2CKEbyfB7gDZGgs216wIydwyLonP5DN7GCDXtu7eU3j7JjGEFDbQDSqKNvPVWBoDL4LTKfOjukxU64oJ2VbxIIElzcXsKcbgKzBMIFb+9sjdz26bHxsLKMgjzfniVQp9jC5tKL9iLmm3vwArHZbAyr0vt7foNUjqFfd7cIZqu6yJ0ZEceA4Ab2Df/Pdd+6PkCzZxjmHnIEYUC0GOGUrKozE9qX25a4HnKkU8jZUIBGKey+DA8li/60pQLipl6LPXSUthRchoaMhjMvDs9YhctXexIT+lOy6Civ6FKf+OcxNjNh8zM9stvBu4SsTkoiRRFXqG0ZxQkPoPS5ox5gV/g32Vzc8kjwaLQ8Vq24VM2xA2f3vNU/jMvT9Zr+tjb/TfGLVo27nxhuQy988Y7T3Q9zZxy0kEnGCeMuTA1/stvrZoMaUkKH2m155odMP4lsG4B7xRsa24KwkW68IYol/uOzV9b2J+j4eJTRBcM0cgggHxsbJyrdgOl2/SFYjZkKAwQo5BT4hBAGgWO+JUh/W8bUoi7VKFtt3jIyrwnjJA+O3GxtVu8Sj1ud2yJ7L2RWr3A9TBfVhMJY3RHh8ptB55E7iWx5jVyCwlWP4CFBKxqBA4cVDvGcO1iOI0p9xURmXbexmpmmlrU2Nxl/lhDvwU/XmjqGoQ9fcqLhgmQgUX3z6kp/N0XJjYOJYEIAD3IbYPoiNZnULfF3BexIq/Jut2ZkEDDZONkyPpL5v9xhkssze7cQ0FiIg9DP3VIIFHBIiSwldxInlPRxXGcQB03aEqEOVL4QPxBSHt6/BVTKivtj3WCzbrHPNCHw4p2dEYtG+QflJQBjHflGnTw/Ldbxz4D1SY6HEndRFz1OQ4Y54wx+z7XUxj0rXz9ZNMEgUTqAiBo3+D2uVtC2hii9OrcDJdyuvH0Ax05FTrQdE95OGT++kZ3LPv02x5qDzNBPJ+vJc2j2hfg3YK7Z2c+iZ9traEaYFYMd+xZ7U4NAOtXI6ltbLjTpnNNzXbycrqLTtsfSdIKQliQQ+56/zHyNh8VFVfpUwa+w4gzdextLTFZIaTf4FFhJTCmUCDeZEB/rsulnRslT+pL6YNVJUEgksQiWNWT1If0DbTRX6kkY5eSLnZGKPiKb9A+NbLaw4QX9aauMHxr7L7taV2xeBpP/5Z3gor2jdwDpk89J2QolPdQc8x2lDFypdc0Tub2BFe58y/KvYaQDhLOs9wmwPIvfglgqHZG1+UtGEwR3pI1Y9BKcqVaZSPAGLVSSDrLrczGQuDeIq2t4jBCynSxJ+eqY0AgiWTLUSm4B0nb31BQXxhC19QRcwPS1xhCclGngUjUgp/h0VO3nAoYKZpQwuxP4GZqLoVZD03DPWIy+Jksg2wewqQ8W9PmQngnxvnUT385+cQqvM9D1qToSG5AUwNuhp3pyiZ/g5wrUT6+sVTv3RTxfZ3NtBKgtdC7PicfzqT9WcZzcnueQvnlg50ozpQrD1q3/TvRQq64zRAc7+CVScaFwNsOZM/qh3E6iHebynII9fYYWTBUTNbtH/U7+OpWohrb4ZULgg/ALw4ubN4EuqZw==,iv:rBVdn8mRyygyXK9bY6vT6U41DKuQrLLhrEFJZArSUEo=,tag:wEZLryn1v9jKatq+HoRROg==,type:str]
+sops:
+  age:
+    - enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSB4b0lTMFFkK0ovOHEzSStS
+        WklvZlAzZmx1TDJ6Qmd4MTRHYWQyZWpTRlQwCi9GYkxjM0FMYVE5SnlUL2lqRGJB
+        Y0JydDBINW8wMVM0cDg3QXpaYklrbncKLS0tIGNEMnArU2Q2dmJwOVhzS0NKZUNU
+        bHpNREMxSkdxMFN1S0Q4ZXVyalpreVUK/J68QcVTkjrpDpa+vZzOm2psD61wPz7i
+        F8CeHEXb+iGKnk4DrEpD/3CBzSdlQwfrkiFmjFEtJhSNdbGigOpN5Q==
+        -----END AGE ENCRYPTED FILE-----
+      recipient: age15zy2kyfe33wlart8c6e67vlnjls8ktwaf9fkg2plg5nh7xq6kdvq6e6t9v
+  encrypted_regex: ^(data|stringData|binaryData)$
+  lastmodified: "2026-07-18T23:27:45Z"
+  mac: ENC[AES256_GCM,data:V4BWFA/Y3dpLBlXfjXRn08GV/FZmAhDZL6lgc+PR+1iwrPbRzNJ9jUHhXCbMkSV09HyqN83m9ZMUH+k1L1N9Adn6jQta+BfcSGa66eACmnQoI0HqimKMlwwXWK9HOZy2w5xSOFct8DJr8ydaybWHQ4Tlr3a/aEs/GSVfNCYqOzw=,iv:qs7lxlKOm3LIsln9dn29ZrljY8YCWKGvN7PY6S+3U5M=,tag:dj4xzp+oA0AVaEmF+yIGCw==,type:str]
+  mac_only_encrypted: true
+  version: 3.13.2

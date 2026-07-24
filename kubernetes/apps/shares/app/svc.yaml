@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: samba
+  namespace: shares
+  labels:
+    app.kubernetes.io/name: samba
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: shares.${SECRET_DOMAIN}
+    lbipam.cilium.io/ips: "10.211.50.6"
+spec:
+  type: LoadBalancer
+  ports:
+    - name: smb
+      port: 445
+      targetPort: smb
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: samba

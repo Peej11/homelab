@@ -1,0 +1,97 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: samba
+  namespace: shares
+  labels:
+    app.kubernetes.io/name: samba
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  revisionHistoryLimit: 3
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: samba
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: samba
+    spec:
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: samba
+          image: ghcr.io/crazy-max/samba:4.23.8@sha256:b37f7af97c773eddb593537f64da6389e5ee6695bcecf44f3ba1a8a6bcf34125
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+              add:
+                - NET_BIND_SERVICE
+                - SETUID
+                - SETGID
+                - CHOWN
+                - FOWNER
+                - DAC_OVERRIDE
+          ports:
+            - name: smb
+              containerPort: 445
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 100m
+              memory: 1024Mi
+            limits:
+              memory: 1024Mi
+          volumeMounts:
+            - name: 3dprint
+              mountPath: /shares/3dprint
+            - name: utilities
+              mountPath: /shares/utilities
+            - name: emulation
+              mountPath: /shares/emulation
+            - name: james
+              mountPath: /shares/james
+            - name: shanna
+              mountPath: /shares/shanna
+            - name: samba-config
+              mountPath: /data/config.yml
+              subPath: config.yml
+            - name: james-password
+              mountPath: /run/secrets/james-password
+              subPath: PASSWORD
+            - name: shanna-password
+              mountPath: /run/secrets/shanna-password
+              subPath: PASSWORD
+      volumes:
+        - name: 3dprint
+          persistentVolumeClaim:
+            claimName: shares-3dprint
+        - name: utilities
+          persistentVolumeClaim:
+            claimName: shares-utilities
+        - name: emulation
+          persistentVolumeClaim:
+            claimName: shares-emulation
+        - name: james
+          persistentVolumeClaim:
+            claimName: shares-james
+        - name: shanna
+          persistentVolumeClaim:
+            claimName: shares-shanna
+        - name: samba-config
+          configMap:
+            name: samba-config
+        - name: james-password
+          secret:
+            secretName: james-creds
+        - name: shanna-password
+          secret:
+            secretName: shanna-creds
