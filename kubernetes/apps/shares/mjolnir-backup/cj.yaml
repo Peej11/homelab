@@ -1,0 +1,314 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mjolnir-backup
+  namespace: shares
+spec:
+  schedule: "0 3 1 * *"
+  timeZone: "America/Chicago"
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      activeDeadlineSeconds: 86400
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: shares-mjolnir-backup
+        spec:
+          containers:
+            - name: mjolnir-backup
+              image: ghcr.io/peej11/hypnos:0.2.0@sha256:01f3a23e28a68041a6aacd1673014b646cef0e97372a9b1048171899a0693917
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  set -u
+
+                  notify() {
+                    jq -n --arg c "$1" '{content: $c}' \
+                      | curl -sS -m 15 -o /dev/null \
+                          -H "Content-Type: application/json" \
+                          -X POST "$DISCORD_WEBHOOK" --data @- || true
+                  }
+
+                  die() { echo "$1" >&2; notify "❌ mjolnir backup FAILED: $1"; exit 1; }
+
+                  bmc() { ipmitool -I lanplus -H "$BMC_HOST" -U "$BMC_USER" -E "$@"; }
+
+                  tn() {
+                    m="$1"; p="$2"; shift 2
+                    curl -sS -k --max-time 60 --fail-with-body \
+                      -H "Authorization: Bearer $TN_API_KEY" \
+                      -H "Content-Type: application/json" \
+                      -X "$m" "https://$SRV_HOST/api/v2.0$p" "$@"
+                  }
+
+                  wait_job() {
+                    n=0
+                    while [ "$n" -lt 120 ]; do
+                      j=$(tn GET "/core/get_jobs?id=$1")
+                      case "$(echo "$j" | jq -r '.[0].state // "UNKNOWN"')" in
+                        SUCCESS) return 0 ;;
+                        FAILED|ABORTED)
+                          echo "$j" | jq -r '.[0].error // "job failed"' >&2
+                          return 1 ;;
+                      esac
+                      n=$((n + 1)); sleep 5
+                    done
+                    echo "job $1 did not finish in time" >&2
+                    return 1
+                  }
+
+                  unlocked() {
+                    [ "$(tn GET "/pool/dataset/id/$(echo "$ZFS_KEY_DATASET" | sed 's|/|%2F|g')" \
+                        | jq -r 'if has("locked") then .locked else true end')" = "false" ]
+                  }
+
+                  poweroff_server() {
+                    echo "==> Ensuring server is powered off"
+                    if jq -n '{reason: "mjolnir-backup finished", options: {delay: 0}}' \
+                         | tn POST /system/shutdown --data @-; then
+                      echo "graceful shutdown requested"
+                    else
+                      echo "API shutdown request failed; falling back to IPMI soft power"
+                      bmc chassis power soft || true
+                    fi
+                    n=0
+                    while [ "$n" -lt 30 ]; do
+                      bmc chassis power status 2>/dev/null | grep -qi "off" && { echo "server is off"; return; }
+                      n=$((n + 1)); sleep 10
+                    done
+                    echo "graceful shutdown timed out; forcing power off"
+                    notify "⚠️ mjolnir backup: graceful shutdown timed out, forcing power off"
+                    bmc chassis power off || true
+                    n=0
+                    while [ "$n" -lt 12 ]; do
+                      bmc chassis power status 2>/dev/null | grep -qi "off" && { echo "server is off"; return; }
+                      n=$((n + 1)); sleep 5
+                    done
+                    notify "❌ mjolnir backup: server did NOT power off"
+                  }
+
+                  notify "🟡 backup shares to mjolnir started"
+
+                  if [ "$MANAGE_POWER" = "true" ]; then
+                    echo "==> Powering on server"
+                    bmc chassis power on || true
+                    trap poweroff_server EXIT
+                  else
+                    echo "==> Power management disabled; expecting server to be on already"
+                  fi
+
+                  echo "==> Waiting for the API on $SRV_HOST:443 (up to 10m)"
+                  n=0
+                  until nc -z "$SRV_HOST" 443; do
+                    n=$((n + 1)); [ "$n" -gt 60 ] && die "server did not boot in time"
+                    sleep 10
+                  done
+                  sleep 15
+
+                  if unlocked; then
+                    echo "==> $ZFS_KEY_DATASET already unlocked"
+                  else
+                    echo "==> Unlocking $ZFS_KEY_DATASET"
+                    resp=$(jq -n --arg d "$ZFS_KEY_DATASET" \
+                             '{id: $d, options: {recursive: true, toggle_attachments: true,
+                               datasets: [{name: $d, passphrase: $ENV.ZFS_PASSPHRASE,
+                                           recursive: true}]}}' \
+                           | tn POST /pool/dataset/unlock --data @- 2>&1)
+                    jid=$(echo "$resp" \
+                          | jq -r 'if type == "number" then . else (.job_id // empty) end' 2>/dev/null)
+                    if [ -z "$jid" ]; then
+                      echo "$resp" | head -c 2000
+                      die "unlock did not return a job id"
+                    fi
+                    wait_job "$jid" || die "unlock job failed"
+                    tn GET "/core/get_jobs?id=$jid" \
+                      | jq -r '.[0].result.failed // {} | to_entries[]
+                               | "unlock failed for \(.key): \(.value.error // .value)"'
+                  fi
+
+                  echo "==> Waiting for SSH on $SRV_HOST:22 (up to 2m)"
+                  n=0
+                  until nc -z "$SRV_HOST" 22; do
+                    n=$((n + 1)); [ "$n" -gt 12 ] && die "sshd never came up"
+                    sleep 10
+                  done
+
+                  if ! rclone lsf "backup:$DEST_PATH/.backup-target-ok" >/dev/null 2>&1; then
+                    die "marker .backup-target-ok missing under $DEST_PATH; dataset probably not mounted, refusing to sync"
+                  fi
+
+                  snap_ds="${DEST_PATH#/mnt/}"
+                  snap_name="pre-backup-$(date -u +%Y%m%d-%H%M%S)"
+                  echo "==> Snapshotting $snap_ds@$snap_name"
+                  resp=$(jq -n --arg d "$snap_ds" --arg n "$snap_name" \
+                           '{dataset: $d, name: $n, recursive: true}' \
+                         | tn POST /pool/snapshot --data @- 2>&1)
+                  if echo "$resp" | jq -e 'type == "object" and has("id")' >/dev/null 2>&1; then
+                    notify "📸 mjolnir backup: snapshot $snap_ds@$snap_name created"
+                  else
+                    echo "$resp" | head -c 2000
+                    die "snapshot $snap_ds@$snap_name failed; refusing to sync without a rollback point"
+                  fi
+
+                  RCLONE_OPTS="--transfers 2 --checkers 4
+                               --low-level-retries 20 --retries 5 --retries-sleep 30s
+                               --timeout 10m --contimeout 2m"
+
+                  rc=0
+                  failed=""
+                  for s in 3dprint utilities emulation james shanna; do
+                    echo "==> Syncing $s"
+                    notify "🔄 mjolnir backup: syncing $s"
+                    if rclone sync "/src/$s" "backup:$DEST_PATH/$s" --delete-during $RCLONE_OPTS --stats 1m -v; then
+                      notify "✅ mjolnir backup: $s synced"
+                    else
+                      rc=1; failed="$failed $s"
+                      notify "⚠️ mjolnir backup: sync failed for $s"
+                    fi
+                  done
+
+                  for s in 3dprint utilities emulation james shanna; do
+                    echo "==> Verifying $s"
+                    notify "🔎 mjolnir backup: verifying $s"
+                    if rclone check "/src/$s" "backup:$DEST_PATH/$s" --one-way $RCLONE_OPTS; then
+                      notify "✅ mjolnir backup: $s verified"
+                    else
+                      echo "verify mismatch on $s; re-syncing once"
+                      notify "⚠️ mjolnir backup: verify mismatch on $s, re-syncing"
+                      if rclone sync "/src/$s" "backup:$DEST_PATH/$s" --delete-during $RCLONE_OPTS -v; then
+                        notify "✅ mjolnir backup: $s re-synced"
+                      else
+                        rc=1
+                        case " $failed " in *" $s "*) ;; *) failed="$failed $s" ;; esac
+                        notify "⚠️ mjolnir backup: re-sync failed for $s"
+                      fi
+                    fi
+                  done
+
+                  echo "==> Backup finished (rc=$rc)"
+                  if [ "$rc" -eq 0 ]; then
+                    notify "✅ mjolnir backup finished: all shares in sync"
+                  else
+                    notify "❌ mjolnir backup FAILED for:$failed"
+                  fi
+                  exit "$rc"
+              env:
+                - name: BMC_HOST
+                  valueFrom:
+                    secretKeyRef:
+                      name: mjolnir-backup-secret
+                      key: BMC_HOST
+                - name: BMC_USER
+                  valueFrom:
+                    secretKeyRef:
+                      name: mjolnir-backup-secret
+                      key: BMC_USER
+                - name: IPMI_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: mjolnir-backup-secret
+                      key: BMC_PASS
+                - name: SRV_HOST
+                  valueFrom:
+                    secretKeyRef:
+                      name: mjolnir-backup-secret
+                      key: SRV_HOST
+                - name: SRV_USER
+                  valueFrom:
+                    secretKeyRef:
+                      name: mjolnir-backup-secret
+                      key: SRV_USER
+                - name: DEST_PATH
+                  valueFrom:
+                    secretKeyRef:
+                      name: mjolnir-backup-secret
+                      key: DEST_PATH
+                - name: ZFS_KEY_DATASET
+                  valueFrom:
+                    secretKeyRef:
+                      name: mjolnir-backup-secret
+                      key: ZFS_KEY_DATASET
+                - name: ZFS_PASSPHRASE
+                  valueFrom:
+                    secretKeyRef:
+                      name: mjolnir-backup-secret
+                      key: ZFS_PASSPHRASE
+                - name: TN_API_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: mjolnir-backup-secret
+                      key: TN_API_KEY
+                - name: DISCORD_WEBHOOK
+                  valueFrom:
+                    secretKeyRef:
+                      name: mjolnir-backup-secret
+                      key: DISCORD_WEBHOOK
+                - name: MANAGE_POWER
+                  value: "true"
+                - name: RCLONE_CONFIG_BACKUP_TYPE
+                  value: sftp
+                - name: RCLONE_CONFIG_BACKUP_HOST
+                  value: "$(SRV_HOST)"
+                - name: RCLONE_CONFIG_BACKUP_USER
+                  value: "$(SRV_USER)"
+                - name: RCLONE_CONFIG_BACKUP_KEY_FILE
+                  value: /root/.ssh/identity
+                - name: RCLONE_CONFIG_BACKUP_MD5SUM_COMMAND
+                  value: "none"
+                - name: RCLONE_CONFIG_BACKUP_SHA1SUM_COMMAND
+                  value: "sha1sum"
+              volumeMounts:
+                - name: ssh-key
+                  mountPath: /root/.ssh
+                  readOnly: true
+                - name: 3dprint
+                  mountPath: /src/3dprint
+                  readOnly: true
+                - name: utilities
+                  mountPath: /src/utilities
+                  readOnly: true
+                - name: emulation
+                  mountPath: /src/emulation
+                  readOnly: true
+                - name: james
+                  mountPath: /src/james
+                  readOnly: true
+                - name: shanna
+                  mountPath: /src/shanna
+                  readOnly: true
+              resources:
+                requests:
+                  cpu: 200m
+                  memory: 256Mi
+                limits:
+                  memory: 4Gi
+          restartPolicy: Never
+          volumes:
+            - name: ssh-key
+              secret:
+                secretName: mjolnir-backup-secret
+                defaultMode: 0400
+                items:
+                  - key: identity
+                    path: identity
+            - name: 3dprint
+              persistentVolumeClaim:
+                claimName: shares-3dprint
+            - name: utilities
+              persistentVolumeClaim:
+                claimName: shares-utilities
+            - name: emulation
+              persistentVolumeClaim:
+                claimName: shares-emulation
+            - name: james
+              persistentVolumeClaim:
+                claimName: shares-james
+            - name: shanna
+              persistentVolumeClaim:
+                claimName: shares-shanna
