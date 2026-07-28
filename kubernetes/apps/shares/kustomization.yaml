@@ -5,3 +5,4 @@ resources:
   - ./ns.yaml
   - ./storage/ks.yaml
   - ./app/ks.yaml
+  - ./mjolnir-backup/ks.yaml

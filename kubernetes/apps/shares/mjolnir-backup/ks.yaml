@@ -1,0 +1,39 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app shares-mjolnir-backup
+  namespace: shares
+  labels:
+    app.kubernetes.io/name: *app
+    app.kubernetes.io/part-of: &namespace shares
+spec:
+  dependsOn:
+    - name: flux-system
+      namespace: flux-system
+    - name: shares-storage
+      namespace: shares
+    - name: shares-app
+      namespace: shares
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+      app.kubernetes.io/namespace: *namespace
+  interval: 4h
+  path: ./kubernetes/apps/shares/mjolnir-backup
+  postBuild:
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
+  prune: true
+  retryInterval: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  timeout: 10m
+  wait: false
