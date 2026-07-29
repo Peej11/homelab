@@ -19,6 +19,9 @@ spec:
           labels:
             app.kubernetes.io/name: shares-mjolnir-backup
         spec:
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
           containers:
             - name: mjolnir-backup
               image: ghcr.io/peej11/hypnos:0.2.0@sha256:01f3a23e28a68041a6aacd1673014b646cef0e97372a9b1048171899a0693917
@@ -288,6 +291,11 @@ spec:
                   memory: 256Mi
                 limits:
                   memory: 4Gi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
           restartPolicy: Never
           volumes:
             - name: ssh-key
