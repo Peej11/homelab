@@ -6,3 +6,4 @@ resources:
   - ./storage/ks.yaml
   - ./app/ks.yaml
   - ./mjolnir-backup/ks.yaml
+  - ./backblaze-backup/ks.yaml

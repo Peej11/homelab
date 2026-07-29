@@ -1,0 +1,640 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: b2-backup-3dprint
+  namespace: shares
+spec:
+  schedule: "0 1 * * *"
+  timeZone: "America/Chicago"
+  suspend: false
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: shares-b2-backup
+        spec:
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
+          initContainers:
+            - name: verify-data
+              image: ghcr.io/rclone/rclone:1.71.2@sha256:3103526c506266a9ecdf064efe99bf3677d92ef6407af124d8c56b4f49cbaa51
+              command:
+                - /bin/sh
+                - -c
+                - >-
+                  test -n "$(ls -A /data)" || { echo "/data is empty or unavailable; refusing to back up"; exit 1; }
+              volumeMounts:
+                - name: data
+                  mountPath: /data
+                  readOnly: true
+              resources:
+                requests:
+                  cpu: 10m
+                  memory: 32Mi
+                limits:
+                  memory: 32Mi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+          containers:
+            - name: rclone
+              image: ghcr.io/rclone/rclone:1.71.2@sha256:3103526c506266a9ecdf064efe99bf3677d92ef6407af124d8c56b4f49cbaa51
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  notify() { wget -q -O /dev/null --header='Content-Type: application/json' --post-data="{\"content\":\"$1\"}" "$DISCORD_WEBHOOK" || true; }
+                  share="${RCLONE_CONFIG_CRYPT_REMOTE##*/}"
+                  notify "🟡 shares backup started: $share"
+                  if rclone sync /data crypt: --fast-list --transfers 4 --checkers 8 --stats 1m -v; then
+                    notify "✅ shares backup finished: $share"
+                  else
+                    rc=$?
+                    notify "❌ shares backup FAILED: $share"
+                    exit "$rc"
+                  fi
+              env:
+                - name: B2_KEY_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: B2_KEY_ID
+                - name: B2_APPLICATION_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: B2_APPLICATION_KEY
+                - name: B2_BUCKET
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: B2_BUCKET
+                - name: RCLONE_CRYPT_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: RCLONE_CRYPT_PASSWORD
+                - name: RCLONE_CRYPT_SALT
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: RCLONE_CRYPT_SALT
+                - name: DISCORD_WEBHOOK
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: DISCORD_WEBHOOK
+                - name: RCLONE_CONFIG_B2_TYPE
+                  value: b2
+                - name: RCLONE_CONFIG_B2_ACCOUNT
+                  value: "$(B2_KEY_ID)"
+                - name: RCLONE_CONFIG_B2_KEY
+                  value: "$(B2_APPLICATION_KEY)"
+                - name: RCLONE_CONFIG_CRYPT_TYPE
+                  value: crypt
+                - name: RCLONE_CONFIG_CRYPT_REMOTE
+                  value: "b2:$(B2_BUCKET)/3dprint"
+                - name: RCLONE_CONFIG_CRYPT_PASSWORD
+                  value: "$(RCLONE_CRYPT_PASSWORD)"
+                - name: RCLONE_CONFIG_CRYPT_PASSWORD2
+                  value: "$(RCLONE_CRYPT_SALT)"
+              volumeMounts:
+                - name: data
+                  mountPath: /data
+                  readOnly: true
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 4Gi
+                limits:
+                  memory: 4Gi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+          volumes:
+            - name: data
+              persistentVolumeClaim:
+                claimName: shares-3dprint
+          restartPolicy: OnFailure
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: b2-backup-utilities
+  namespace: shares
+spec:
+  schedule: "0 2 * * *"
+  timeZone: "America/Chicago"
+  suspend: false
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: shares-b2-backup
+        spec:
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
+          initContainers:
+            - name: verify-data
+              image: ghcr.io/rclone/rclone:1.71.2@sha256:3103526c506266a9ecdf064efe99bf3677d92ef6407af124d8c56b4f49cbaa51
+              command:
+                - /bin/sh
+                - -c
+                - >-
+                  test -n "$(ls -A /data)" || { echo "/data is empty or unavailable; refusing to back up"; exit 1; }
+              volumeMounts:
+                - name: data
+                  mountPath: /data
+                  readOnly: true
+              resources:
+                requests:
+                  cpu: 10m
+                  memory: 32Mi
+                limits:
+                  memory: 32Mi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+          containers:
+            - name: rclone
+              image: ghcr.io/rclone/rclone:1.71.2@sha256:3103526c506266a9ecdf064efe99bf3677d92ef6407af124d8c56b4f49cbaa51
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  notify() { wget -q -O /dev/null --header='Content-Type: application/json' --post-data="{\"content\":\"$1\"}" "$DISCORD_WEBHOOK" || true; }
+                  share="${RCLONE_CONFIG_CRYPT_REMOTE##*/}"
+                  notify "🟡 shares backup started: $share"
+                  if rclone sync /data crypt: --fast-list --transfers 4 --checkers 8 --stats 1m -v; then
+                    notify "✅ shares backup finished: $share"
+                  else
+                    rc=$?
+                    notify "❌ shares backup FAILED: $share"
+                    exit "$rc"
+                  fi
+              env:
+                - name: B2_KEY_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: B2_KEY_ID
+                - name: B2_APPLICATION_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: B2_APPLICATION_KEY
+                - name: B2_BUCKET
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: B2_BUCKET
+                - name: RCLONE_CRYPT_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: RCLONE_CRYPT_PASSWORD
+                - name: RCLONE_CRYPT_SALT
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: RCLONE_CRYPT_SALT
+                - name: DISCORD_WEBHOOK
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: DISCORD_WEBHOOK
+                - name: RCLONE_CONFIG_B2_TYPE
+                  value: b2
+                - name: RCLONE_CONFIG_B2_ACCOUNT
+                  value: "$(B2_KEY_ID)"
+                - name: RCLONE_CONFIG_B2_KEY
+                  value: "$(B2_APPLICATION_KEY)"
+                - name: RCLONE_CONFIG_CRYPT_TYPE
+                  value: crypt
+                - name: RCLONE_CONFIG_CRYPT_REMOTE
+                  value: "b2:$(B2_BUCKET)/utilities"
+                - name: RCLONE_CONFIG_CRYPT_PASSWORD
+                  value: "$(RCLONE_CRYPT_PASSWORD)"
+                - name: RCLONE_CONFIG_CRYPT_PASSWORD2
+                  value: "$(RCLONE_CRYPT_SALT)"
+              volumeMounts:
+                - name: data
+                  mountPath: /data
+                  readOnly: true
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 4Gi
+                limits:
+                  memory: 4Gi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+          volumes:
+            - name: data
+              persistentVolumeClaim:
+                claimName: shares-utilities
+          restartPolicy: OnFailure
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: b2-backup-emulation
+  namespace: shares
+spec:
+  schedule: "0 3 * * *"
+  timeZone: "America/Chicago"
+  suspend: false
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: shares-b2-backup
+        spec:
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
+          initContainers:
+            - name: verify-data
+              image: ghcr.io/rclone/rclone:1.71.2@sha256:3103526c506266a9ecdf064efe99bf3677d92ef6407af124d8c56b4f49cbaa51
+              command:
+                - /bin/sh
+                - -c
+                - >-
+                  test -n "$(ls -A /data)" || { echo "/data is empty or unavailable; refusing to back up"; exit 1; }
+              volumeMounts:
+                - name: data
+                  mountPath: /data
+                  readOnly: true
+              resources:
+                requests:
+                  cpu: 10m
+                  memory: 32Mi
+                limits:
+                  memory: 32Mi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+          containers:
+            - name: rclone
+              image: ghcr.io/rclone/rclone:1.71.2@sha256:3103526c506266a9ecdf064efe99bf3677d92ef6407af124d8c56b4f49cbaa51
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  notify() { wget -q -O /dev/null --header='Content-Type: application/json' --post-data="{\"content\":\"$1\"}" "$DISCORD_WEBHOOK" || true; }
+                  share="${RCLONE_CONFIG_CRYPT_REMOTE##*/}"
+                  notify "🟡 shares backup started: $share"
+                  if rclone sync /data crypt: --fast-list --transfers 4 --checkers 8 --stats 1m -v; then
+                    notify "✅ shares backup finished: $share"
+                  else
+                    rc=$?
+                    notify "❌ shares backup FAILED: $share"
+                    exit "$rc"
+                  fi
+              env:
+                - name: B2_KEY_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: B2_KEY_ID
+                - name: B2_APPLICATION_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: B2_APPLICATION_KEY
+                - name: B2_BUCKET
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: B2_BUCKET
+                - name: RCLONE_CRYPT_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: RCLONE_CRYPT_PASSWORD
+                - name: RCLONE_CRYPT_SALT
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: RCLONE_CRYPT_SALT
+                - name: DISCORD_WEBHOOK
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: DISCORD_WEBHOOK
+                - name: RCLONE_CONFIG_B2_TYPE
+                  value: b2
+                - name: RCLONE_CONFIG_B2_ACCOUNT
+                  value: "$(B2_KEY_ID)"
+                - name: RCLONE_CONFIG_B2_KEY
+                  value: "$(B2_APPLICATION_KEY)"
+                - name: RCLONE_CONFIG_CRYPT_TYPE
+                  value: crypt
+                - name: RCLONE_CONFIG_CRYPT_REMOTE
+                  value: "b2:$(B2_BUCKET)/emulation"
+                - name: RCLONE_CONFIG_CRYPT_PASSWORD
+                  value: "$(RCLONE_CRYPT_PASSWORD)"
+                - name: RCLONE_CONFIG_CRYPT_PASSWORD2
+                  value: "$(RCLONE_CRYPT_SALT)"
+              volumeMounts:
+                - name: data
+                  mountPath: /data
+                  readOnly: true
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 4Gi
+                limits:
+                  memory: 4Gi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+          volumes:
+            - name: data
+              persistentVolumeClaim:
+                claimName: shares-emulation
+          restartPolicy: OnFailure
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: b2-backup-james
+  namespace: shares
+spec:
+  schedule: "0 4 * * *"
+  timeZone: "America/Chicago"
+  suspend: false
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: shares-b2-backup
+        spec:
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
+          initContainers:
+            - name: verify-data
+              image: ghcr.io/rclone/rclone:1.71.2@sha256:3103526c506266a9ecdf064efe99bf3677d92ef6407af124d8c56b4f49cbaa51
+              command:
+                - /bin/sh
+                - -c
+                - >-
+                  test -n "$(ls -A /data)" || { echo "/data is empty or unavailable; refusing to back up"; exit 1; }
+              volumeMounts:
+                - name: data
+                  mountPath: /data
+                  readOnly: true
+              resources:
+                requests:
+                  cpu: 10m
+                  memory: 32Mi
+                limits:
+                  memory: 32Mi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+          containers:
+            - name: rclone
+              image: ghcr.io/rclone/rclone:1.71.2@sha256:3103526c506266a9ecdf064efe99bf3677d92ef6407af124d8c56b4f49cbaa51
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  notify() { wget -q -O /dev/null --header='Content-Type: application/json' --post-data="{\"content\":\"$1\"}" "$DISCORD_WEBHOOK" || true; }
+                  share="${RCLONE_CONFIG_CRYPT_REMOTE##*/}"
+                  notify "🟡 shares backup started: $share"
+                  if rclone sync /data crypt: --fast-list --transfers 4 --checkers 8 --stats 1m -v; then
+                    notify "✅ shares backup finished: $share"
+                  else
+                    rc=$?
+                    notify "❌ shares backup FAILED: $share"
+                    exit "$rc"
+                  fi
+              env:
+                - name: B2_KEY_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: B2_KEY_ID
+                - name: B2_APPLICATION_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: B2_APPLICATION_KEY
+                - name: B2_BUCKET
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: B2_BUCKET
+                - name: RCLONE_CRYPT_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: RCLONE_CRYPT_PASSWORD
+                - name: RCLONE_CRYPT_SALT
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: RCLONE_CRYPT_SALT
+                - name: DISCORD_WEBHOOK
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: DISCORD_WEBHOOK
+                - name: RCLONE_CONFIG_B2_TYPE
+                  value: b2
+                - name: RCLONE_CONFIG_B2_ACCOUNT
+                  value: "$(B2_KEY_ID)"
+                - name: RCLONE_CONFIG_B2_KEY
+                  value: "$(B2_APPLICATION_KEY)"
+                - name: RCLONE_CONFIG_CRYPT_TYPE
+                  value: crypt
+                - name: RCLONE_CONFIG_CRYPT_REMOTE
+                  value: "b2:$(B2_BUCKET)/james"
+                - name: RCLONE_CONFIG_CRYPT_PASSWORD
+                  value: "$(RCLONE_CRYPT_PASSWORD)"
+                - name: RCLONE_CONFIG_CRYPT_PASSWORD2
+                  value: "$(RCLONE_CRYPT_SALT)"
+              volumeMounts:
+                - name: data
+                  mountPath: /data
+                  readOnly: true
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 4Gi
+                limits:
+                  memory: 4Gi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+          volumes:
+            - name: data
+              persistentVolumeClaim:
+                claimName: shares-james
+          restartPolicy: OnFailure
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: b2-backup-shanna
+  namespace: shares
+spec:
+  schedule: "0 5 * * *"
+  timeZone: "America/Chicago"
+  suspend: false
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: shares-b2-backup
+        spec:
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
+          initContainers:
+            - name: verify-data
+              image: ghcr.io/rclone/rclone:1.71.2@sha256:3103526c506266a9ecdf064efe99bf3677d92ef6407af124d8c56b4f49cbaa51
+              command:
+                - /bin/sh
+                - -c
+                - >-
+                  test -n "$(ls -A /data)" || { echo "/data is empty or unavailable; refusing to back up"; exit 1; }
+              volumeMounts:
+                - name: data
+                  mountPath: /data
+                  readOnly: true
+              resources:
+                requests:
+                  cpu: 10m
+                  memory: 32Mi
+                limits:
+                  memory: 32Mi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+          containers:
+            - name: rclone
+              image: ghcr.io/rclone/rclone:1.71.2@sha256:3103526c506266a9ecdf064efe99bf3677d92ef6407af124d8c56b4f49cbaa51
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  notify() { wget -q -O /dev/null --header='Content-Type: application/json' --post-data="{\"content\":\"$1\"}" "$DISCORD_WEBHOOK" || true; }
+                  share="${RCLONE_CONFIG_CRYPT_REMOTE##*/}"
+                  notify "🟡 shares backup started: $share"
+                  if rclone sync /data crypt: --fast-list --transfers 4 --checkers 8 --stats 1m -v; then
+                    notify "✅ shares backup finished: $share"
+                  else
+                    rc=$?
+                    notify "❌ shares backup FAILED: $share"
+                    exit "$rc"
+                  fi
+              env:
+                - name: B2_KEY_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: B2_KEY_ID
+                - name: B2_APPLICATION_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: B2_APPLICATION_KEY
+                - name: B2_BUCKET
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: B2_BUCKET
+                - name: RCLONE_CRYPT_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: RCLONE_CRYPT_PASSWORD
+                - name: RCLONE_CRYPT_SALT
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: RCLONE_CRYPT_SALT
+                - name: DISCORD_WEBHOOK
+                  valueFrom:
+                    secretKeyRef:
+                      name: b2-backup-secret
+                      key: DISCORD_WEBHOOK
+                - name: RCLONE_CONFIG_B2_TYPE
+                  value: b2
+                - name: RCLONE_CONFIG_B2_ACCOUNT
+                  value: "$(B2_KEY_ID)"
+                - name: RCLONE_CONFIG_B2_KEY
+                  value: "$(B2_APPLICATION_KEY)"
+                - name: RCLONE_CONFIG_CRYPT_TYPE
+                  value: crypt
+                - name: RCLONE_CONFIG_CRYPT_REMOTE
+                  value: "b2:$(B2_BUCKET)/shanna"
+                - name: RCLONE_CONFIG_CRYPT_PASSWORD
+                  value: "$(RCLONE_CRYPT_PASSWORD)"
+                - name: RCLONE_CONFIG_CRYPT_PASSWORD2
+                  value: "$(RCLONE_CRYPT_SALT)"
+              volumeMounts:
+                - name: data
+                  mountPath: /data
+                  readOnly: true
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 4Gi
+                limits:
+                  memory: 4Gi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+          volumes:
+            - name: data
+              persistentVolumeClaim:
+                claimName: shares-shanna
+          restartPolicy: OnFailure
