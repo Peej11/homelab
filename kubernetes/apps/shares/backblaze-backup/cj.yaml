@@ -23,7 +23,7 @@ spec:
               type: RuntimeDefault
           initContainers:
             - name: verify-data
-              image: ghcr.io/rclone/rclone:1.71.2@sha256:3103526c506266a9ecdf064efe99bf3677d92ef6407af124d8c56b4f49cbaa51
+              image: ghcr.io/rclone/rclone:1.74.4@sha256:c61954aaa32328a5486715dd063a81c7879f5195ad3505cd362deddd509dc4a1
               command:
                 - /bin/sh
                 - -c
@@ -46,7 +46,7 @@ spec:
                     - ALL
           containers:
             - name: rclone
-              image: ghcr.io/rclone/rclone:1.71.2@sha256:3103526c506266a9ecdf064efe99bf3677d92ef6407af124d8c56b4f49cbaa51
+              image: ghcr.io/rclone/rclone:1.74.4@sha256:c61954aaa32328a5486715dd063a81c7879f5195ad3505cd362deddd509dc4a1
               command:
                 - /bin/sh
                 - -c
@@ -151,7 +151,7 @@ spec:
               type: RuntimeDefault
           initContainers:
             - name: verify-data
-              image: ghcr.io/rclone/rclone:1.71.2@sha256:3103526c506266a9ecdf064efe99bf3677d92ef6407af124d8c56b4f49cbaa51
+              image: ghcr.io/rclone/rclone:1.74.4@sha256:c61954aaa32328a5486715dd063a81c7879f5195ad3505cd362deddd509dc4a1
               command:
                 - /bin/sh
                 - -c
@@ -174,7 +174,7 @@ spec:
                     - ALL
           containers:
             - name: rclone
-              image: ghcr.io/rclone/rclone:1.71.2@sha256:3103526c506266a9ecdf064efe99bf3677d92ef6407af124d8c56b4f49cbaa51
+              image: ghcr.io/rclone/rclone:1.74.4@sha256:c61954aaa32328a5486715dd063a81c7879f5195ad3505cd362deddd509dc4a1
               command:
                 - /bin/sh
                 - -c
@@ -279,7 +279,7 @@ spec:
               type: RuntimeDefault
           initContainers:
             - name: verify-data
-              image: ghcr.io/rclone/rclone:1.71.2@sha256:3103526c506266a9ecdf064efe99bf3677d92ef6407af124d8c56b4f49cbaa51
+              image: ghcr.io/rclone/rclone:1.74.4@sha256:c61954aaa32328a5486715dd063a81c7879f5195ad3505cd362deddd509dc4a1
               command:
                 - /bin/sh
                 - -c
@@ -302,7 +302,7 @@ spec:
                     - ALL
           containers:
             - name: rclone
-              image: ghcr.io/rclone/rclone:1.71.2@sha256:3103526c506266a9ecdf064efe99bf3677d92ef6407af124d8c56b4f49cbaa51
+              image: ghcr.io/rclone/rclone:1.74.4@sha256:c61954aaa32328a5486715dd063a81c7879f5195ad3505cd362deddd509dc4a1
               command:
                 - /bin/sh
                 - -c
@@ -407,7 +407,7 @@ spec:
               type: RuntimeDefault
           initContainers:
             - name: verify-data
-              image: ghcr.io/rclone/rclone:1.71.2@sha256:3103526c506266a9ecdf064efe99bf3677d92ef6407af124d8c56b4f49cbaa51
+              image: ghcr.io/rclone/rclone:1.74.4@sha256:c61954aaa32328a5486715dd063a81c7879f5195ad3505cd362deddd509dc4a1
               command:
                 - /bin/sh
                 - -c
@@ -430,7 +430,7 @@ spec:
                     - ALL
           containers:
             - name: rclone
-              image: ghcr.io/rclone/rclone:1.71.2@sha256:3103526c506266a9ecdf064efe99bf3677d92ef6407af124d8c56b4f49cbaa51
+              image: ghcr.io/rclone/rclone:1.74.4@sha256:c61954aaa32328a5486715dd063a81c7879f5195ad3505cd362deddd509dc4a1
               command:
                 - /bin/sh
                 - -c
@@ -535,7 +535,7 @@ spec:
               type: RuntimeDefault
           initContainers:
             - name: verify-data
-              image: ghcr.io/rclone/rclone:1.71.2@sha256:3103526c506266a9ecdf064efe99bf3677d92ef6407af124d8c56b4f49cbaa51
+              image: ghcr.io/rclone/rclone:1.74.4@sha256:c61954aaa32328a5486715dd063a81c7879f5195ad3505cd362deddd509dc4a1
               command:
                 - /bin/sh
                 - -c
@@ -558,7 +558,7 @@ spec:
                     - ALL
           containers:
             - name: rclone
-              image: ghcr.io/rclone/rclone:1.71.2@sha256:3103526c506266a9ecdf064efe99bf3677d92ef6407af124d8c56b4f49cbaa51
+              image: ghcr.io/rclone/rclone:1.74.4@sha256:c61954aaa32328a5486715dd063a81c7879f5195ad3505cd362deddd509dc4a1
               command:
                 - /bin/sh
                 - -c
