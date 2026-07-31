@@ -7,5 +7,4 @@ resources:
   - ./handbrake/ks.yaml
   - ./plex/ks.yaml
   - ./tautulli/ks.yaml
-  - ./backups/ks.yaml
   - ./alert.yaml
