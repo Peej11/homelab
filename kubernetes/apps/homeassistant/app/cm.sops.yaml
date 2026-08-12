@@ -4,20 +4,20 @@ metadata:
   name: homeassistant-configuration
   namespace: homeassistant
 data:
-  configuration.yaml: ENC[AES256_GCM,data:eo1cR+1m/8HKO6u3ckz/ANC1dbOfOipnQ6ofyQWXatesWquJFQwMMr/mkVy6I6ooRTB4NgSkluFHo911TU78UN6aOCBMxSCl5EzHslasRGSzKbgdNpcixAH+fApKbnZTkzPzMfHLBVBtzE1Sodqx7MTeMJew8SPtQJ9d5dawor0cWs1VlIJmJ8bWscm/Z4Bf/tisACNJ9OzM3Uj7GOPNtVs4k2SrUCP4WsOGVZM9iinnwxSG8PJanVFZtvjxEtshJtI7xSeG3TSi1fqUOtlirC+ATcollGppBoHYZ8xW+ILHBBz9C/SYqTCQ8c55,iv:w5g0jLMvD+r0BvjzGh9OU9cNY8Pdi+GJ+ozOd+uQN7Y=,tag:ytIvjYV2B5/t8M4G2yGF9g==,type:str]
+  configuration.yaml: ENC[AES256_GCM,data:KIujMdWNdHjKIz0DIaq3fwEspl+CAE7iELNNY/ehaFBGr9fR5FNRgpo9Xb0TTIUk5Gp1NbfiQunwuYAIxEHs5PTsSZLcOf7Fu+aHIXIKKww9W9a11MLw5A2FcfuDdqiJttvP+O7Fk2c29Q==,iv:/lxpQjrZK/aCUa/AQOONC0i9k8CycJ9mDXDbpXH0vYQ=,tag:e43smI7DKykywKPByQTwzA==,type:str]
 sops:
   age:
-    - recipient: age15zy2kyfe33wlart8c6e67vlnjls8ktwaf9fkg2plg5nh7xq6kdvq6e6t9v
-      enc: |
+    - enc: |
         -----BEGIN AGE ENCRYPTED FILE-----
-        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBMVEEvN2E0NktGdXVBTEZP
-        S3ZmSm9YZzdIRU9MOExGOStZaVMzaStLSHdnCm5MUk9mQm9aSGk0bUd1OGMzTVJi
-        cjlXcDcxdVBWM00zSlQxYlNvaVN4TzgKLS0tIEVpcndPQXFUbjZjK2k5dzM5QXYr
-        b0FaRW1pTitLVmUyeFlQSEJDNWVDRXcKOcPedb1qu4MbvvHa+bGUi2nPugOrF4XE
-        A6v7C0hHhQzNfW8k3n2Ji4ifOxCbcIu46AhFRIYwtVp33M42OGzhpg==
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBaN2JwZW9xSStLaEdFNGh5
+        UHBJcTFhcEkraTlhS1FJNFYzUHl1U08wN25nCjV4dlpRSktOcDZyc0NlNFg5Mm1B
+        d3pGTkEvSkxnUnorRnl1UWI1YWszMk0KLS0tIFJsMXBGaFVsbXBLN2NBemE4Ly9F
+        eFhKbWxlWHdxcVlMRVowQUJnRUdjNFUKtClocrluQQgAN1T0QuUW0Ht3PUBC+bCa
+        N9nalns4eU2HdNDSpjHMzVrarkL9XTZ+rhgl4lSLwFkrBofWpgxcYQ==
         -----END AGE ENCRYPTED FILE-----
-  lastmodified: "2026-01-04T02:50:16Z"
-  mac: ENC[AES256_GCM,data:DYYn/dy/2SS/OuNFGcA8hPykgpnq44EPETGn4d52eQsctyRxzeBSx8plGzWuuN7k2ia+dtCtm+4itN4QvhDQ2zQw8heZZ0mPunKCoHSI2nIXLYfmLYf8BfY9RZVzb/RvL0eznsZsjfFJkDq6TRxhQGt5DBRhLw0/Lxscuimvcuc=,iv:RBcqEA2NbWo5z1mhpNuhNDQmplBhAyF6FjKEmh0Xk9E=,tag:aiC9ZLkROs66tg8FTxVKCw==,type:str]
-  encrypted_regex: ^(data|stringData)$
+      recipient: age15zy2kyfe33wlart8c6e67vlnjls8ktwaf9fkg2plg5nh7xq6kdvq6e6t9v
+  encrypted_regex: ^(data|stringData|binaryData)$
+  lastmodified: "2026-08-12T00:57:44Z"
+  mac: ENC[AES256_GCM,data:N50tdzIuZljDcCPm6AkgFhpF06wdw8L66ywAjLTOtDuuODDMSftqGz+JlrND0wLS8fIRL/sshZpvT99a+752LSXCOVpAzS+1ifzBZNrJD0qX+2lEwX6b679sYjQ9cqk/82onzYMmowX71fanZUY3YkQGUZRXCcubd3Ukpa5Gg30=,iv:RgIWq8u6jyyFtGf/Rv3cpyjWIOWjnJ64f3Kaiv/AC4o=,tag:qqLBO0guVkC3A1u1u7dq9A==,type:str]
   mac_only_encrypted: true
-  version: 3.11.0
+  version: 3.13.3
