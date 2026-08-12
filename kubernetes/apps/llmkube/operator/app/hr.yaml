@@ -1,0 +1,80 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: llmkube
+  namespace: llmkube
+spec:
+  chart:
+    spec:
+      chart: llmkube
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: llmkube
+      version: 0.9.16
+  interval: 24h
+  install:
+    crds: Create
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      remediateLastFailure: true
+  values:
+    crds:
+      install: true
+      keep: true
+    controllerManager:
+      replicaCount: 1
+      resources:
+        requests:
+          cpu: 10m
+          memory: 512Mi
+        limits:
+          cpu: ~
+          memory: 2Gi
+    priorityClasses:
+      enabled: true
+    modelCache:
+      enabled: true
+      mode: shared
+      size: 200Gi
+      storageClass: rook-cephfs-cryo
+      accessMode: ReadWriteMany
+      mountPath: /models
+    metrics:
+      enabled: true
+      secure: false
+      emitScrapeAnnotations: false
+    prometheus:
+      serviceMonitor:
+        enabled: true
+        additionalLabels: {}
+        interval: 1m
+      inferencePodMonitor:
+        enabled: true
+        additionalLabels: {}
+        interval: 1m
+      routerPodMonitor:
+        enabled: false
+      prometheusRule:
+        enabled: true
+        additionalLabels: {}
+        namespace: llmkube
+        rules:
+          gpu:
+            enabled: false
+          inference:
+            enabled: true
+    grafana:
+      dashboards:
+        enabled: false
+    webhook:
+      enabled: true
+      failurePolicy: Fail
+    multitenancy:
+      enabled: false
+    networkPolicies:
+      enabled: false

@@ -84,6 +84,9 @@ A CoreDNS plugin that is very similar to k8s_external but supporting all types o
 ### [Linkding](https://github.com/sissbruecker/linkding)
 Linkding is a bookmark manager that you can host yourself. It's designed be to be minimal, fast, and easy to set up using Docker.
 
+### [LLMKube](https://github.com/defilantech/LLMKube)
+LLMKube is a Kubernetes operator that turns LLM deployment into a two-line YAML problem. Define a Model and an InferenceService, and the operator handles downloading, caching, GPU scheduling, health checks, scaling, and exposing an OpenAI-compatible API.
+
 ### [Mealie](https://github.com/mealie-recipes/mealie/)
 Mealie is a self-hosted recipe manager, meal planner, and shopping list application.
 

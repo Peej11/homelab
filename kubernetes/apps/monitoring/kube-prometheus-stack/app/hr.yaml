@@ -174,6 +174,14 @@ spec:
               editable: false
               options:
                 path: /var/lib/grafana/dashboards/grafana-dashboards-cnpg-databases
+            - name: 'grafana-dashboards-llmkube'
+              orgId: 1
+              folder: 'LLMKube'
+              type: file
+              disableDeletion: true
+              editable: false
+              options:
+                path: /var/lib/grafana/dashboards/grafana-dashboards-llmkube
       dashboards:
         grafana-dashboards-kubernetes:
           k8s-system-api-server:
@@ -242,6 +250,13 @@ spec:
         grafana-dashboards-cnpg-databases:
           cnpg:
             url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/kubernetes/apps/monitoring/dashboards/cnpg-databases/cnpg.json
+            token: ''
+        grafana-dashboards-llmkube:
+          llmkube-inference:
+            url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/kubernetes/apps/monitoring/dashboards/llmkube/llmkube-inference.json
+            token: ''
+          llmkube-llamacpp:
+            url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/kubernetes/apps/monitoring/dashboards/llmkube/llmkube-llamacpp.json
             token: ''
     prometheus:
       prometheusSpec:

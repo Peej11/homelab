@@ -1,0 +1,24 @@
+---
+apiVersion: inference.llmkube.dev/v1alpha1
+kind: InferenceService
+metadata:
+  name: qwen3-embedding-0-6b
+  namespace: llmkube
+spec:
+  modelRef: qwen3-embedding-0-6b
+  runtime: llamacpp
+  runtimeClassName: nvidia
+  mode: embedding
+  replicas: 1
+  contextSize: 8192
+  extraArgs:
+    - --alias
+    - qwen3-embedding-0-6b
+  resources:
+    cpu: 500m
+    memory: 2Gi
+    gpu: 1
+  endpoint:
+    type: ClusterIP
+    port: 8080
+    path: /v1/embeddings

@@ -25,6 +25,13 @@ Each subdirectory maps to a dashboard provider (Grafana folder) in `hr.yaml`:
 | `storage`        | Storage        | `grafana-dashboards-storage`   |
 | `flux`           | Flux           | `grafana-dashboards-flux`      |
 | `cnpg-databases` | CNPG Databases | `grafana-dashboards-cnpg-databases` |
+| `llmkube`        | LLMKube        | `grafana-dashboards-llmkube`   |
+
+The `llmkube` dashboards are vendored from the LLMKube Helm chart (`charts/llmkube/dashboards`,
+chart 0.9.16) and normalized to the `${datasource}` convention. Re-vendor them when the
+[LLMKube HelmRelease](../../llmkube/operator/app/hr.yaml) is bumped. The chart's own sidecar-labelled
+ConfigMap path (`grafana.dashboards.enabled`) is left off, since this Grafana provisions from
+URLs and runs no dashboard sidecar.
 
 The Kubernetes folder (`grafana-dashboards-kubernetes`) is provisioned directly from the
 upstream [dotdc](https://github.com/dotdc/grafana-dashboards-kubernetes) repo and is not

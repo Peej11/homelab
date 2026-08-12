@@ -1,0 +1,31 @@
+---
+apiVersion: inference.llmkube.dev/v1alpha1
+kind: InferenceService
+metadata:
+  name: qwen3-5-9b
+  namespace: llmkube
+spec:
+  modelRef: qwen3-5-9b
+  runtime: llamacpp
+  runtimeClassName: nvidia
+  mode: chat
+  replicas: 1
+  contextSize: 262144
+  parallelSlots: 2
+  reasoningBudget: 2048
+  reasoningBudgetMessage: "Reasoning budget reached. Answer now with what you have."
+  flashAttention: true
+  jinja: true
+  cacheTypeK: q8_0
+  cacheTypeV: q8_0
+  extraArgs:
+    - --alias
+    - qwen3.5-9b
+  resources:
+    cpu: "1"
+    memory: 8Gi
+    gpu: 1
+  endpoint:
+    type: ClusterIP
+    port: 8080
+    path: /v1/chat/completions

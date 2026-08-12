@@ -1,0 +1,20 @@
+---
+apiVersion: inference.llmkube.dev/v1alpha1
+kind: Model
+metadata:
+  name: qwen3-5-9b
+  namespace: llmkube
+spec:
+  source: hf://unsloth/Qwen3.5-9B-GGUF
+  files:
+    - Qwen3.5-9B-UD-Q4_K_XL.gguf
+  mmproj: mmproj-F16.gguf
+  format: gguf
+  quantization: UD-Q4_K_XL
+  refreshPolicy: IfNotPresent
+  hardware:
+    accelerator: cuda
+    gpu:
+      enabled: true
+      count: 1
+      layers: -1

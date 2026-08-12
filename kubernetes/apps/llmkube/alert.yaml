@@ -1,0 +1,36 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Provider
+metadata:
+  name: discord
+  namespace: llmkube
+spec:
+  type: discord
+  secretRef:
+    name: discord-webhook
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: llmkube-alert
+  namespace: llmkube
+spec:
+  summary: "LLMKube"
+  providerRef:
+    name: discord
+  eventSeverity: info
+  exclusionList:
+    - "Dependencies do not meet ready condition"
+  eventSources:
+    - kind: Kustomization
+      name: '*'
+      namespace: llmkube
+    - kind: HelmRepository
+      name: '*'
+      namespace: llmkube
+    - kind: HelmChart
+      name: '*'
+      namespace: llmkube
+    - kind: HelmRelease
+      name: '*'
+      namespace: llmkube
