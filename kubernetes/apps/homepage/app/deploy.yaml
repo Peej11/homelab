@@ -32,6 +32,8 @@ spec:
           env:
             - name: HOMEPAGE_ALLOWED_HOSTS
               value: home.${SECRET_DOMAIN}
+            - name: HOMEPAGE_AUTH_ENABLED
+              value: "false"
           ports:
             - name: http
               containerPort: 3000
