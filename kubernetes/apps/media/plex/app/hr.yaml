@@ -89,7 +89,7 @@ spec:
       config:
         type: persistentVolumeClaim
         accessMode: ReadWriteMany
-        size: 50Gi
+        size: 100Gi
         storageClass: rook-cephfs
         retain: true
         globalMounts:
