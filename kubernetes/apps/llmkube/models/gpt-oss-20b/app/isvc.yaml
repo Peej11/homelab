@@ -2,27 +2,25 @@
 apiVersion: inference.llmkube.dev/v1alpha1
 kind: InferenceService
 metadata:
-  name: qwen3-5-9b
+  name: gpt-oss-20b
   namespace: llmkube
 spec:
-  modelRef: qwen3-5-9b
+  modelRef: gpt-oss-20b
   runtime: llamacpp
   runtimeClassName: nvidia
   mode: chat
   replicas: 1
   podLabels:
     llmkube-model: "true"
-  contextSize: 262144
-  parallelSlots: 2
-  reasoningBudget: 2048
-  reasoningBudgetMessage: "Reasoning budget reached. Answer now with what you have."
+  contextSize: 32768
+  parallelSlots: 1
   flashAttention: true
   jinja: true
   cacheTypeK: q8_0
   cacheTypeV: q8_0
   extraArgs:
     - --alias
-    - qwen3.5-9b
+    - gpt-oss-20b
   resources:
     cpu: "1"
     memory: 8Gi

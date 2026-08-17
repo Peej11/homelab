@@ -1,0 +1,27 @@
+---
+apiVersion: inference.llmkube.dev/v1alpha1
+kind: InferenceService
+metadata:
+  name: gemma-4-e4b-it
+  namespace: llmkube
+spec:
+  modelRef: gemma-4-e4b-it
+  runtime: vllm
+  runtimeClassName: nvidia
+  mode: chat
+  replicas: 1
+  podLabels:
+    llmkube-model: "true"
+  vllmConfig:
+    dtype: bfloat16
+    maxModelLen: 32768
+    gpuMemoryUtilization: 0.85
+    enablePrefixCaching: true
+  resources:
+    cpu: "2"
+    memory: 16Gi
+    gpu: 1
+  endpoint:
+    type: ClusterIP
+    port: 8080
+    path: /v1/chat/completions

@@ -1,0 +1,20 @@
+---
+apiVersion: inference.llmkube.dev/v1alpha1
+kind: Model
+metadata:
+  name: gemma-4-26b-a4b-it
+  namespace: llmkube
+spec:
+  source: hf://unsloth/gemma-4-26B-A4B-it-GGUF
+  files:
+    - gemma-4-26B-A4B-it-UD-Q4_K_XL.gguf
+  mmproj: mmproj-F16.gguf
+  format: gguf
+  quantization: UD-Q4_K_XL
+  refreshPolicy: IfNotPresent
+  hardware:
+    accelerator: cuda
+    gpu:
+      enabled: true
+      count: 1
+      layers: -1

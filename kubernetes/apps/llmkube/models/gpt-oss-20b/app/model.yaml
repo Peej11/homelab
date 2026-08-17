@@ -1,0 +1,19 @@
+---
+apiVersion: inference.llmkube.dev/v1alpha1
+kind: Model
+metadata:
+  name: gpt-oss-20b
+  namespace: llmkube
+spec:
+  source: hf://unsloth/gpt-oss-20b-GGUF
+  files:
+    - gpt-oss-20b-F16.gguf
+  format: gguf
+  quantization: F16
+  refreshPolicy: IfNotPresent
+  hardware:
+    accelerator: cuda
+    gpu:
+      enabled: true
+      count: 1
+      layers: -1

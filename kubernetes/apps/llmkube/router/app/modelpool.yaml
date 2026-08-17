@@ -1,0 +1,34 @@
+---
+apiVersion: inference.llmkube.dev/v1alpha1
+kind: ModelPool
+metadata:
+  name: chat-gpu
+  namespace: llmkube
+spec:
+  gpu: 1
+  default: qwen3-8-27b-medium
+  swapPolicy: sticky
+  swapBudget: 600s
+  members:
+    - inferenceServiceRef:
+        name: qwen3-8-27b-medium
+    - inferenceServiceRef:
+        name: qwen3-8-27b-xhigh
+    - inferenceServiceRef:
+        name: qwen3-8-27b-low
+    - inferenceServiceRef:
+        name: qwen3-8-27b-uncensored
+    - inferenceServiceRef:
+        name: gpt-oss-20b
+    - inferenceServiceRef:
+        name: gemma-4-31b-it
+    - inferenceServiceRef:
+        name: gemma-4-26b-a4b-it
+    - inferenceServiceRef:
+        name: gemma-4-12b-it
+    - inferenceServiceRef:
+        name: gemma-4-e4b-it
+    - inferenceServiceRef:
+        name: muse-glimmer-30b
+    - inferenceServiceRef:
+        name: qwen3-5-9b

@@ -1,0 +1,15 @@
+---
+apiVersion: inference.llmkube.dev/v1alpha1
+kind: Model
+metadata:
+  name: gemma-4-e4b-it
+  namespace: llmkube
+spec:
+  source: hf://unsloth/gemma-4-E4B-it
+  format: safetensors
+  refreshPolicy: IfNotPresent
+  hardware:
+    accelerator: cuda
+    gpu:
+      enabled: true
+      count: 1

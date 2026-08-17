@@ -40,7 +40,7 @@ spec:
     modelCache:
       enabled: true
       mode: shared
-      size: 200Gi
+      size: 500Gi
       storageClass: rook-cephfs-cryo
       accessMode: ReadWriteMany
       mountPath: /models

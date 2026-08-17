@@ -2,27 +2,25 @@
 apiVersion: inference.llmkube.dev/v1alpha1
 kind: InferenceService
 metadata:
-  name: qwen3-5-9b
+  name: gemma-4-12b-it
   namespace: llmkube
 spec:
-  modelRef: qwen3-5-9b
+  modelRef: gemma-4-12b-it
   runtime: llamacpp
   runtimeClassName: nvidia
   mode: chat
   replicas: 1
   podLabels:
     llmkube-model: "true"
-  contextSize: 262144
-  parallelSlots: 2
-  reasoningBudget: 2048
-  reasoningBudgetMessage: "Reasoning budget reached. Answer now with what you have."
+  contextSize: 32768
+  parallelSlots: 1
   flashAttention: true
   jinja: true
   cacheTypeK: q8_0
   cacheTypeV: q8_0
   extraArgs:
     - --alias
-    - qwen3.5-9b
+    - gemma-4-12b-it
   resources:
     cpu: "1"
     memory: 8Gi

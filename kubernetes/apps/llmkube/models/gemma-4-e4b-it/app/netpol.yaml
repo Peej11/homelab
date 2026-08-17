@@ -2,26 +2,16 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allow-qwen3-5-9b
+  name: allow-gemma-4-e4b-it
   namespace: llmkube
 spec:
   podSelector:
     matchLabels:
-      inference.llmkube.dev/service: qwen3-5-9b
+      inference.llmkube.dev/service: gemma-4-e4b-it
   policyTypes:
     - Ingress
     - Egress
   ingress:
-    - from:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: gatus
-          podSelector:
-            matchLabels:
-              app.kubernetes.io/name: gatus
-      ports:
-        - protocol: TCP
-          port: 8080
     - from:
         - namespaceSelector:
             matchLabels:

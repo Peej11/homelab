@@ -2,12 +2,15 @@
 apiVersion: inference.llmkube.dev/v1alpha1
 kind: Model
 metadata:
-  name: qwen3-embedding-0-6b
+  name: muse-glimmer-30b
   namespace: llmkube
 spec:
-  source: https://huggingface.co/Qwen/Qwen3-Embedding-0.6B-GGUF/resolve/main/Qwen3-Embedding-0.6B-Q8_0.gguf
+  source: hf://unsloth/Muse-Glimmer-30B-GGUF
+  files:
+    - Muse-Glimmer-30B-UD-Q4_K_XL.gguf
+  mmproj: mmproj-Muse-Glimmer-30B-BF16.gguf
   format: gguf
-  quantization: Q8_0
+  quantization: UD-Q4_K_XL
   refreshPolicy: IfNotPresent
   hardware:
     accelerator: cuda

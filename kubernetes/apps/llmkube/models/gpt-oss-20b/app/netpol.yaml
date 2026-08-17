@@ -2,26 +2,16 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allow-qwen3-5-9b
+  name: allow-gpt-oss-20b
   namespace: llmkube
 spec:
   podSelector:
     matchLabels:
-      inference.llmkube.dev/service: qwen3-5-9b
+      inference.llmkube.dev/service: gpt-oss-20b
   policyTypes:
     - Ingress
     - Egress
   ingress:
-    - from:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: gatus
-          podSelector:
-            matchLabels:
-              app.kubernetes.io/name: gatus
-      ports:
-        - protocol: TCP
-          port: 8080
     - from:
         - namespaceSelector:
             matchLabels:

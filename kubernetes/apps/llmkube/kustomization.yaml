@@ -3,8 +3,18 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ./ns.yaml
+  - ./netpol.yaml
   - ./operator/ks.yaml
+  - ./models/qwen3-8-27b-medium/ks.yaml
+  - ./models/qwen3-8-27b-xhigh/ks.yaml
+  - ./models/qwen3-8-27b-low/ks.yaml
+  - ./models/qwen3-8-27b-uncensored/ks.yaml
+  - ./models/gpt-oss-20b/ks.yaml
+  - ./models/gemma-4-31b-it/ks.yaml
+  - ./models/gemma-4-26b-a4b-it/ks.yaml
+  - ./models/gemma-4-12b-it/ks.yaml
+  - ./models/gemma-4-e4b-it/ks.yaml
+  - ./models/muse-glimmer-30b/ks.yaml
   - ./models/qwen3-5-9b/ks.yaml
-  - ./models/qwen3-embedding-0-6b/ks.yaml
-  - ./models/qwen3-reranker-0-6b/ks.yaml
+  - ./router/ks.yaml
   - ./alert.yaml

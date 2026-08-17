@@ -1,0 +1,23 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-models-ingress
+  namespace: llmkube
+spec:
+  podSelector:
+    matchLabels:
+      llmkube-model: "true"
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              inference.llmkube.dev/model-router: llm
+        - podSelector:
+            matchLabels:
+              control-plane: controller-manager
+      ports:
+        - protocol: TCP
+          port: 8080

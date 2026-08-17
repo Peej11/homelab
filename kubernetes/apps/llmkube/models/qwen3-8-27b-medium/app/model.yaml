@@ -2,12 +2,15 @@
 apiVersion: inference.llmkube.dev/v1alpha1
 kind: Model
 metadata:
-  name: qwen3-reranker-0-6b
+  name: qwen3-8-27b
   namespace: llmkube
 spec:
-  source: https://huggingface.co/ggml-org/Qwen3-Reranker-0.6B-Q8_0-GGUF/resolve/main/qwen3-reranker-0.6b-q8_0.gguf
+  source: hf://unsloth/Qwen3.8-27B-GGUF
+  files:
+    - Qwen3.8-27B-UD-Q4_K_XL.gguf
+  mmproj: mmproj-F16.gguf
   format: gguf
-  quantization: Q8_0
+  quantization: Q4_K_M
   refreshPolicy: IfNotPresent
   hardware:
     accelerator: cuda

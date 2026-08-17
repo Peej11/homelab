@@ -1,0 +1,68 @@
+---
+apiVersion: inference.llmkube.dev/v1alpha1
+kind: ModelRouter
+metadata:
+  name: llm
+  namespace: llmkube
+spec:
+  dataPlane: Proxy
+  defaultRoute: qwen3-8-27b-medium
+  defaultRouteStrategy: BackendNameMatch
+  proxy:
+    replicas: 1
+    responseHeaderTimeout: 300s
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        memory: 512Mi
+  backends:
+    - name: qwen3-8-27b-medium
+      tier: local
+      inferenceServiceRef:
+        name: qwen3-8-27b-medium
+    - name: qwen3-8-27b-xhigh
+      tier: local
+      inferenceServiceRef:
+        name: qwen3-8-27b-xhigh
+    - name: qwen3-8-27b-low
+      tier: local
+      inferenceServiceRef:
+        name: qwen3-8-27b-low
+    - name: qwen3-8-27b-uncensored
+      tier: local
+      inferenceServiceRef:
+        name: qwen3-8-27b-uncensored
+    - name: gpt-oss-20b
+      tier: local
+      inferenceServiceRef:
+        name: gpt-oss-20b
+    - name: gemma-4-31b-it
+      tier: local
+      inferenceServiceRef:
+        name: gemma-4-31b-it
+    - name: gemma-4-26b-a4b-it
+      tier: local
+      inferenceServiceRef:
+        name: gemma-4-26b-a4b-it
+    - name: gemma-4-12b-it
+      tier: local
+      inferenceServiceRef:
+        name: gemma-4-12b-it
+    - name: gemma-4-e4b-it
+      tier: local
+      inferenceServiceRef:
+        name: gemma-4-e4b-it
+    - name: muse-glimmer-30b
+      tier: local
+      inferenceServiceRef:
+        name: muse-glimmer-30b
+    - name: qwen3-5-9b
+      tier: local
+      inferenceServiceRef:
+        name: qwen3-5-9b
+  endpoint:
+    type: ClusterIP
+    port: 8080
+    path: /v1/chat/completions

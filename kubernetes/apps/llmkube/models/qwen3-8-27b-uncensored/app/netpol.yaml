@@ -2,26 +2,16 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allow-qwen3-reranker-0-6b
+  name: allow-qwen3-8-27b-uncensored
   namespace: llmkube
 spec:
   podSelector:
     matchLabels:
-      inference.llmkube.dev/service: qwen3-reranker-0-6b
+      inference.llmkube.dev/service: qwen3-8-27b-uncensored
   policyTypes:
     - Ingress
     - Egress
   ingress:
-    - from:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: openwebui
-          podSelector:
-            matchLabels:
-              app.kubernetes.io/name: openwebui
-      ports:
-        - protocol: TCP
-          port: 8080
     - from:
         - namespaceSelector:
             matchLabels:

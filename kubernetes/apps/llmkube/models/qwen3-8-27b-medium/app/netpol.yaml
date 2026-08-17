@@ -2,12 +2,12 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allow-qwen3-5-9b
+  name: allow-qwen3-8-27b-medium
   namespace: llmkube
 spec:
   podSelector:
     matchLabels:
-      inference.llmkube.dev/service: qwen3-5-9b
+      inference.llmkube.dev/service: qwen3-8-27b-medium
   policyTypes:
     - Ingress
     - Egress

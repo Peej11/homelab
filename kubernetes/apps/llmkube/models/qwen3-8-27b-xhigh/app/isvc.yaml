@@ -2,19 +2,19 @@
 apiVersion: inference.llmkube.dev/v1alpha1
 kind: InferenceService
 metadata:
-  name: qwen3-5-9b
+  name: qwen3-8-27b-xhigh
   namespace: llmkube
 spec:
-  modelRef: qwen3-5-9b
+  modelRef: qwen3-8-27b
   runtime: llamacpp
   runtimeClassName: nvidia
   mode: chat
   replicas: 1
   podLabels:
     llmkube-model: "true"
-  contextSize: 262144
-  parallelSlots: 2
-  reasoningBudget: 2048
+  contextSize: 125000
+  parallelSlots: 1
+  reasoningBudget: 32768
   reasoningBudgetMessage: "Reasoning budget reached. Answer now with what you have."
   flashAttention: true
   jinja: true
@@ -22,7 +22,10 @@ spec:
   cacheTypeV: q8_0
   extraArgs:
     - --alias
-    - qwen3.5-9b
+    - qwen3.8-27b-xhigh
+    - --reasoning-preserve
+    - --chat-template-kwargs
+    - '{"reasoning_effort":"xhigh"}'
   resources:
     cpu: "1"
     memory: 8Gi
