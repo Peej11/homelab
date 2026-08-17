@@ -6,6 +6,14 @@ metadata:
   namespace: llmkube
 spec:
   source: hf://unsloth/gemma-4-E4B-it
+  files:
+    - model.safetensors
+    - config.json
+    - generation_config.json
+    - processor_config.json
+    - tokenizer.json
+    - tokenizer_config.json
+    - chat_template.jinja
   format: safetensors
   refreshPolicy: IfNotPresent
   hardware:
