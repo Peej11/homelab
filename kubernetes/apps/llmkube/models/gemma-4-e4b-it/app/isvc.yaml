@@ -19,7 +19,7 @@ spec:
     enablePrefixCaching: true
   resources:
     cpu: "2"
-    memory: 16Gi
+    memory: 8Gi
     gpu: 1
   endpoint:
     type: ClusterIP
