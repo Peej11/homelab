@@ -9,7 +9,6 @@ spec:
   runtime: vllm
   runtimeClassName: nvidia
   mode: chat
-  replicas: 1
   podLabels:
     llmkube-model: "true"
   vllmConfig:

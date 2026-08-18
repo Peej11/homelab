@@ -9,7 +9,6 @@ spec:
   runtime: llamacpp
   runtimeClassName: nvidia
   mode: chat
-  replicas: 1
   podLabels:
     llmkube-model: "true"
   contextSize: 262144
