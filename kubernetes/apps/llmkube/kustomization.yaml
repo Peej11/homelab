@@ -16,5 +16,7 @@ resources:
   - ./models/gemma-4-e4b-it/ks.yaml
   - ./models/muse-glimmer-30b/ks.yaml
   - ./models/qwen3-5-9b/ks.yaml
+  - ./models/qwen3-embedding-0-6b/ks.yaml
+  - ./models/qwen3-reranker-0-6b/ks.yaml
   - ./router/ks.yaml
   - ./alert.yaml
