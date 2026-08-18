@@ -49,6 +49,9 @@
       groupName: "Rook/Ceph",
       matchDatasources: ["docker"],
       matchPackageNames: ["quay.io/ceph/ceph"],
+      prBodyNotes: [
+        "⚠️ **Check [tracker #79106](https://tracker.ceph.com/issues/79106) before merging.** If this release includes the tentacle backport [ceph/ceph#71041](https://github.com/ceph/ceph/pull/71041), set `monitoring.metricsDisabled` back to `false` in `kubernetes/apps/rook-ceph-config/app/ceph.yaml` to restore the ceph-exporter DaemonSet and Storage dashboards.",
+      ],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
