@@ -7,7 +7,7 @@ metadata:
 spec:
   modelRef: muse-glimmer-30b
   runtime: llamacpp
-  image: ghcr.io/ggml-org/llama.cpp:server-cuda-b10481
+  image: ghcr.io/ggml-org/llama.cpp:server-cuda-b10481@sha256:a4e80bbbf4c8ce61816f5142e14e9f5e8fd8504d66e6fb7075adb6b41a15c66d
   runtimeClassName: nvidia
   mode: chat
   replicas: 1
