@@ -35,7 +35,7 @@ _... managed with Flux, Renovate, and Github Actions_ 🤖
 | Lenovo ThinkCentre | 32GB | 1TB NVMe SSD     | Worker    | Talos      |
 | Lenovo ThinkCentre | 32GB | 2TB NVMe SSD     | Worker    | Talos      |
 | Lenovo ThinkCentre | 32GB | 2TB NVMe SSD     | Worker    | Talos      |
-| AOOSTAR WTR MAX    | 32GB | 6x 16TB SATA HDD | Worker    | Talos      |
+| AOOSTAR WTR MAX    | 64GB | 6x 16TB SATA HDD | Worker    | Talos      |
 
 
 ## 📦 Storage
