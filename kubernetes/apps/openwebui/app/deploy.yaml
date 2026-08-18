@@ -11,6 +11,8 @@ metadata:
 spec:
   revisionHistoryLimit: 3
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app.kubernetes.io/name: openwebui
@@ -31,28 +33,29 @@ spec:
           env:
             - name: ENABLE_PERSISTENT_CONFIG
               value: "false"
-            - name: ENABLE_OLLAMA_API
-              value: "false"
-            - name: OPENAI_API_BASE_URL
-              value: "http://vllm-inference.vllm.svc.cluster.local:8000/v1"
-            - name: OPENAI_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: auth-api-key
-                  key: api-key
+            - name: OFFLINE_MODE
+              value: "true"
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
                   name: openwebui-app
                   key: uri
-            - name: WEBUI_SESSION_COOKIE_SECURE
+            - name: ENABLE_OLLAMA_API
+              value: "false"
+            - name: ENABLE_OPENAI_API
               value: "true"
-            - name: WEBUI_SESSION_COOKIE_SAME_SITE
-              value: "strict"
+            - name: OPENAI_API_BASE_URL
+              value: "http://llm-router-proxy.llmkube.svc.cluster.local:8080/v1"
+            - name: AIOHTTP_CLIENT_TIMEOUT
+              value: "900"
             - name: WEBUI_URL
               value: "https://openwebui.${SECRET_DOMAIN}"
             - name: CORS_ALLOW_ORIGIN
               value: "https://openwebui.${SECRET_DOMAIN}"
+            - name: WEBUI_SESSION_COOKIE_SECURE
+              value: "true"
+            - name: WEBUI_SESSION_COOKIE_SAME_SITE
+              value: "strict"
             - name: HSTS
               value: "max-age=31536000;includeSubDomains"
             - name: XFRAME_OPTIONS
@@ -61,19 +64,25 @@ spec:
               value: "nosniff"
             - name: REFERRER_POLICY
               value: "strict-origin-when-cross-origin"
-            - name: OFFLINE_MODE
-              value: "true"
-            - name: ENABLE_OPENAI_API_PASSTHROUGH
+            - name: ENABLE_SIGNUP
               value: "false"
             - name: ENABLE_COMMUNITY_SHARING
               value: "false"
             - name: ENABLE_CODE_EXECUTION
               value: "false"
-            - name: ENABLE_SIGNUP
+            - name: ENABLE_OPENAI_API_PASSTHROUGH
+              value: "false"
+            - name: ENABLE_TITLE_GENERATION
+              value: "false"
+            - name: ENABLE_TAGS_GENERATION
+              value: "false"
+            - name: ENABLE_FOLLOW_UP_GENERATION
+              value: "false"
+            - name: ENABLE_RETRIEVAL_QUERY_GENERATION
+              value: "false"
+            - name: ENABLE_SEARCH_QUERY_GENERATION
               value: "false"
             - name: ENABLE_WEB_SEARCH
-              value: "true"
-            - name: ENABLE_RAG_WEB_SEARCH
               value: "true"
             - name: WEB_SEARCH_ENGINE
               value: "brave"
@@ -82,18 +91,7 @@ spec:
             - name: WEB_SEARCH_CONCURRENT_REQUESTS
               value: "1"
             - name: BYPASS_EMBEDDING_AND_RETRIEVAL
-              value: "false"
-            - name: RAG_EMBEDDING_ENGINE
-              value: "openai"
-            - name: RAG_OPENAI_API_BASE_URL
-              value: "http://vllm-embedding.vllm.svc.cluster.local:8000/v1"
-            - name: RAG_OPENAI_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: auth-api-key
-                  key: api-key
-            - name: RAG_EMBEDDING_MODEL
-              value: "Qwen/Qwen3-Embedding-0.6B"
+              value: "true"
           envFrom:
             - secretRef:
                 name: openwebui-config

@@ -43,23 +43,13 @@ spec:
     - to:
         - namespaceSelector:
             matchLabels:
-              kubernetes.io/metadata.name: vllm
+              kubernetes.io/metadata.name: llmkube
           podSelector:
             matchLabels:
-              app.kubernetes.io/name: vllm
+              inference.llmkube.dev/model-router: llm
       ports:
         - protocol: TCP
-          port: 8000
-    - to:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: vllm
-          podSelector:
-            matchLabels:
-              app.kubernetes.io/name: vllm-embedding
-      ports:
-        - protocol: TCP
-          port: 8000
+          port: 8080
     - to:
         - ipBlock:
             cidr: 0.0.0.0/0
