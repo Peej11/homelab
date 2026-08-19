@@ -14,8 +14,7 @@ spec:
     placement: soft
     stage: false
     timeout: 30m
-  drain:
-    enabled: true
+    waitForVolumeDetach: true
   healthChecks:
     - apiVersion: v1
       kind: Node
