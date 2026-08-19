@@ -19,6 +19,12 @@ spec:
       name: kube-dns
       clusterIP: "10.43.0.10"
     replicaCount: 2
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+    priorityClassName: system-cluster-critical
+    podDisruptionBudget:
+      minAvailable: 1
     servers:
       - zones:
           - zone: .
@@ -53,12 +59,13 @@ spec:
             configBlock: |-
               class error
     affinity:
-      nodeAffinity:
+      podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: node-role.kubernetes.io/control-plane
-                  operator: Exists
+          - labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: coredns
+                app.kubernetes.io/instance: coredns
+            topologyKey: kubernetes.io/hostname
     tolerations:
       - key: CriticalAddonsOnly
         operator: Exists
