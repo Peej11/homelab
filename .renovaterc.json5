@@ -57,6 +57,14 @@
       },
     },
     {
+      description: "CoreDNS Autopath Workaround",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["ghcr.io/coredns/charts/coredns", "mirror.gcr.io/coredns/coredns"],
+      prBodyNotes: [
+        "⚠️ **Check [coredns/coredns#8390](https://github.com/coredns/coredns/issues/8390) before merging.** If this release fixes the `autopath` + `cache` (prefetch/serve_stale) empty-A regression, restore the `autopath` plugin (`parameters: \"@kubernetes\"`) in `kubernetes/apps/kube-system/coredns/app/helmrelease.yaml`, removed in [f14aa67](https://github.com/Peej11/homelab/commit/f14aa6713a730bbe7c94dc1f65631f3e78bca9a0).",
+      ],
+    },
+    {
       description: "Kube Prometheus Stack Group",
       groupName: "kube-prometheus-stack",
       matchPackageNames: ["ghcr.io/prometheus-community/charts/kube-prometheus-stack", "kube-prometheus-stack"],
