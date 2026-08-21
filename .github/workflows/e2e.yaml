@@ -53,10 +53,11 @@ jobs:
           talhelper gensecret | sops --filename-override $FILENAME --encrypt /dev/stdin > $FILENAME
           task talos:generate-config
 
-      - name: Run flux-local test
-        uses: docker://ghcr.io/allenporter/flux-local:v8.3.0@sha256:dca65e5bcd71cb904216774ebfbc5d1f30a36d0b304293b851dfed2385c01b0c
-        with:
-          args: test --enable-helm --all-namespaces --path /github/workspace/kubernetes/flux/cluster -v
+      - name: Setup Flate
+        uses: home-operations/flate/action@af6f188c520a6a9c55b4b863bb9c77227e5fd37f # v0.5.1
+
+      - name: Run flate test
+        run: flate test all --path ./kubernetes/flux/cluster --allow-missing-secrets
 
       - name: Dry run bootstrap talos task
         run: task bootstrap:talos --dry
