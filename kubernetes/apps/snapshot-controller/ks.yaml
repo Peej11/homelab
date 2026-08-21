@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/part-of: &namespace kube-system
 spec:
   dependsOn:
-    - name: flux-system
+    - name: cluster-apps
       namespace: flux-system
     - name: snapshot-controller-crds
       namespace: flux-system

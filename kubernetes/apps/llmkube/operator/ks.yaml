@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/part-of: &namespace llmkube
 spec:
   dependsOn:
-    - name: flux-system
+    - name: cluster-apps
       namespace: flux-system
     - name: nvidia-device-plugin
       namespace: nvidia-device-plugin

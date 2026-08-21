@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/part-of: &namespace nvidia-device-plugin
 spec:
   dependsOn:
-    - name: flux-system
+    - name: cluster-apps
       namespace: flux-system
     - name: node-feature-discovery
       namespace: node-feature-discovery

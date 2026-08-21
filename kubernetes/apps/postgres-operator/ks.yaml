@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/part-of: &namespace cnpg-operator
 spec:
   dependsOn:
-    - name: flux-system
+    - name: cluster-apps
       namespace: flux-system
   decryption:
     provider: sops

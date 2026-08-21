@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/part-of: &namespace homeassistant
 spec:
   dependsOn:
-    - name: flux-system
+    - name: cluster-apps
       namespace: flux-system
     - name: device-plugin
       namespace: kube-system

@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/part-of: &namespace rook-ceph
 spec:
   dependsOn:
-    - name: flux-system
+    - name: cluster-apps
       namespace: flux-system
   decryption:
     provider: sops
@@ -44,7 +44,7 @@ metadata:
     app.kubernetes.io/part-of: &namespace rook-ceph
 spec:
   dependsOn:
-    - name: flux-system
+    - name: cluster-apps
       namespace: flux-system
     - name: rook-ceph
       namespace: flux-system

@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/part-of: &namespace linkding
 spec:
   dependsOn:
-    - name: flux-system
+    - name: cluster-apps
       namespace: flux-system
   decryption:
     provider: sops
@@ -49,7 +49,7 @@ metadata:
     app.kubernetes.io/part-of: &namespace linkding
 spec:
   dependsOn:
-    - name: flux-system
+    - name: cluster-apps
       namespace: flux-system
     - name: linkding-db
       namespace: linkding

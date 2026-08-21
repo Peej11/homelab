@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/part-of: &namespace shares
 spec:
   dependsOn:
-    - name: flux-system
+    - name: cluster-apps
       namespace: flux-system
     - name: shares-storage
       namespace: shares
