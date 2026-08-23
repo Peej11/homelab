@@ -92,6 +92,8 @@ spec:
               value: "1"
             - name: BYPASS_EMBEDDING_AND_RETRIEVAL
               value: "true"
+            - name: BYPASS_MODEL_ACCESS_CONTROL
+              value: "true"
           envFrom:
             - secretRef:
                 name: openwebui-config
