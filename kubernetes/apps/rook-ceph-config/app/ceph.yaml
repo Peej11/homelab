@@ -36,7 +36,7 @@ spec:
     allowMultiplePerNode: false
   monitoring:
     enabled: true
-    metricsDisabled: true
+    metricsDisabled: false
   priorityClassNames:
     mon: system-node-critical
     osd: system-node-critical
