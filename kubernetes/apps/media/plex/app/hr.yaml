@@ -95,8 +95,10 @@ spec:
         globalMounts:
           - path: /config
       transcode:
-        type: emptyDir
-        sizeLimit: 8Gi
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 50Gi
+        storageClass: rook-cephfs
         globalMounts:
           - path: /transcode
       dvr:
