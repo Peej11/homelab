@@ -12,7 +12,7 @@ spec:
       mon_data_avail_warn: "10"
     mgr:
       mgr/crash/retain_interval: "86400"
-      mgr/prometheus/scrape_interval: "300"
+      mgr/prometheus/scrape_interval: "15"
     osd:
       osd_mclock_profile: "high_recovery_ops"
       osd_mclock_override_recovery_settings: "true"
