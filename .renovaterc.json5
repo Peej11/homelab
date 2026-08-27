@@ -127,7 +127,10 @@
       matchDatasources: ["docker"],
       matchPackageNames: ["ghcr.io/siderolabs/installer"],
       separateMajorMinor: true,
-      separateMinorPatch: true
+      separateMinorPatch: true,
+      prBodyNotes: [
+        "⚠️ **Check for 7.0 kernel support before merging.** If this release includes the 7.0 kernel, remove the alert mutes in `kubernetes/apps/rook-ceph-config/app/ceph.yaml` and resolve the remaining alerts.",
+      ],
     },
     {
       matchUpdateTypes: ["major"],
