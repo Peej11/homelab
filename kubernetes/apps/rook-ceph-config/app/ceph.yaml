@@ -60,6 +60,11 @@ spec:
         memory: 2Gi
       limits:
         memory: 4Gi
+  security:
+    cephx:
+      daemon:
+        keyRotationPolicy: KeyGeneration
+        keyGeneration: 2
   storage:
     allowDeviceClassUpdate: true
     allowOsdCrushWeightUpdate: false
