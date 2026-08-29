@@ -20,6 +20,10 @@ spec:
   jinja: true
   cacheTypeK: q8_0
   cacheTypeV: q8_0
+  speculativeDecoding:
+    type: mtp
+    nDraftMax: 2
+    pMin: 0.75
   extraArgs:
     - --alias
     - qwen3.8-27b-medium
