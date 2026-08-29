@@ -18,6 +18,9 @@ spec:
   jinja: true
   cacheTypeK: q8_0
   cacheTypeV: q8_0
+  speculativeDecoding:
+    type: draft-dflash
+    draftModel: dflash-kquant.gguf
   extraArgs:
     - --alias
     - muse-glimmer-30b

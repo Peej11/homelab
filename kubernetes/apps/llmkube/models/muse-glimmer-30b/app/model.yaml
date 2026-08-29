@@ -8,6 +8,7 @@ spec:
   source: hf://unsloth/Muse-Glimmer-30B-GGUF
   files:
     - Muse-Glimmer-30B-UD-Q4_K_XL.gguf
+    - dflash-kquant.gguf
   mmproj: mmproj-Muse-Glimmer-30B-BF16.gguf
   format: gguf
   quantization: UD-Q4_K_XL
