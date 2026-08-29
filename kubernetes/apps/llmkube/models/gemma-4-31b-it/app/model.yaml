@@ -8,6 +8,7 @@ spec:
   source: hf://unsloth/gemma-4-31B-it-GGUF
   files:
     - gemma-4-31B-it-Q4_0.gguf
+    - mtp-gemma-4-31B-it.gguf
   mmproj: mmproj-F16.gguf
   format: gguf
   quantization: Q4_0

@@ -18,6 +18,11 @@ spec:
   jinja: true
   cacheTypeK: q8_0
   cacheTypeV: q8_0
+  speculativeDecoding:
+    type: draft-mtp
+    draftModel: mtp-gemma-4-31B-it.gguf
+    nDraftMax: 4
+    pMin: 0.75
   extraArgs:
     - --alias
     - gemma-4-31b-it

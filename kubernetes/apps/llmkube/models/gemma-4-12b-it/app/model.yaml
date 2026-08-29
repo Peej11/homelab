@@ -8,6 +8,7 @@ spec:
   source: hf://unsloth/gemma-4-12b-it-GGUF
   files:
     - gemma-4-12b-it-UD-Q8_K_XL.gguf
+    - mtp-gemma-4-12b-it.gguf
   mmproj: mmproj-F16.gguf
   format: gguf
   quantization: UD-Q8_K_XL
