@@ -12,7 +12,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: llmkube
-      version: 0.9.23
+      version: 0.9.24
   interval: 24h
   install:
     crds: Create
