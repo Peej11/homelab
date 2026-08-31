@@ -91,7 +91,19 @@ spec:
             - name: WEB_SEARCH_CONCURRENT_REQUESTS
               value: "1"
             - name: BYPASS_EMBEDDING_AND_RETRIEVAL
-              value: "true"
+              value: "false"
+            - name: RAG_EMBEDDING_ENGINE
+              value: "openai"
+            - name: RAG_EMBEDDING_MODEL
+              value: "qwen3-embedding-0-6b"
+            - name: RAG_OPENAI_API_BASE_URL
+              value: "http://qwen3-embedding-0-6b.llmkube.svc.cluster.local:8080/v1"
+            - name: RAG_OPENAI_API_KEY
+              value: "none"
+            - name: RAG_EMBEDDING_BATCH_SIZE
+              value: "4"
+            - name: RAG_EMBEDDING_QUERY_PREFIX
+              value: "Instruct: Given a web search query, retrieve relevant passages that answer the query\nQuery: "
             - name: BYPASS_MODEL_ACCESS_CONTROL
               value: "true"
           envFrom:

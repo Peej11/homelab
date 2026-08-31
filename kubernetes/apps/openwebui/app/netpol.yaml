@@ -51,6 +51,16 @@ spec:
         - protocol: TCP
           port: 8080
     - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: llmkube
+          podSelector:
+            matchLabels:
+              inference.llmkube.dev/service: qwen3-embedding-0-6b
+      ports:
+        - protocol: TCP
+          port: 8080
+    - to:
         - ipBlock:
             cidr: 0.0.0.0/0
             except:
