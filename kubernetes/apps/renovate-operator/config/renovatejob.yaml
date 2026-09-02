@@ -16,7 +16,7 @@ spec:
     - name: RENOVATE_HOST_RULES
       value: >-
         [{"hostType":"docker","matchHost":"docker.io","username":"$(DOCKERHUB_USERNAME)","password":"$(DOCKERHUB_TOKEN)"},{"hostType":"docker","matchHost":"ghcr.io","username":"$(GHCR_USERNAME)","password":"$(GHCR_TOKEN)"}]
-  image: ghcr.io/renovatebot/renovate:44.57.1@sha256:f23fd1997d6f834873e2787baa713950dbcdd5c415fa272d88cb820b104f76d2
+  image: ghcr.io/renovatebot/renovate:44.57.2@sha256:94230bf485d9f3b469eb3f63e05e960e7709084101acf159b132f2a3e2a225c7
   metadata:
     labels:
       app.kubernetes.io/name: renovate-job
