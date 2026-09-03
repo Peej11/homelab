@@ -82,12 +82,18 @@ spec:
             httpGet:
               path: /
               port: http
+              httpHeaders:
+                - name: Host
+                  value: home.${SECRET_DOMAIN}
             initialDelaySeconds: 30
             periodSeconds: 30
           readinessProbe:
             httpGet:
               path: /
               port: http
+              httpHeaders:
+                - name: Host
+                  value: home.${SECRET_DOMAIN}
             initialDelaySeconds: 10
             periodSeconds: 10
       volumes:
