@@ -35,10 +35,10 @@ spec:
               subPath: configuration.yaml
           resources:
             requests:
-              cpu: 2m
-              memory: 750Mi
+              cpu: 290m
+              memory: 800Mi
             limits:
-              memory: 750Mi
+              memory: 800Mi
         - name: zwave-js-ui
           image: ghcr.io/zwave-js/zwave-js-ui:11.23.0@sha256:86f418050ce658cb6b9a5b17c33065b113376f9ccef98b36b3f2c42050b59672
           imagePullPolicy: IfNotPresent
@@ -51,7 +51,7 @@ spec:
               protocol: TCP
           resources:
             requests:
-              cpu: 2m
+              cpu: 200m
               memory: 250Mi
               devic.es/zwave-hub: "1"
             limits:
