@@ -33,10 +33,10 @@ spec:
     worker:
       resources:
         limits:
-          memory: 62Mi
+          memory: 70Mi
         requests:
           cpu: 3m
-          memory: 62Mi
+          memory: 70Mi
     gc:
       resources:
         limits:
