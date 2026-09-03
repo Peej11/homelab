@@ -52,7 +52,7 @@ spec:
           org_role: Viewer
       extraContainers: |
         - name: ensure-playlist
-          image: curlimages/curl:8.21.0
+          image: curlimages/curl:8.22.0
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
