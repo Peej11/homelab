@@ -73,9 +73,9 @@ spec:
             - name: ENABLE_OPENAI_API_PASSTHROUGH
               value: "false"
             - name: ENABLE_TITLE_GENERATION
-              value: "false"
+              value: "true"
             - name: ENABLE_TAGS_GENERATION
-              value: "false"
+              value: "true"
             - name: ENABLE_FOLLOW_UP_GENERATION
               value: "false"
             - name: ENABLE_RETRIEVAL_QUERY_GENERATION
