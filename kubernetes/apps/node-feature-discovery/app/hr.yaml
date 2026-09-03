@@ -31,6 +31,9 @@ spec:
           cpu: 2m
           memory: 68Mi
     worker:
+      config:
+        core:
+          noOwnerRefs: true
       resources:
         limits:
           memory: 70Mi
