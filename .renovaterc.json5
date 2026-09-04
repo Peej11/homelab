@@ -124,10 +124,12 @@
     },
     {
       description: "Separate Talos Updates",
-      matchDatasources: ["docker"],
-      matchPackageNames: ["ghcr.io/siderolabs/installer"],
+      matchDatasources: ["custom.talos-factory"],
+      matchPackageNames: ["siderolabs/talos"],
       separateMajorMinor: true,
       separateMinorPatch: true,
+      semanticCommitScope: "container",
+      commitMessageTopic: "{{depName}}",
       prBodyNotes: [
         "⚠️ **Check for 7.0 kernel support before merging.** If this release includes the 7.0 kernel, remove the alert mutes in `kubernetes/apps/rook-ceph-config/app/ceph.yaml` and resolve the remaining alerts.",
       ],
@@ -211,7 +213,18 @@
       matchDatasources: ["github-releases"],
       addLabels: ["renovate/github-release"],
     },
+    {
+      matchDatasources: ["custom.talos-factory"],
+      addLabels: ["renovate/talos"],
+    },
   ],
+  customDatasources: {
+    "talos-factory": {
+      defaultRegistryUrlTemplate: "https://factory.talos.dev/versions",
+      format: "json",
+      transformTemplates: ['{"releases": [$.{"version": $}]}'],
+    },
+  },
   customManagers: [
     {
       description: "Process annotated dependencies",
