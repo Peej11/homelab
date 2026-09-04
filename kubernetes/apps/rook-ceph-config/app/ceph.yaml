@@ -62,7 +62,6 @@ spec:
         memory: 4Gi
   security:
     cephx:
-      allowedCiphers: ["aes256k"]
       daemon:
         keyRotationPolicy: KeyGeneration
         keyGeneration: 2
