@@ -80,6 +80,19 @@
       minimumGroupSize: 2,
     },
     {
+      description: "Tailscale Group",
+      groupName: "tailscale",
+      matchPackageNames: [
+        "tailscale-operator",
+        "ghcr.io/tailscale/k8s-operator",
+        "ghcr.io/tailscale/tailscale",
+      ],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      minimumGroupSize: 3,
+    },
+    {
       description: "Auto-merge GitHub Actions",
       matchManagers: ["github-actions"],
       automerge: true,

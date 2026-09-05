@@ -1,0 +1,59 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tailscale-operator
+  namespace: tailscale
+spec:
+  chart:
+    spec:
+      chart: tailscale-operator
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: tailscale
+      version: 1.102.3
+  interval: 24h
+  values:
+    installCRDs: true
+    operatorConfig:
+      defaultTags:
+        - "tag:k8s-operator"
+      hostname: tailscale-operator
+      logging: info
+      image:
+        repository: ghcr.io/tailscale/k8s-operator
+        tag: v1.102.3@sha256:d86a8be7ad9d38714968f5d4e010ba8dad30c8f672736ef94eda9b250febeb12
+        pullPolicy: IfNotPresent
+      extraEnv:
+        - name: XDG_CONFIG_HOME
+          value: /tmp
+      podSecurityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        seccompProfile:
+          type: RuntimeDefault
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+      resources:
+        requests:
+          cpu: 10m
+          memory: 64Mi
+        limits:
+          memory: 64Mi
+    proxyConfig:
+      image:
+        repository: ghcr.io/tailscale/tailscale
+        tag: v1.102.3@sha256:8c42c4574ab066384fcb72f69e086a2ff1dd3652eb6f56856cee34bcf0d2f680
+      defaultTags: "tag:k8s"
+      firewallMode: auto
+    ingressClass:
+      enabled: true
+      name: tailscale
+    apiServerProxyConfig:
+      mode: "false"
+      allowImpersonation: "false"
