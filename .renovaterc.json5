@@ -65,6 +65,12 @@
       ],
     },
     {
+      description: "ADS-B Ultrafeeder Build Tags",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder"],
+      versioning: "regex:^(?<compatibility>[a-z]+)-build-(?<patch>\\d+)$",
+    },
+    {
       description: "Kube Prometheus Stack Group",
       groupName: "kube-prometheus-stack",
       matchPackageNames: ["ghcr.io/prometheus-community/charts/kube-prometheus-stack", "kube-prometheus-stack"],

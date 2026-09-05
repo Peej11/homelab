@@ -182,6 +182,14 @@ spec:
               editable: false
               options:
                 path: /var/lib/grafana/dashboards/grafana-dashboards-llmkube
+            - name: 'grafana-dashboards-adsb'
+              orgId: 1
+              folder: 'ADS-B'
+              type: file
+              disableDeletion: true
+              editable: false
+              options:
+                path: /var/lib/grafana/dashboards/grafana-dashboards-adsb
       dashboards:
         grafana-dashboards-kubernetes:
           k8s-system-api-server:
@@ -257,6 +265,10 @@ spec:
             token: ''
           llmkube-llamacpp:
             url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/kubernetes/apps/monitoring/dashboards/llmkube/llmkube-llamacpp.json
+            token: ''
+        grafana-dashboards-adsb:
+          ultrafeeder:
+            url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/kubernetes/apps/monitoring/dashboards/adsb/ultrafeeder.json
             token: ''
     prometheus:
       prometheusSpec:

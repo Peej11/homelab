@@ -1,0 +1,27 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Provider
+metadata:
+  name: discord
+  namespace: adsb
+spec:
+  type: discord
+  secretRef:
+    name: discord-webhook
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: ultrafeeder-app-alert
+  namespace: adsb
+spec:
+  summary: "Ultrafeeder App"
+  providerRef:
+    name: discord
+  eventSeverity: info
+  exclusionList:
+    - "Dependencies do not meet ready condition"
+  eventSources:
+    - kind: Kustomization
+      name: 'ultrafeeder-app'
+      namespace: adsb

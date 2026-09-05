@@ -3,6 +3,9 @@
 ### [Actual](https://github.com/actualbudget/actual)
 Actual is a local-first personal finance tool. It is 100% free and open-source, written in NodeJS, it has a synchronization element so that all your changes can move between devices without any heavy lifting.
 
+### [ADS-B Ultrafeeder](https://github.com/sdr-enthusiasts/docker-adsb-ultrafeeder)
+An ADS-B data collector that bundles [readsb](https://github.com/wiedehopf/readsb), the [tar1090](https://github.com/wiedehopf/tar1090) map interface, [graphs1090](https://github.com/wiedehopf/graphs1090), and an MLAT client into a single container. It can pull aircraft data from an SDR or over the network, display it on a local map with tracks and heatmaps, and forward it to one or more aggregators. This install is map-only: it ingests the Beast stream from the receiver and renders the map, while the receiver keeps feeding the aggregators itself so MLAT stays on the hardware whose clock it depends on.
+
 ### [Alert Manager](https://github.com/prometheus/alertmanager)
 The Alertmanager handles alerts sent by client applications such as the Prometheus server. It takes care of deduplicating, grouping, and routing them to the correct receiver integrations such as email, PagerDuty, OpsGenie, or many other mechanisms thanks to the webhook receiver. It also takes care of silencing and inhibition of alerts. Installed as part of kube-prometheus-stack.
 

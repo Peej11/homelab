@@ -1,0 +1,241 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app ultrafeeder
+  namespace: adsb
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: app-template
+  interval: 1h
+  values:
+    controllers:
+      ultrafeeder:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        strategy: RollingUpdate
+        containers:
+          app:
+            image:
+              repository: ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder
+              tag: telegraf-build-959@sha256:9dad367860a0563b0217219f2e6592b201d31dfb117998ca18eede5a8871ce77
+              pullPolicy: IfNotPresent
+            env:
+              GRAPHS1090_DARKMODE: "true"
+              HEYWHATSTHAT_ALTS: "1000m,15000m"
+              LOGLEVEL: error
+              MAX_GLOBE_HISTORY: "90"
+              PROMETHEUS_ENABLE: "true"
+              READSB_ENABLE_HEATMAP: "true"
+              READSB_ENABLE_TRACES: "true"
+              READSB_RX_LOCATION_ACCURACY: "1"
+              TAR1090_ENABLE_AC_DB: "true"
+              TAR1090_FLIGHTAWARELINKS: "true"
+              TAR1090_PAGETITLE: "ADSB Ultrafeeder"
+              TAR1090_USEROUTEAPI: "true"
+              TZ: America/Chicago
+              ULTRAFEEDER_CONFIG: |-
+                adsb,adsb-antenna-7.l.adsb.im,30005,beast_in;
+            envFrom:
+              - secretRef:
+                  name: ultrafeeder-site
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: 80
+                  initialDelaySeconds: 120
+                  periodSeconds: 30
+                  failureThreshold: 5
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: 80
+                  initialDelaySeconds: 30
+                  periodSeconds: 15
+            resources:
+              requests:
+                cpu: 150m
+                memory: 400Mi
+              limits:
+                memory: 400Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+                add:
+                  - CHOWN
+                  - DAC_OVERRIDE
+                  - FOWNER
+                  - SETUID
+                  - SETGID
+                  - KILL
+                  - NET_BIND_SERVICE
+              seccompProfile:
+                type: RuntimeDefault
+    defaultPodOptions:
+      labels:
+        home.arpa/monitored: "true"
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    persistence:
+      globe-history:
+        forceRename: ultrafeeder-globe-history
+        type: persistentVolumeClaim
+        accessMode: ReadWriteMany
+        size: 5Gi
+        storageClass: rook-cephfs
+        retain: true
+        globalMounts:
+          - path: /var/globe_history
+      collectd:
+        forceRename: ultrafeeder-collectd
+        type: persistentVolumeClaim
+        accessMode: ReadWriteMany
+        size: 1Gi
+        storageClass: rook-cephfs
+        retain: true
+        globalMounts:
+          - path: /var/lib/collectd
+      run:
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 256Mi
+        globalMounts:
+          - path: /run
+      tmp:
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 128Mi
+        globalMounts:
+          - path: /tmp
+    service:
+      app:
+        controller: ultrafeeder
+        ports:
+          http:
+            port: 80
+          metrics:
+            port: 9273
+          metrics-readsb:
+            port: 9274
+    serviceMonitor:
+      app:
+        serviceName: ultrafeeder
+        endpoints:
+          - port: metrics
+            path: /metrics
+            interval: 60s
+            scrapeTimeout: 30s
+            metricRelabelings:
+              - sourceLabels: ["__name__"]
+                regex: "readsb_aircraft_seen"
+                targetLabel: "__tmp_keep"
+                replacement: "yes"
+              - sourceLabels: ["hex", "__tmp_keep"]
+                separator: ";"
+                regex: ".+;"
+                action: drop
+              - regex: "__tmp_keep"
+                action: labeldrop
+          - port: metrics-readsb
+            path: /metrics
+            interval: 60s
+            scrapeTimeout: 30s
+    route:
+      app:
+        annotations:
+          gatus.home-operations.com/endpoint: |
+            name: "Ultrafeeder"
+            conditions: ["[STATUS] == 401"]
+        hostnames:
+          - "adsb.${SECRET_DOMAIN}"
+          - "piaware.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+            sectionName: https
+    rawResources:
+      securitypolicy:
+        forceRename: ultrafeeder
+        manifest:
+          apiVersion: gateway.envoyproxy.io/v1alpha1
+          kind: SecurityPolicy
+          spec:
+            targetRefs:
+              - group: gateway.networking.k8s.io
+                kind: HTTPRoute
+                name: ultrafeeder
+            basicAuth:
+              users:
+                name: ultrafeeder-basic-auth
+      networkpolicy:
+        forceRename: allow-ultrafeeder
+        manifest:
+          apiVersion: cilium.io/v2
+          kind: CiliumNetworkPolicy
+          spec:
+            endpointSelector:
+              matchLabels:
+                app.kubernetes.io/name: ultrafeeder
+                app.kubernetes.io/instance: ultrafeeder
+            ingress:
+              - fromEndpoints:
+                  - matchLabels:
+                      io.kubernetes.pod.namespace: network
+                      gateway.envoyproxy.io/owning-gateway-name: envoy-external
+                toPorts:
+                  - ports:
+                      - port: "80"
+                        protocol: TCP
+              - fromEndpoints:
+                  - matchLabels:
+                      io.kubernetes.pod.namespace: monitoring
+                toPorts:
+                  - ports:
+                      - port: "9273"
+                        protocol: TCP
+                      - port: "9274"
+                        protocol: TCP
+            egress:
+              - toEndpoints:
+                  - matchLabels:
+                      io.kubernetes.pod.namespace: kube-system
+                      app.kubernetes.io/name: coredns
+                toPorts:
+                  - ports:
+                      - port: "53"
+                        protocol: UDP
+                      - port: "53"
+                        protocol: TCP
+                    rules:
+                      dns:
+                        - matchPattern: "*"
+              - toFQDNs:
+                  - matchName: adsb-antenna-7.l.adsb.im
+                toPorts:
+                  - ports:
+                      - port: "30005"
+                        protocol: TCP
+              - toCIDRSet:
+                  - cidr: 0.0.0.0/0
+                    except:
+                      - 10.0.0.0/8
+                      - 172.16.0.0/12
+                      - 192.168.0.0/16
+                toPorts:
+                  - ports:
+                      - port: "443"
+                        protocol: TCP
+                      - port: "80"
+                        protocol: TCP
