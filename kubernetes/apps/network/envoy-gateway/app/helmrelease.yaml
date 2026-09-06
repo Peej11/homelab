@@ -18,3 +18,16 @@ spec:
           kubernetes:
             deploy:
               type: GatewayNamespace
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: envoy-gateway
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: envoy-gateway
+              spec:
+                revisionHistoryLimit: 3

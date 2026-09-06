@@ -22,3 +22,16 @@ spec:
                 app.kubernetes.io/name: tuppr
             topologyKey: kubernetes.io/hostname
     replicaCount: 2
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: tuppr
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: tuppr
+              spec:
+                revisionHistoryLimit: 3

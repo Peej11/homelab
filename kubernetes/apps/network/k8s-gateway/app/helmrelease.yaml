@@ -19,3 +19,16 @@ spec:
         lbipam.cilium.io/ips: "10.211.50.2"
       externalTrafficPolicy: Cluster
     watchedResources: ["HTTPRoute", "Service"]
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: k8s-gateway
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: k8s-gateway
+              spec:
+                revisionHistoryLimit: 3

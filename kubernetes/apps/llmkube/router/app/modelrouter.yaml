@@ -10,6 +10,7 @@ spec:
   defaultRouteStrategy: BackendNameMatch
   proxy:
     replicas: 1
+    revisionHistoryLimit: 3
     responseHeaderTimeout: 300s
     resources:
       requests:

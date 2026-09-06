@@ -12,6 +12,11 @@ spec:
     kubernetes:
       envoyDeployment:
         replicas: 2
+        patch:
+          type: StrategicMerge
+          value:
+            spec:
+              revisionHistoryLimit: 3
         container:
           imageRepository: mirror.gcr.io/envoyproxy/envoy
           resources:

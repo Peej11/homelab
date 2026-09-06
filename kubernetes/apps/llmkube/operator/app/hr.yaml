@@ -78,3 +78,16 @@ spec:
       enabled: false
     networkPolicies:
       enabled: false
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: llmkube-controller-manager
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: llmkube-controller-manager
+              spec:
+                revisionHistoryLimit: 3
