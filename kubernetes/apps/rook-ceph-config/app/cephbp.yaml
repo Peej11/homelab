@@ -1,0 +1,13 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: cephbp-tank
+  namespace: rook-ceph
+spec:
+  deviceClass: nvme
+  failureDomain: host
+  replicated:
+    size: 3
+  parameters:
+    pg_autoscale_mode: "on"
