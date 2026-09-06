@@ -45,6 +45,15 @@
       minimumGroupSize: 3,
     },
     {
+      description: "Home Assistant Group",
+      groupName: "home-assistant",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["ghcr.io/home-assistant/home-assistant", "ghcr.io/zwave-js/zwave-js-ui"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+    },
+    {
       description: "Rook Ceph Image Group",
       groupName: "Rook/Ceph",
       matchDatasources: ["docker"],
