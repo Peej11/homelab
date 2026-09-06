@@ -34,3 +34,16 @@ spec:
               matchLabels:
                 app.kubernetes.io/name: cloudnative-pg
             topologyKey: kubernetes.io/hostname
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: cnpg-operator-cloudnative-pg
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: cnpg-operator-cloudnative-pg
+              spec:
+                revisionHistoryLimit: 3

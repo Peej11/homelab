@@ -132,3 +132,13 @@ spec:
             target:
               kind: Deployment
               name: kustomize-controller
+          - patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: all
+              spec:
+                revisionHistoryLimit: 3
+            target:
+              kind: Deployment
+              name: (kustomize-controller|helm-controller|source-controller|notification-controller)

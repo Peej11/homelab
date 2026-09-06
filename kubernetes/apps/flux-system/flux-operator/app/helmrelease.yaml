@@ -20,3 +20,16 @@ spec:
             sectionName: https
         hostnames:
           - flux.${SECRET_DOMAIN}
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: flux-operator
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: flux-operator
+              spec:
+                revisionHistoryLimit: 3

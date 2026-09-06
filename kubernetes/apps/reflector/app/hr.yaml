@@ -11,3 +11,16 @@ spec:
   interval: 24h
   values:
     replicaCount: 2
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: reflector
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: reflector
+              spec:
+                revisionHistoryLimit: 3

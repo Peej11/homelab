@@ -89,3 +89,36 @@ spec:
     socketLB:
       enabled: true
       hostNamespaceOnly: true
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: cilium-operator
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: cilium-operator
+              spec:
+                revisionHistoryLimit: 3
+          - target:
+              kind: Deployment
+              name: hubble-relay
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: hubble-relay
+              spec:
+                revisionHistoryLimit: 3
+          - target:
+              kind: Deployment
+              name: hubble-ui
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: hubble-ui
+              spec:
+                revisionHistoryLimit: 3

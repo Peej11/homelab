@@ -28,3 +28,16 @@ spec:
     revisionHistoryLimit: 3
     monitoring:
       enabled: true
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: ceph-csi-controller-manager
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: ceph-csi-controller-manager
+              spec:
+                revisionHistoryLimit: 3

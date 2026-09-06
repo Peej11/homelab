@@ -49,3 +49,16 @@ spec:
       requests:
         cpu: 100m
         memory: 64Mi
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: volsync
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: volsync
+              spec:
+                revisionHistoryLimit: 3

@@ -72,3 +72,16 @@ spec:
       - key: node-role.kubernetes.io/control-plane
         operator: Exists
         effect: NoSchedule
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: coredns
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: coredns
+              spec:
+                revisionHistoryLimit: 3
