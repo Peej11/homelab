@@ -36,6 +36,7 @@ spec:
         podAntiAffinity: hard
         podAntiAffinityTopologyKey: kubernetes.io/hostname
     grafana:
+      revisionHistoryLimit: 3
       replicas: 1
       service:
         sessionAffinity: ClientIP

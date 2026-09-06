@@ -9,6 +9,7 @@ spec:
     name: cloudflare-dns
   interval: 1h
   values:
+    revisionHistoryLimit: 3
     fullnameOverride: *app
     provider: cloudflare
     env:

@@ -9,6 +9,7 @@ spec:
     name: metrics-server
   interval: 1h
   values:
+    revisionHistoryLimit: 3
     args:
       - --kubelet-insecure-tls
       - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
