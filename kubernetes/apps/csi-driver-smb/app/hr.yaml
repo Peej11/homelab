@@ -29,3 +29,16 @@ spec:
   values:
     windows:
       enabled: false
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: csi-smb-controller
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: csi-smb-controller
+              spec:
+                revisionHistoryLimit: 3

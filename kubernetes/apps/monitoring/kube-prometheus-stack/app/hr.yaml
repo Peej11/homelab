@@ -270,6 +270,8 @@ spec:
           ultrafeeder:
             url: https://raw.githubusercontent.com/Peej11/homelab/refs/heads/main/kubernetes/apps/monitoring/dashboards/adsb/ultrafeeder.json
             token: ''
+    kube-state-metrics:
+      revisionHistoryLimit: 3
     prometheus:
       prometheusSpec:
         replicas: 2
@@ -289,3 +291,5 @@ spec:
               resources:
                 requests:
                   storage: 30Gi
+    prometheusOperator:
+      revisionHistoryLimit: 3

@@ -26,3 +26,6 @@ spec:
     crds: CreateReplace
     remediation:
       remediateLastFailure: true
+  values:
+    controller:
+      revisionHistoryLimit: 3

@@ -24,6 +24,7 @@ spec:
       remediateLastFailure: true
   values:
     master:
+      revisionHistoryLimit: 3
       resources:
         limits:
           memory: 68Mi
@@ -41,6 +42,7 @@ spec:
           cpu: 3m
           memory: 70Mi
     gc:
+      revisionHistoryLimit: 3
       resources:
         limits:
           memory: 23Mi

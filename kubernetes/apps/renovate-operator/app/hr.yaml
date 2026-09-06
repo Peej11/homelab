@@ -14,6 +14,8 @@ spec:
     remediation:
       remediateLastFailure: true
   values:
+    deployment:
+      revisionHistoryLimit: 3
     route:
       enabled: true
       annotations:
