@@ -9,6 +9,12 @@ An ADS-B data collector that bundles [readsb](https://github.com/wiedehopf/reads
 ### [Alert Manager](https://github.com/prometheus/alertmanager)
 The Alertmanager handles alerts sent by client applications such as the Prometheus server. It takes care of deduplicating, grouping, and routing them to the correct receiver integrations such as email, PagerDuty, OpsGenie, or many other mechanisms thanks to the webhook receiver. It also takes care of silencing and inhibition of alerts. Installed as part of kube-prometheus-stack.
 
+### [App Template](https://github.com/bjw-s-labs/helm-charts/tree/main/charts/other/app-template)
+A generic Helm chart for deploying single-workload applications that don't ship a chart of their own. The `OCIRepository` lives once in the `app-template` namespace and every `HelmRelease` in the cluster points at it with a `chartRef`, so the chart version is bumped in one place rather than per app.
+
+### [Backblaze B2 Backup](https://github.com/rclone/rclone)
+A set of `CronJob`s that push the SMB share PVCs to a Backblaze B2 bucket with rclone, one job per share. Data is encrypted client-side through an rclone `crypt` remote so B2 only ever holds ciphertext, an init container refuses to run if the source PVC looks empty, and each job reports success or failure to a webhook.
+
 ### [Cert-Manager](https://github.com/cert-manager/cert-manager)
 Cert-manager is a X.509 certificate manager for Kubernetes. It adds multiple certificate and issuer resources to your cluster can help you automate obtaininig, renewing, and using your certificates.
 
@@ -50,10 +56,14 @@ The descheduler can be used to rebalance clusters by evicting pods that can pote
 ### [Device Plugin](https://github.com/squat/generic-device-plugin)
 The generic-device-plugin enables allocating generic Linux devices, such as serial devices, the FUSE device, or video cameras, to Kubernetes Pods. This allows devices that don't require special drivers to be advertised to the cluster and scheduled, enabling various use-cases.
 
+### [Echo](https://github.com/mendhak/docker-http-https-echo)
+A tiny HTTP server that echoes the request it received back as JSON. Deployed in the `default` namespace as a permanent test target for verifying Gateway routing, TLS termination, and NetworkPolicy behaviour without disturbing a real application.
+
 ### [Envoy Gateway](https://github.com/envoyproxy/gateway)
 Envoy Gateway is an open source project for managing Envoy Proxy as a standalone or Kubernetes-based application gateway. Gateway API resources are used to dynamically provision and configure the managed Envoy Proxies.
 
 ### [Flux Extensions](https://github.com/fluxcd/flux2/)
+- [Flux Operator](https://github.com/controlplaneio-fluxcd/flux-operator) - Flux itself is installed and upgraded by the Flux Operator rather than by `flux bootstrap`. The operator reconciles a `FluxInstance` resource that declares the distribution version and enabled components, which means controller upgrades happen through a commit like everything else.
 - [Monitoring Alerts](https://fluxcd.io/flux/monitoring/alerts/) - This guide will help you setup alerts that use the notification controller. Many Flux `kind`s can be monitored and send alerts based on state changes or errors. Cross-namespace references are difficult (by design) so I've done a single secret in `flux-system` as well as the provider which references it. The alert can point to objects in other namespaces so this removes the need for replicating resources across namespaces.
 - [Webhook Receivers](https://fluxcd.io/flux/guides/webhook-receivers/) - With cert-manager installed and the ability to create certificates for custom domains, we can turn Flux into a push-based pipeline that will trigger a sync any time there's a commit.
 
@@ -61,7 +71,7 @@ Envoy Gateway is an open source project for managing Envoy Proxy as a standalone
 Gatus is a developer-oriented health dashboard that gives you the ability to monitor your services using HTTP, ICMP, TCP, and even DNS queries as well as evaluate the result of said queries by using a list of conditions on values like the status code, the response time, the certificate expiration, the body and many others. The icing on top is that each of these health checks can be paired with alerting via Slack, Teams, PagerDuty, Discord, Twilio and many more.
 
 ### [Gatus Sidecar](https://github.com/home-operations/gatus-sidecar)
-A powerful Kubernetes sidecar that automatically generates Gatus monitoring configuration from Kubernetes resources including Ingress, Gateway API HTTPRoute, and Service resources.
+A powerful Kubernetes sidecar that automatically generates Gatus monitoring configuration from Kubernetes resources including Ingress, Gateway API HTTPRoute, and Service resources. Routes are opted out with a `gatus.home-operations.com/enabled: "false"` annotation, so new applications appear on the status page as soon as their `HTTPRoute` is created with no config change of their own.
 
 ### [Glance](https://github.com/glanceapp/glance)
 A lightweight, highly customizable dashboard that displays your feeds in a beautiful, streamlined interface.
@@ -81,17 +91,20 @@ Home Assistant is a home automation toolkit that lets you automate and control y
 ### [Homepage](https://github.com/gethomepage/homepage)
 A modern, fully static, fast, secure fully proxied, highly customizable application dashboard with integrations for over 100 services and translations into multiple languages. Easily configured via YAML files or through docker label discovery.
 
+### [Hypnos (TrueNAS Backup)](https://github.com/Peej11/hypnos)
+A monthly `CronJob` that backs up the SMB shares to a TrueNAS box that stays powered off the rest of the time. The job powers the machine on over IPMI, unlocks the encrypted ZFS dataset, refuses to continue unless a marker file proves the dataset actually mounted, takes a pre-backup snapshot as a rollback point, then syncs and verifies each share with rclone before shutting the machine back down. Progress and failures are reported to a webhook.
+
 ### [K8S Gateway](https://github.com/k8s-gateway/k8s_gateway)
 A CoreDNS plugin that is very similar to k8s_external but supporting all types of Kubernetes external resources - Ingress, Service of type LoadBalancer, HTTPRoutes, TLSRoutes, GRPCRoutes from the Gateway API project.
 
 ### [Linkding](https://github.com/sissbruecker/linkding)
-Linkding is a bookmark manager that you can host yourself. It's designed be to be minimal, fast, and easy to set up using Docker.
+Linkding is a bookmark manager that you can host yourself. It's designed be to be minimal, fast, and easy to set up using Docker. Backed by a CloudNativePG cluster rather than the bundled SQLite database.
 
 ### [LLMKube](https://github.com/defilantech/LLMKube)
-LLMKube is a Kubernetes operator that turns LLM deployment into a two-line YAML problem. Define a Model and an InferenceService, and the operator handles downloading, caching, GPU scheduling, health checks, scaling, and exposing an OpenAI-compatible API.
+LLMKube is a Kubernetes operator that turns LLM deployment into a two-line YAML problem. Define a Model and an InferenceService, and the operator handles downloading, caching, GPU scheduling, health checks, scaling, and exposing an OpenAI-compatible API. A `ModelPool` and `ModelRouter` sit in front of the services and present one OpenAI-compatible endpoint: requests naming a model that isn't resident trigger a swap, with a sticky policy and a swap budget so a busy model isn't evicted out from under an active conversation.
 
 ### [Mealie](https://github.com/mealie-recipes/mealie/)
-Mealie is a self-hosted recipe manager, meal planner, and shopping list application.
+Mealie is a self-hosted recipe manager, meal planner, and shopping list application. Backed by its own CloudNativePG cluster.
 
 ### [Metrics Server](https://github.com/kubernetes-sigs/metrics-server)
 Metrics Server is a scalable, efficient source of container resource metrics for Kubernetes built-in autoscaling pipelines. Publishes resource usage to enable `HorizontalPodAutoscaler` and `VerticalPodAutoscaler`.
@@ -126,6 +139,9 @@ Reloader will watch many resources for `ConfigMap` or `Secret` changes and autom
 ### [Rook/Ceph](https://github.com/rook/rook)
 Rook is an open source cloud-native storage orchestrator for Kubernetes, providing the platform, framework, and support for Ceph storage to natively integrate with Kubernetes.
 
+### [Samba](https://github.com/crazy-max/docker-samba)
+An SMB file server that exports PVCs to the LAN, so the cluster's storage is reachable from desktops without any Kubernetes knowledge. These are the same volumes the Backblaze and TrueNAS backup jobs mount, which is how workstation files end up covered by cluster backups.
+
 ### [Snapshot Controller](https://github.com/kubernetes-csi/external-snapshotter)
 The CSI snapshotter is part of Kubernetes implementation of Container Storage Interface (CSI) and implements both the volume snapshot and the volume group snapshot feature.
 
@@ -139,19 +155,16 @@ Tailscale is a mesh VPN built on WireGuard that connects devices across networks
 Tautulli is a monitoring and tracking tool for Plex, providing stats on watch history, streams, and library activity. Uses the mirrored [home-operations/tautulli](https://github.com/home-operations/containers/pkgs/container/tautulli) image.
 
 ### [Tuppr](https://github.com/home-operations/tuppr)
-A Kubernetes controller for managing automated upgrades of Talos Linux and Kubernetes.
+A controller for managing automated upgrades of Talos Linux and Kubernetes. Target versions live in `TalosUpgrade` and `KubernetesUpgrade` resources that Renovate bumps by pull request, so an upgrade is just a merge. Both are gated on health checks that hold the rollout unless every node is `Ready`, Ceph reports `HEALTH_OK`, and each CloudNativePG cluster is healthy, and nodes are drained one at a time waiting for volume detach.
 
-### [Valheim Game Server](https://github.com/lloesche/valheim-server-docker)
-Valheim Server in a Docker Container (with BepInEx and ValheimPlus support)
-
-### [vLLM](https://github.com/vllm-project/vllm)
-vLLM is a fast and easy-to-use library for LLM inference and serving.
+### [Valheim Game Server](https://github.com/community-valheim-tools/valheim-server-docker)
+A Docker Container (with BepInEx and ValheimPlus support). Runs the community-maintained fork of the original `lloesche` image, which is no longer updated. The game ports are UDP, so the server sits outside the Gateway API path that every HTTP application uses.
 
 ### [VolSync](https://github.com/backube/volsync)
 VolSync asynchronously replicates Kubernetes persistent volumes between clusters using either rsync or rclone. It also supports creating backups of persistent volumes via restic.
 
 ### [Wiki.js](https://github.com/Requarks/wiki)
-A modern, lightweight, and powerful wiki app built on NodeJS
+A modern, lightweight, and powerful wiki app built on NodeJS. This install is the D&D campaign wiki, backed by its own CloudNativePG cluster.
 
 ### [Worn](https://github.com/Peej11/worn)
 Vibe coded app to link gear to Apple Fitness workouts and alert on user-defined intervals for maintenance or replacement.
