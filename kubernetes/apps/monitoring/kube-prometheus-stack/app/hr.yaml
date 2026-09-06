@@ -287,8 +287,8 @@ spec:
         storageSpec:
           volumeClaimTemplate:
             spec:
-              storageClassName: rook-cephfs
-              accessModes: ["ReadWriteMany"]
+              storageClassName: rook-cephbp
+              accessModes: ["ReadWriteOnce"]
               resources:
                 requests:
                   storage: 30Gi
