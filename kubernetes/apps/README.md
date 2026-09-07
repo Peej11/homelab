@@ -94,7 +94,7 @@ A modern, fully static, fast, secure fully proxied, highly customizable applicat
 ### [Hypnos (TrueNAS Backup)](https://github.com/Peej11/hypnos)
 A monthly `CronJob` that backs up the SMB shares to a TrueNAS box that stays powered off the rest of the time. The job powers the machine on over IPMI, unlocks the encrypted ZFS dataset, refuses to continue unless a marker file proves the dataset actually mounted, takes a pre-backup snapshot as a rollback point, then syncs and verifies each share with rclone before shutting the machine back down. Progress and failures are reported to a webhook.
 
-### [K8S Gateway](https://github.com/k8s-gateway/k8s_gateway)
+### [K8S Gateway](https://codeberg.org/k8s-gateway/k8s_gateway)
 A CoreDNS plugin that is very similar to k8s_external but supporting all types of Kubernetes external resources - Ingress, Service of type LoadBalancer, HTTPRoutes, TLSRoutes, GRPCRoutes from the Gateway API project.
 
 ### [Linkding](https://github.com/sissbruecker/linkding)
