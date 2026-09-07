@@ -13,5 +13,5 @@ spec:
   monitoring:
     enablePodMonitor: true
   storage:
-    storageClass: rook-cephfs
+    storageClass: rook-cephbp
     size: 2Gi
