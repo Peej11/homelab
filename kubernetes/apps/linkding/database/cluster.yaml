@@ -5,11 +5,6 @@ metadata:
   name: linkding
   namespace: linkding
 spec:
-  backup:
-    target: primary
-    volumeSnapshot:
-      className: rook-ceph-cephfs-snapclass
-      snapshotOwnerReference: cluster
   bootstrap:
     initdb:
       database: linkding
@@ -18,5 +13,5 @@ spec:
   monitoring:
     enablePodMonitor: true
   storage:
-    storageClass: rook-cephfs
+    storageClass: rook-cephbp
     size: 3Gi
