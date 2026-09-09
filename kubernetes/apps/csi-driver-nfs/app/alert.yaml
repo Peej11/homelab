@@ -9,6 +9,8 @@ spec:
   providerRef:
     name: discord
   eventSeverity: info
+  exclusionList:
+    - "Dependencies do not meet ready condition"
   eventSources:
     - kind: HelmRepository
       name: '*'
