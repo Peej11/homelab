@@ -33,7 +33,7 @@ spec:
     - '{"reasoning_effort":"xhigh"}'
   resources:
     cpu: "1"
-    memory: 8Gi
+    memory: 16Gi
     gpu: 1
   endpoint:
     type: ClusterIP
