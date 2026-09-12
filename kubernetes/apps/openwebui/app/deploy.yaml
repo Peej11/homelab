@@ -49,9 +49,9 @@ spec:
             - name: AIOHTTP_CLIENT_TIMEOUT
               value: "900"
             - name: WEBUI_URL
-              value: "https://openwebui.${SECRET_DOMAIN}"
+              value: "https://chat.${SECRET_DOMAIN}"
             - name: CORS_ALLOW_ORIGIN
-              value: "https://openwebui.${SECRET_DOMAIN}"
+              value: "https://chat.${SECRET_DOMAIN}"
             - name: WEBUI_SESSION_COOKIE_SECURE
               value: "true"
             - name: WEBUI_SESSION_COOKIE_SAME_SITE
