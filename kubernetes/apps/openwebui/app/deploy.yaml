@@ -72,6 +72,8 @@ spec:
               value: "false"
             - name: ENABLE_OPENAI_API_PASSTHROUGH
               value: "false"
+            - name: ENABLE_CONTEXT_COMPACTION
+              value: "true"
             - name: ENABLE_TITLE_GENERATION
               value: "true"
             - name: ENABLE_TAGS_GENERATION
