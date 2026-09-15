@@ -85,6 +85,10 @@ spec:
     defaultPodOptions:
       labels:
         home.arpa/monitored: "true"
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
       securityContext:
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
