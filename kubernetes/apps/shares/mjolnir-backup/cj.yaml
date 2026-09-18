@@ -24,7 +24,7 @@ spec:
               type: RuntimeDefault
           containers:
             - name: mjolnir-backup
-              image: ghcr.io/peej11/hypnos:0.2.5@sha256:839c4864bcd4bc742c3c634c5c19483665311b05167635f9596716767d1abd45
+              image: ghcr.io/peej11/hypnos:0.2.6@sha256:1c1932c255871d16f6764965edadf39502c9b95b2e3a9a49ea87ca245bf062dc
               command:
                 - /bin/sh
                 - -c
