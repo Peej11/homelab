@@ -154,6 +154,9 @@ Tailscale is a mesh VPN built on WireGuard that connects devices across networks
 ### [Tautulli](https://github.com/Tautulli/Tautulli)
 Tautulli is a monitoring and tracking tool for Plex, providing stats on watch history, streams, and library activity. Uses the mirrored [home-operations/tautulli](https://github.com/home-operations/containers/pkgs/container/tautulli) image.
 
+### [ToolHive](https://github.com/stacklok/toolhive)
+A Kubernetes operator for running MCP servers as first-class, declarative resources instead of processes on a laptop. An `MCPServer` names a container image and a transport, and the operator brings up a `thv-proxyrunner` pod that creates the server's own workload and fronts it with a Service, so a tool is added to the cluster by committing a manifest. Egress is constrained per server through a `permissionProfile` rather than by trusting the server's own code. Installed as two charts, `toolhive-operator-crds` for the CRDs and `toolhive-operator` for the controller, with RBAC scoped to the `toolhive-system` and `toolhive` namespaces rather than the chart's default of cluster-wide. The proxy performs no authentication of its own — anything able to reach it is served — so MCP servers stay on the internal gateway and are reached only from workloads explicitly allowed by NetworkPolicy.
+
 ### [Tuppr](https://github.com/home-operations/tuppr)
 A controller for managing automated upgrades of Talos Linux and Kubernetes. Target versions live in `TalosUpgrade` and `KubernetesUpgrade` resources that Renovate bumps by pull request, so an upgrade is just a merge. Both are gated on health checks that hold the rollout unless every node is `Ready`, Ceph reports `HEALTH_OK`, and each CloudNativePG cluster is healthy, and nodes are drained one at a time waiting for volume detach.
 

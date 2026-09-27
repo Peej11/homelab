@@ -1,0 +1,52 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: toolhive-operator
+  namespace: toolhive-system
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: toolhive-operator
+    namespace: toolhive-system
+  interval: 1h
+  values:
+    operator:
+      replicaCount: 1
+      imagePullPolicy: IfNotPresent
+      features:
+        experimental: false
+        storageVersionMigrator: false
+      env:
+        - name: TOOLHIVE_SKIP_UPDATE_CHECK
+          value: "true"
+      resources:
+        requests:
+          cpu: 10m
+          memory: 128Mi
+        limits:
+          cpu: null
+          memory: 128Mi
+      rbac:
+        scope: namespace
+        allowedNamespaces:
+          - toolhive-system
+          - toolhive
+      serviceAccount:
+        create: true
+        name: toolhive-operator
+      autoscaling:
+        enabled: false
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: toolhive-operator
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: toolhive-operator
+              spec:
+                revisionHistoryLimit: 3

@@ -1,0 +1,39 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Provider
+metadata:
+  name: discord
+  namespace: toolhive-system
+spec:
+  type: discord
+  secretRef:
+    name: discord-webhook
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: toolhive-operator-alert
+  namespace: toolhive-system
+spec:
+  summary: "ToolHive Operator"
+  providerRef:
+    name: discord
+  eventSeverity: info
+  exclusionList:
+    - "Dependencies do not meet ready condition"
+  eventSources:
+    - kind: Kustomization
+      name: 'toolhive-crds'
+      namespace: toolhive-system
+    - kind: Kustomization
+      name: 'toolhive-operator'
+      namespace: toolhive-system
+    - kind: Kustomization
+      name: 'toolhive-doc'
+      namespace: toolhive-system
+    - kind: HelmRelease
+      name: 'toolhive-operator-crds'
+      namespace: toolhive-system
+    - kind: HelmRelease
+      name: 'toolhive-operator'
+      namespace: toolhive-system

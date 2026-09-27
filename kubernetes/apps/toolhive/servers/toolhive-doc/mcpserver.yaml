@@ -1,0 +1,38 @@
+---
+apiVersion: toolhive.stacklok.dev/v1beta1
+kind: MCPServer
+metadata:
+  name: toolhive-docs
+  namespace: toolhive
+spec:
+  image: ghcr.io/stackloklabs/toolhive-doc-mcp:v0.0.19-20260921@sha256:7a8d03b593b8e1d8a4e73e6cadca2a72ae9c6e29cea90cf1491de097801a86e9
+  transport: streamable-http
+  proxyPort: 8080
+  mcpPort: 8080
+  permissionProfile:
+    type: builtin
+    name: network
+  resources:
+    requests:
+      cpu: "50m"
+      memory: "128Mi"
+    limits:
+      memory: "128Mi"
+  podTemplateSpec:
+    spec:
+      volumes:
+        - name: tmp
+          emptyDir: {}
+      containers:
+        - name: mcp
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault

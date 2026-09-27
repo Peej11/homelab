@@ -70,3 +70,13 @@ spec:
       ports:
         - protocol: TCP
           port: 443
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: toolhive
+          podSelector:
+            matchLabels:
+              toolhive: "true"
+      ports:
+        - protocol: TCP
+          port: 8080
