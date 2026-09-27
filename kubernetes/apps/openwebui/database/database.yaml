@@ -9,3 +9,6 @@ spec:
   owner: openwebui
   cluster:
     name: openwebui
+  extensions:
+    - name: vector
+      ensure: present

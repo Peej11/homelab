@@ -94,6 +94,14 @@ spec:
               value: "1"
             - name: BYPASS_EMBEDDING_AND_RETRIEVAL
               value: "false"
+            - name: VECTOR_DB
+              value: "pgvector"
+            - name: PGVECTOR_CREATE_EXTENSION
+              value: "false"
+            - name: PGVECTOR_INITIALIZE_MAX_VECTOR_LENGTH
+              value: "1024"
+            - name: PGVECTOR_INDEX_METHOD
+              value: "hnsw"
             - name: RAG_EMBEDDING_ENGINE
               value: "openai"
             - name: RAG_EMBEDDING_MODEL
