@@ -8,5 +8,5 @@ spec:
   interval: 8h
   provider: generic
   ref:
-    tag: 0.51.3
+    tag: 0.51.4
   url: oci://ghcr.io/stacklok/toolhive/toolhive-operator-crds
