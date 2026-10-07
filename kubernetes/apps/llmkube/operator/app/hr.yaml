@@ -5,14 +5,9 @@ metadata:
   name: llmkube
   namespace: llmkube
 spec:
-  chart:
-    spec:
-      chart: llmkube
-      reconcileStrategy: ChartVersion
-      sourceRef:
-        kind: HelmRepository
-        name: llmkube
-      version: 0.10.2
+  chartRef:
+    kind: OCIRepository
+    name: llmkube
   interval: 24h
   install:
     crds: Create

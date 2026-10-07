@@ -25,10 +25,7 @@ spec:
     - kind: Kustomization
       name: '*'
       namespace: llmkube
-    - kind: HelmRepository
-      name: '*'
-      namespace: llmkube
-    - kind: HelmChart
+    - kind: OCIRepository
       name: '*'
       namespace: llmkube
     - kind: HelmRelease
