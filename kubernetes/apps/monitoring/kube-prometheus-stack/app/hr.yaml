@@ -14,7 +14,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
-      version: 92.0.0
+      version: 92.1.0
   install:
     crds: Create
     remediation:
