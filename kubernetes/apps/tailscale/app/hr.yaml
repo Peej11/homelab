@@ -12,7 +12,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: tailscale
-      version: 1.102.4
+      version: 1.104.1
   interval: 24h
   values:
     installCRDs: true
@@ -23,7 +23,7 @@ spec:
       logging: info
       image:
         repository: ghcr.io/tailscale/k8s-operator
-        tag: v1.102.4@sha256:3c8958c42fb3c46068e8553e11b944f2133b4671d4f36c86adc11f206746bf34
+        tag: v1.104.1@sha256:38351d6333edc490a832b27b244665d40f4a5fe1765ade76af2264c99dbbfe0e
         pullPolicy: IfNotPresent
       extraEnv:
         - name: XDG_CONFIG_HOME
@@ -48,7 +48,7 @@ spec:
     proxyConfig:
       image:
         repository: ghcr.io/tailscale/tailscale
-        tag: v1.102.4@sha256:2667499ed87ae29218f292556ba062918402dd5e92e93637af14867e4df12dd3
+        tag: v1.104.1@sha256:87c55d6be56ad85b3d8bceca5f87f73de288c609131460dd1be1874c250cc41d
       defaultTags: "tag:k8s"
       firewallMode: auto
     ingressClass:
