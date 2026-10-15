@@ -1,0 +1,49 @@
+---
+apiVersion: toolhive.stacklok.dev/v1beta1
+kind: MCPServer
+metadata:
+  name: kube-ro
+  namespace: toolhive
+spec:
+  image: ghcr.io/containers/kubernetes-mcp-server:v0.0.67@sha256:e47f6ccc5347e1ea6be495d8d9ab55ac8a995fe87800fb984fa770cebe14ad44
+  transport: streamable-http
+  proxyPort: 8080
+  mcpPort: 8080
+  resources:
+    requests:
+      cpu: "50m"
+      memory: "128Mi"
+    limits:
+      memory: "256Mi"
+  podTemplateSpec:
+    metadata:
+      annotations:
+        reloader.stakater.com/auto: "true"
+    spec:
+      serviceAccountName: kube-ro
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        fsGroup: 65532
+      containers:
+        - name: mcp
+          env:
+            - name: MCP_CONFIG_PATH
+              value: /etc/kubernetes-mcp-server/config.toml
+          volumeMounts:
+            - name: config
+              mountPath: /etc/kubernetes-mcp-server
+              readOnly: true
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault
+      volumes:
+        - name: config
+          configMap:
+            name: kube-ro

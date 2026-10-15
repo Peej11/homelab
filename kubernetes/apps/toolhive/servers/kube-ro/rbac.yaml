@@ -1,0 +1,115 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kube-ro
+  namespace: toolhive
+  labels:
+    app.kubernetes.io/name: kube-ro
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kube-ro
+  labels:
+    app.kubernetes.io/name: kube-ro
+rules:
+  - apiGroups: [""]
+    resources: [namespaces, pods, nodes, services, configmaps, events, persistentvolumes, persistentvolumeclaims]
+    verbs: [get, list, watch]
+  - apiGroups: [discovery.k8s.io]
+    resources: [apiGroups, apiResourceLists]
+    verbs: [get, list]
+  - apiGroups: [""]
+    resources: [apiVersions]
+    verbs: [get, list]
+  - apiGroups: [apiextensions.k8s.io]
+    resources: [customresourcedefinitions]
+    verbs: [get, list, watch]
+  - apiGroups: [apps]
+    resources: [deployments, statefulsets, replicasets, daemonsets]
+    verbs: [get, list, watch]
+  - apiGroups: [batch]
+    resources: [cronjobs, jobs]
+    verbs: [get, list, watch]
+  - apiGroups: [networking.k8s.io]
+    resources: [ingresses, networkpolicies]
+    verbs: [get, list, watch]
+  - apiGroups: [gateway.networking.k8s.io]
+    resources: [httproutes, gateways, grpcroutes, tcproutes, udproutes, tlsroutes, gatewayclasses]
+    verbs: [get, list, watch]
+  - apiGroups: [storage.k8s.io]
+    resources: [storageclasses]
+    verbs: [get, list, watch]
+  - apiGroups: [autoscaling]
+    resources: [horizontalpodautoscalers]
+    verbs: [get, list, watch]
+  - apiGroups: [policy]
+    resources: [poddisruptionbudgets]
+    verbs: [get, list, watch]
+  - apiGroups: [source.toolkit.fluxcd.io]
+    resources: [gitrepositories, ocirepositories, buckets, helmrepositories]
+    verbs: [get, list, watch]
+  - apiGroups: [kustomize.toolkit.fluxcd.io]
+    resources: [kustomizations]
+    verbs: [get, list, watch]
+  - apiGroups: [helm.toolkit.fluxcd.io]
+    resources: [helmreleases]
+    verbs: [get, list, watch]
+  - apiGroups: [notification.toolkit.fluxcd.io]
+    resources: [providers, alerts, receivers]
+    verbs: [get, list, watch]
+  - apiGroups: [fluxcd.controlplane.io]
+    resources: [fluxinstances, fluxreports]
+    verbs: [get, list, watch]
+  - apiGroups: [postgresql.cnpg.io]
+    resources: [clusters, databases, databaseroles, poolers, scheduledbackups, backups, publications, subscriptions, failoverquorums]
+    verbs: [get, list, watch]
+  - apiGroups: [ceph.rook.io]
+    resources: [cephclusters, cephblockpools, cephfilesystems, cephobjectstores, cephcosidrivers, cephfilesystemsubvolumegroups, cephclients]
+    verbs: [get, list, watch]
+  - apiGroups: [cert-manager.io]
+    resources: [certificates]
+    verbs: [get, list, watch]
+  - apiGroups: [cilium.io]
+    resources: [ciliumnetworkpolicies, ciliumendpoints]
+    verbs: [get, list, watch]
+  - apiGroups: [tuppr.home-operations.com]
+    resources: [talosupgrades, kubernetesupgrades]
+    verbs: [get, list, watch]
+  - apiGroups: [tailscale.com]
+    resources: [tailnets]
+    verbs: [get, list, watch]
+  - apiGroups: [toolhive.stacklok.dev]
+    resources: [mcpservers]
+    verbs: [get, list, watch]
+  - apiGroups: [inference.llmkube.dev]
+    resources: [models, modelpools, modelrouters]
+    verbs: [get, list, watch]
+  - apiGroups: [renovate-operator.mogenius.com]
+    resources: [renovateprojects, renovatejobs]
+    verbs: [get, list, watch]
+  - apiGroups: [actions.github.com]
+    resources: [autoscalingrunnersets, ephemeralrunnersets, ephemeralrunners]
+    verbs: [get, list, watch]
+  - apiGroups: [volsync.backube]
+    resources: [replicationsources, replicationdestinations]
+    verbs: [get, list, watch]
+  - apiGroups: [externaldns.k8s.io]
+    resources: [dnsrecords]
+    verbs: [get, list, watch]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kube-ro
+  labels:
+    app.kubernetes.io/name: kube-ro
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kube-ro
+subjects:
+  - kind: ServiceAccount
+    name: kube-ro-sa
+    namespace: toolhive

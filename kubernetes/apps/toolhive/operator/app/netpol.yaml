@@ -52,7 +52,6 @@ metadata:
 spec:
   endpointSelector:
     matchLabels:
-      app.kubernetes.io/name: mcpserver
       toolhive: "true"
   egress:
     - toEntities:

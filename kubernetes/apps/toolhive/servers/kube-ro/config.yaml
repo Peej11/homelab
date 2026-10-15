@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kube-ro
+  namespace: toolhive
+  labels:
+    app.kubernetes.io/name: kube-ro
+data:
+  config.toml: |
+    port = "8080"
+    toolsets = ["core"]
+    stateless = true

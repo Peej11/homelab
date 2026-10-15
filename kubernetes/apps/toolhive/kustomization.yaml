@@ -6,4 +6,6 @@ resources:
   - ./crds/ks.yaml
   - ./operator/ks.yaml
   - ./servers/ks.yaml
+  - ./servers/kube-ro/ks.yaml
+  - ./servers/github/ks.yaml
   - ./alert.yaml

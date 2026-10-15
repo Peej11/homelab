@@ -1,0 +1,8 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: github
+  namespace: toolhive
+  labels:
+    app.kubernetes.io/name: github
