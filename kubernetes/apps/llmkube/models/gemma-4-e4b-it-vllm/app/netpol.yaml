@@ -2,12 +2,12 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allow-gemma-4-e4b-it
+  name: allow-gemma-4-e4b-it-vllm
   namespace: llmkube
 spec:
   podSelector:
     matchLabels:
-      inference.llmkube.dev/service: gemma-4-e4b-it
+      inference.llmkube.dev/service: gemma-4-e4b-it-vllm
   policyTypes:
     - Ingress
     - Egress

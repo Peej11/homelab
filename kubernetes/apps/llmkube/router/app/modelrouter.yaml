@@ -51,10 +51,14 @@ spec:
       tier: local
       inferenceServiceRef:
         name: gemma-4-12b-it
-    - name: gemma-4-e4b-it
+    - name: gemma-4-e4b-it-vllm
       tier: local
       inferenceServiceRef:
-        name: gemma-4-e4b-it
+        name: gemma-4-e4b-it-vllm
+    - name: gemma-4-e4b-it-gguf
+      tier: local
+      inferenceServiceRef:
+        name: gemma-4-e4b-it-gguf
     - name: muse-glimmer-30b
       tier: local
       inferenceServiceRef:

@@ -2,10 +2,10 @@
 apiVersion: inference.llmkube.dev/v1alpha1
 kind: InferenceService
 metadata:
-  name: gemma-4-e4b-it
+  name: gemma-4-e4b-it-vllm
   namespace: llmkube
 spec:
-  modelRef: gemma-4-e4b-it
+  modelRef: gemma-4-e4b-it-vllm
   revisionHistoryLimit: 3
   runtime: vllm
   image: vllm/vllm-openai:v0.31.0@sha256:c1c9f6fd5c109ba7f0546a59f5b2f15fb87f64c77782e90a27b648b42a8e67c3

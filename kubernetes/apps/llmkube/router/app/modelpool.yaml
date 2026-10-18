@@ -27,7 +27,9 @@ spec:
     - inferenceServiceRef:
         name: gemma-4-12b-it
     - inferenceServiceRef:
-        name: gemma-4-e4b-it
+        name: gemma-4-e4b-it-vllm
+    - inferenceServiceRef:
+        name: gemma-4-e4b-it-gguf
     - inferenceServiceRef:
         name: muse-glimmer-30b
     - inferenceServiceRef:
