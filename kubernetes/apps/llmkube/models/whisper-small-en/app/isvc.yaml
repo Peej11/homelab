@@ -8,7 +8,7 @@ spec:
   modelRef: whisper-small-en
   revisionHistoryLimit: 3
   runtime: generic
-  image: ghcr.io/ggml-org/whisper.cpp:main-0c7be696371069e0baa2515ed7aa08d5a5473aa6@sha256:ccc79798f646903780709f43ec21e9e9eb9893da316caaddb30ab1f7b82f9f80
+  image: ghcr.io/ggml-org/whisper.cpp:main-0c7be696371069e0baa2515ed7aa08d5a5473aa6@sha256:9399cb3f6cf80088ffa7accd4b7a055adb830896678065e0b85032591d1a49f5
   stageModel: true
   replicas: 1
   podLabels:
