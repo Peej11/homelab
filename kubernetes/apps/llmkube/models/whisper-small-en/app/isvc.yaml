@@ -41,12 +41,10 @@ spec:
         path: /health
         port: 8080
       periodSeconds: 10
-  podSecurityContext:
+  securityContext:
     runAsUser: 1000
     runAsGroup: 1000
     runAsNonRoot: true
-    fsGroup: 102
-  securityContext:
     allowPrivilegeEscalation: false
     readOnlyRootFilesystem: true
     capabilities:
