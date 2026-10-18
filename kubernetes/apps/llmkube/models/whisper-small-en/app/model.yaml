@@ -1,0 +1,15 @@
+---
+apiVersion: inference.llmkube.dev/v1alpha1
+kind: Model
+metadata:
+  name: whisper-small-en
+  namespace: llmkube
+spec:
+  source: https://huggingface.co/ggerganov/whisper.cpp/resolve/5359861c739e955e79d9a303bcbc70fb988958b1/ggml-small.en-q8_0.bin
+  format: custom
+  quantization: Q8_0
+  refreshPolicy: IfNotPresent
+  hardware:
+    accelerator: cpu
+    gpu:
+      enabled: false

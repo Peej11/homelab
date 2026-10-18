@@ -19,5 +19,6 @@ resources:
   - ./models/qwen3-5-9b/ks.yaml
   - ./models/qwen3-embedding-0-6b/ks.yaml
   - ./models/qwen3-reranker-0-6b/ks.yaml
+  - ./models/whisper-small-en/ks.yaml
   - ./router/ks.yaml
   - ./alert.yaml

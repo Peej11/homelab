@@ -1,0 +1,76 @@
+---
+apiVersion: inference.llmkube.dev/v1alpha1
+kind: InferenceService
+metadata:
+  name: whisper-small-en
+  namespace: llmkube
+spec:
+  modelRef: whisper-small-en
+  revisionHistoryLimit: 3
+  runtime: generic
+  image: ghcr.io/ggml-org/whisper.cpp:main-0c7be696371069e0baa2515ed7aa08d5a5473aa6@sha256:ccc79798f646903780709f43ec21e9e9eb9893da316caaddb30ab1f7b82f9f80
+  stageModel: true
+  replicas: 1
+  podLabels:
+    llmkube-model: "true"
+  args:
+    - >-
+      exec whisper-server
+      --host 0.0.0.0
+      --port 8080
+      --model $(LLMKUBE_MODEL_PATH)
+      --inference-path /v1/audio/transcriptions
+      --convert
+      --tmp-dir /tmp
+      --threads 4
+      --no-gpu
+  probeOverrides:
+    startup:
+      httpGet:
+        path: /health
+        port: 8080
+      periodSeconds: 5
+      failureThreshold: 60
+    liveness:
+      httpGet:
+        path: /health
+        port: 8080
+      periodSeconds: 30
+    readiness:
+      httpGet:
+        path: /health
+        port: 8080
+      periodSeconds: 10
+  podSecurityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+    runAsNonRoot: true
+    fsGroup: 102
+  securityContext:
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: true
+    capabilities:
+      drop:
+        - ALL
+  extraVolumes:
+    - name: tmp
+      emptyDir: {}
+  extraVolumeMounts:
+    - name: tmp
+      mountPath: /tmp
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                  - amd64
+  resources:
+    cpu: "1"
+    memory: 1Gi
+  endpoint:
+    type: ClusterIP
+    port: 8080
+    path: /v1/audio/transcriptions
