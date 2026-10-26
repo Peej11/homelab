@@ -12,7 +12,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: rook
-      version: 'v1.21.0'
+      version: 'v1.21.1'
   install:
     crds: Create
     remediation:
