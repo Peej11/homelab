@@ -1,5 +1,5 @@
 ---
-apiVersion: notification.toolkit.fluxcd.io/v1beta3
+apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Provider
 metadata:
   name: discord
@@ -9,13 +9,14 @@ spec:
   secretRef:
     name: discord-webhook
 ---
-apiVersion: notification.toolkit.fluxcd.io/v1beta3
+apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Alert
 metadata:
   name: linkding-app-alert
   namespace: linkding
 spec:
-  summary: "Linkding App"
+  eventMetadata:
+    summary: "Linkding App"
   providerRef:
     name: discord
   eventSeverity: info
@@ -29,13 +30,14 @@ spec:
       name: 'linkding'
       namespace: linkding
 ---
-apiVersion: notification.toolkit.fluxcd.io/v1beta3
+apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Alert
 metadata:
   name: linkding-db-alert
   namespace: linkding
 spec:
-  summary: "Linkding Database"
+  eventMetadata:
+    summary: "Linkding Database"
   providerRef:
     name: discord
   eventSeverity: info

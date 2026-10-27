@@ -1,5 +1,5 @@
 ---
-apiVersion: notification.toolkit.fluxcd.io/v1beta3
+apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Provider
 metadata:
   name: discord
@@ -9,13 +9,14 @@ spec:
   secretRef:
     name: discord-webhook
 ---
-apiVersion: notification.toolkit.fluxcd.io/v1beta3
+apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Alert
 metadata:
   name: flux-instance-alert
   namespace: flux-system
 spec:
-  summary: "Flux Instance"
+  eventMetadata:
+    summary: "Flux Instance"
   providerRef:
     name: discord
   eventSeverity: error
@@ -39,13 +40,14 @@ spec:
       name: 'flux-instance'
       namespace: flux-system
 ---
-apiVersion: notification.toolkit.fluxcd.io/v1beta3
+apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Alert
 metadata:
   name: flux-operator-alert
   namespace: flux-system
 spec:
-  summary: "Flux Operator"
+  eventMetadata:
+    summary: "Flux Operator"
   providerRef:
     name: discord
   eventSeverity: error

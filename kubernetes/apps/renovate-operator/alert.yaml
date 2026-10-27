@@ -1,5 +1,5 @@
 ---
-apiVersion: notification.toolkit.fluxcd.io/v1beta3
+apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Provider
 metadata:
   name: discord
@@ -9,13 +9,14 @@ spec:
   secretRef:
     name: discord-webhook
 ---
-apiVersion: notification.toolkit.fluxcd.io/v1beta3
+apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Alert
 metadata:
   name: renovate-operator-alert
   namespace: renovate-operator
 spec:
-  summary: "Renovate Operator"
+  eventMetadata:
+    summary: "Renovate Operator"
   providerRef:
     name: discord
   eventSeverity: info
@@ -32,13 +33,14 @@ spec:
       name: 'renovate'
       namespace: renovate-operator
 ---
-apiVersion: notification.toolkit.fluxcd.io/v1beta3
+apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Alert
 metadata:
   name: renovate-config-alert
   namespace: renovate-operator
 spec:
-  summary: "Renovate Config"
+  eventMetadata:
+    summary: "Renovate Config"
   providerRef:
     name: discord
   eventSeverity: info

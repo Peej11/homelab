@@ -1,5 +1,5 @@
 ---
-apiVersion: notification.toolkit.fluxcd.io/v1beta3
+apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Provider
 metadata:
   name: discord
@@ -9,13 +9,14 @@ spec:
   secretRef:
     name: discord-webhook
 ---
-apiVersion: notification.toolkit.fluxcd.io/v1beta3
+apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Alert
 metadata:
   name: cloudflare-dns-alert
   namespace: network
 spec:
-  summary: "Cloudflare DNS"
+  eventMetadata:
+    summary: "Cloudflare DNS"
   providerRef:
     name: discord
   eventSeverity: info
@@ -32,13 +33,14 @@ spec:
       name: 'cloudflare-dns'
       namespace: network
 ---
-apiVersion: notification.toolkit.fluxcd.io/v1beta3
+apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Alert
 metadata:
   name: cloudflare-tunnel-alert
   namespace: network
 spec:
-  summary: "Cloudflare Tunnel"
+  eventMetadata:
+    summary: "Cloudflare Tunnel"
   providerRef:
     name: discord
   eventSeverity: info
@@ -55,13 +57,14 @@ spec:
       name: 'cloudflare-tunnel'
       namespace: network
 ---
-apiVersion: notification.toolkit.fluxcd.io/v1beta3
+apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Alert
 metadata:
   name: envoy-gateway-alert
   namespace: network
 spec:
-  summary: "Envoy Gateway"
+  eventMetadata:
+    summary: "Envoy Gateway"
   providerRef:
     name: discord
   eventSeverity: info
@@ -78,13 +81,14 @@ spec:
       name: 'envoy-gateway'
       namespace: network
 ---
-apiVersion: notification.toolkit.fluxcd.io/v1beta3
+apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Alert
 metadata:
   name: k8s-gateway-alert
   namespace: network
 spec:
-  summary: "K8s Gateway"
+  eventMetadata:
+    summary: "K8s Gateway"
   providerRef:
     name: discord
   eventSeverity: info

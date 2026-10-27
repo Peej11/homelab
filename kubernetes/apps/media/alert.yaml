@@ -1,5 +1,5 @@
 ---
-apiVersion: notification.toolkit.fluxcd.io/v1beta3
+apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Provider
 metadata:
   name: discord
@@ -9,13 +9,14 @@ spec:
   secretRef:
     name: discord-webhook
 ---
-apiVersion: notification.toolkit.fluxcd.io/v1beta3
+apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Alert
 metadata:
   name: media-handbrake-alert
   namespace: media
 spec:
-  summary: "HandBrake"
+  eventMetadata:
+    summary: "HandBrake"
   providerRef:
     name: discord
   eventSeverity: info
@@ -29,13 +30,14 @@ spec:
       name: 'handbrake'
       namespace: media
 ---
-apiVersion: notification.toolkit.fluxcd.io/v1beta3
+apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Alert
 metadata:
   name: media-plex-alert
   namespace: media
 spec:
-  summary: "Plex"
+  eventMetadata:
+    summary: "Plex"
   providerRef:
     name: discord
   eventSeverity: info
@@ -49,13 +51,14 @@ spec:
       name: 'plex'
       namespace: media
 ---
-apiVersion: notification.toolkit.fluxcd.io/v1beta3
+apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Alert
 metadata:
   name: media-storage-alert
   namespace: media
 spec:
-  summary: "Media Storage"
+  eventMetadata:
+    summary: "Media Storage"
   providerRef:
     name: discord
   eventSeverity: info
@@ -66,13 +69,14 @@ spec:
       name: 'media-storage'
       namespace: media
 ---
-apiVersion: notification.toolkit.fluxcd.io/v1beta3
+apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Alert
 metadata:
   name: media-tautulli-alert
   namespace: media
 spec:
-  summary: "Tautulli"
+  eventMetadata:
+    summary: "Tautulli"
   providerRef:
     name: discord
   eventSeverity: info

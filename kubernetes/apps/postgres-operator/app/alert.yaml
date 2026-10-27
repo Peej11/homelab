@@ -1,11 +1,12 @@
 ---
-apiVersion: notification.toolkit.fluxcd.io/v1beta3
+apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Alert
 metadata:
   name: cnpg-operator-alert
   namespace: flux-system
 spec:
-  summary: "Postgres Operator"
+  eventMetadata:
+    summary: "Postgres Operator"
   providerRef:
     name: discord
   eventSeverity: info
