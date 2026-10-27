@@ -8,5 +8,5 @@ spec:
   interval: 8h
   provider: generic
   ref:
-    tag: 0.10.11
+    tag: 0.10.12
   url: oci://ghcr.io/defilantech/charts/llmkube
