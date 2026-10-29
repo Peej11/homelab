@@ -45,6 +45,16 @@
       minimumGroupSize: 3,
     },
     {
+      description: "Gatus Group",
+      groupName: "gatus",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["ghcr.io/twin/gatus", "ghcr.io/home-operations/gatus-sidecar"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      minimumGroupSize: 2,
+    },
+    {
       description: "Home Assistant Group",
       groupName: "home-assistant",
       matchDatasources: ["docker"],
