@@ -20,7 +20,7 @@ spec:
           app:
             image:
               repository: ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder
-              tag: telegraf-build-984@sha256:b0566feaad628b498388ba01cc241d3fc5c89e2e4268ef15ecd726a9dc9d82dd
+              tag: telegraf-build-985@sha256:99a9cf8ef7624f51acbc42b472af75ae6158ef1c7ef03aa27b508693f19218d8
               pullPolicy: IfNotPresent
             env:
               GRAPHS1090_DARKMODE: "true"
