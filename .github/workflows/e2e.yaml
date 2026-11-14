@@ -57,7 +57,7 @@ jobs:
         uses: home-operations/flate/action@bbb6ebc344da051752dbdb1b413860ceffcfb63d # v0.7.3
 
       - name: Run flate test
-        run: flate test all --path ./kubernetes/flux/cluster --allow-missing-secrets
+        run: flate test all --path ./kubernetes/flux/cluster --allow-missing-kinds Secret
 
       - name: Dry run bootstrap talos task
         run: task bootstrap:talos --dry
