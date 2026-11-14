@@ -51,9 +51,17 @@ jobs:
             -e 's|\${SECRET_DOMAIN}|ci.example.com|g' \
             -e 's|\${SECRET_DNS}|ci.example.com|g' {} +
 
+      - name: Supply reflected cluster-secrets
+        run: |
+          find kubernetes -name '*.yaml' -not -name '*.sops.yaml' \
+            -exec yq -N 'select(.kind == "Namespace") | .metadata.name' {} + \
+            | sort -u | while read -r ns; do
+              printf -- '---\napiVersion: v1\nkind: Secret\nmetadata:\n  name: cluster-secrets\n  namespace: %s\nstringData:\n  SECRET_DOMAIN: ci.example.com\n  SECRET_DNS: ci.example.com\n' "$ns"
+            done > "${RUNNER_TEMP}/supply.yaml"
+
       - name: Run Flate
         id: flate
-        run: flate test all -p ./kubernetes/flux/cluster --allow-missing-secrets
+        run: flate test all -p ./kubernetes/flux/cluster --allow-missing-kinds Secret --supply "${RUNNER_TEMP}/supply.yaml"
 
   success:
     if: ${{ !cancelled() }}
