@@ -1,301 +1,430 @@
 {
-  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
   extends: [
-    "config:recommended",
-    "docker:enableMajor",
-    "helpers:pinGitHubActionDigests",
-    ":automergeBranch",
-    ":dependencyDashboard",
-    ":disableRateLimiting",
-    ":semanticCommits",
+    'config:recommended',
+    'docker:enableMajor',
+    'helpers:pinGitHubActionDigests',
+    ':automergeBranch',
+    ':dependencyDashboard',
+    ':disableRateLimiting',
+    ':semanticCommits',
   ],
-  dependencyDashboard: true,
-  dependencyDashboardTitle: "Renovate Dashboard :robot:",
-  ignorePaths: ["**/*.sops.*"],
+  dependencyDashboard: {
+    enabled: true,
+    title: 'Renovate Dashboard :robot:',
+  },
+  ignorePaths: [
+    '**/*.sops.*',
+  ],
   flux: {
-    managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$/"],
+    managerFilePatterns: [
+      '/(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$/',
+    ],
   },
   helmfile: {
     managerFilePatterns: [
-      "/(^|/)helmfile\\.ya?ml(?:\\.gotmpl)?(?:\\.j2)?$/",
-      "/(^|/)helmfile\\.d/.+\\.ya?ml(?:\\.gotmpl)?(?:\\.j2)?$/",
+      '/(^|/)helmfile\\.ya?ml(?:\\.gotmpl)?(?:\\.j2)?$/',
+      '/(^|/)helmfile\\.d/.+\\.ya?ml(?:\\.gotmpl)?(?:\\.j2)?$/',
     ],
   },
   kubernetes: {
-    managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$/"],
+    managerFilePatterns: [
+      '/(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$/',
+    ],
   },
   kustomize: {
-    managerFilePatterns: ["/^kustomization\\.ya?ml(?:\\.j2)?$/"],
+    managerFilePatterns: [
+      '/^kustomization\\.ya?ml(?:\\.j2)?$/',
+    ],
   },
   packageRules: [
     {
-      description: "Override Helmfile Dependency Name",
-      matchDatasources: ["docker"],
-      matchManagers: ["helmfile"],
-      overrideDepName: "{{packageName}}",
+      description: 'Override Helmfile Dependency Name',
+      matchDatasources: [
+        'docker',
+      ],
+      matchManagers: [
+        'helmfile',
+      ],
+      overrideDepName: '{{packageName}}',
     },
     {
-      description: "Flux Operator Group",
-      groupName: "flux-operator",
-      matchDatasources: ["docker"],
-      matchPackageNames: ["/flux-operator/", "/flux-instance/", "/flux-operator-manifests/"],
+      description: 'Flux Operator Group',
+      groupName: 'flux-operator',
+      matchDatasources: [
+        'docker',
+      ],
+      matchPackageNames: [
+        '/flux-operator/',
+        '/flux-instance/',
+        '/flux-operator-manifests/',
+      ],
       group: {
-        commitMessageTopic: "{{{groupName}}} group",
+        commitMessageTopic: '{{{groupName}}} group',
       },
       minimumGroupSize: 3,
     },
     {
-      description: "Gatus Group",
-      groupName: "gatus",
-      matchDatasources: ["docker"],
-      matchPackageNames: ["ghcr.io/twin/gatus", "ghcr.io/home-operations/gatus-sidecar"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group",
-      },
-      minimumGroupSize: 2,
-    },
-    {
-      description: "Home Assistant Group",
-      groupName: "home-assistant",
-      matchDatasources: ["docker"],
-      matchPackageNames: ["ghcr.io/home-assistant/home-assistant", "ghcr.io/zwave-js/zwave-js-ui"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group",
-      },
-    },
-    {
-      description: "Rook Ceph Image Group",
-      groupName: "Rook/Ceph",
-      matchDatasources: ["docker"],
-      matchPackageNames: ["quay.io/ceph/ceph"],
-      allowedVersions: "/^v\\d+\\.2\\.\\d+$/",
-      group: {
-        commitMessageTopic: "{{{groupName}}} group",
-      },
-    },
-    {
-      description: "ADS-B Ultrafeeder Build Tags",
-      matchDatasources: ["docker"],
-      matchPackageNames: ["ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder"],
-      versioning: "regex:^(?<compatibility>[a-z]+)-build-(?<patch>\\d+)$",
-    },
-    {
-      description: "Kube Prometheus Stack Group",
-      groupName: "kube-prometheus-stack",
-      matchPackageNames: ["ghcr.io/prometheus-community/charts/kube-prometheus-stack", "kube-prometheus-stack"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group",
-      },
-      minimumGroupSize: 2,
-    },
-    {
-      description: "Tailscale Group",
-      groupName: "tailscale",
+      description: 'Gatus Group',
+      groupName: 'gatus',
+      matchDatasources: [
+        'docker',
+      ],
       matchPackageNames: [
-        "tailscale-operator",
-        "ghcr.io/tailscale/k8s-operator",
-        "ghcr.io/tailscale/tailscale",
+        'ghcr.io/twin/gatus',
+        'ghcr.io/home-operations/gatus-sidecar',
       ],
       group: {
-        commitMessageTopic: "{{{groupName}}} group",
+        commitMessageTopic: '{{{groupName}}} group',
+      },
+      minimumGroupSize: 2,
+    },
+    {
+      description: 'Home Assistant Group',
+      groupName: 'home-assistant',
+      matchDatasources: [
+        'docker',
+      ],
+      matchPackageNames: [
+        'ghcr.io/home-assistant/home-assistant',
+        'ghcr.io/zwave-js/zwave-js-ui',
+      ],
+      group: {
+        commitMessageTopic: '{{{groupName}}} group',
+      },
+    },
+    {
+      description: 'Rook Ceph Image Group',
+      groupName: 'Rook/Ceph',
+      matchDatasources: [
+        'docker',
+      ],
+      matchPackageNames: [
+        'quay.io/ceph/ceph',
+      ],
+      allowedVersions: '/^v\\d+\\.2\\.\\d+$/',
+      group: {
+        commitMessageTopic: '{{{groupName}}} group',
+      },
+    },
+    {
+      description: 'ADS-B Ultrafeeder Build Tags',
+      matchDatasources: [
+        'docker',
+      ],
+      matchPackageNames: [
+        'ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder',
+      ],
+      versioning: 'regex:^(?<compatibility>[a-z]+)-build-(?<patch>\\d+)$',
+    },
+    {
+      description: 'Kube Prometheus Stack Group',
+      groupName: 'kube-prometheus-stack',
+      matchPackageNames: [
+        'ghcr.io/prometheus-community/charts/kube-prometheus-stack',
+        'kube-prometheus-stack',
+      ],
+      group: {
+        commitMessageTopic: '{{{groupName}}} group',
+      },
+      minimumGroupSize: 2,
+    },
+    {
+      description: 'Tailscale Group',
+      groupName: 'tailscale',
+      matchPackageNames: [
+        'tailscale-operator',
+        'ghcr.io/tailscale/k8s-operator',
+        'ghcr.io/tailscale/tailscale',
+      ],
+      group: {
+        commitMessageTopic: '{{{groupName}}} group',
       },
       minimumGroupSize: 3,
     },
     {
-      description: "ToolHive Operator Group",
-      groupName: "toolhive-operator",
-      matchDatasources: ["docker"],
+      description: 'ToolHive Operator Group',
+      groupName: 'toolhive-operator',
+      matchDatasources: [
+        'docker',
+      ],
       matchPackageNames: [
-        "ghcr.io/stacklok/toolhive/toolhive-operator",
-        "ghcr.io/stacklok/toolhive/toolhive-operator-crds",
+        'ghcr.io/stacklok/toolhive/toolhive-operator',
+        'ghcr.io/stacklok/toolhive/toolhive-operator-crds',
       ],
       group: {
-        commitMessageTopic: "{{{groupName}}} group",
+        commitMessageTopic: '{{{groupName}}} group',
       },
       minimumGroupSize: 2,
     },
     {
-      description: "Auto-merge GitHub Actions",
-      matchManagers: ["github-actions"],
+      description: 'Auto-merge GitHub Actions',
+      matchManagers: [
+        'github-actions',
+      ],
       automerge: true,
-      automergeType: "branch",
-      matchUpdateTypes: ["minor", "patch", "digest"],
-      minimumReleaseAge: "3 days",
+      automergeType: 'branch',
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+        'digest',
+      ],
+      minimumReleaseAge: '3 days',
       ignoreTests: true,
     },
     {
-      description: "Auto-merge Mise Tools",
-      matchManagers: ["mise"],
+      description: 'Auto-merge Mise Tools',
+      matchManagers: [
+        'mise',
+      ],
       automerge: true,
-      automergeType: "branch",
-      matchUpdateTypes: ["minor", "patch"],
+      automergeType: 'branch',
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+      ],
       ignoreTests: true,
     },
     {
-      description: "Auto-merge Reflector",
-      matchDepNames: ["ghcr.io/emberstack/helm-charts/reflector"],
+      description: 'Auto-merge Reflector',
+      matchDepNames: [
+        'ghcr.io/emberstack/helm-charts/reflector',
+      ],
       automerge: true,
-      automergeType: "branch",
-      matchUpdateTypes: ["patch", "digest"],
+      automergeType: 'branch',
+      matchUpdateTypes: [
+        'patch',
+        'digest',
+      ],
       ignoreTests: true,
     },
     {
-      description: "Auto-merge Renovate",
-      matchDepNames: ["ghcr.io/renovatebot/renovate"],
+      description: 'Auto-merge Renovate',
+      matchDepNames: [
+        'ghcr.io/renovatebot/renovate',
+      ],
       automerge: true,
-      automergeType: "branch",
-      matchUpdateTypes: ["minor", "patch", "digest"],
+      automergeType: 'branch',
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+        'digest',
+      ],
       ignoreTests: true,
     },
     {
-      description: "Auto-merge Worn",
-      matchPackageNames: ["ghcr.io/peej11/worn"],
+      description: 'Auto-merge Worn',
+      matchPackageNames: [
+        'ghcr.io/peej11/worn',
+      ],
       automerge: true,
-      automergeType: "branch",
-      matchUpdateTypes: ["minor", "patch", "digest"],
+      automergeType: 'branch',
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+        'digest',
+      ],
       ignoreTests: true,
     },
     {
-      description: "Auto-merge Hypnos",
-      matchPackageNames: ["ghcr.io/peej11/hypnos"],
+      description: 'Auto-merge Hypnos',
+      matchPackageNames: [
+        'ghcr.io/peej11/hypnos',
+      ],
       automerge: true,
-      automergeType: "branch",
-      matchUpdateTypes: ["minor", "patch", "digest"],
+      automergeType: 'branch',
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+        'digest',
+      ],
       ignoreTests: true,
     },
     {
-      description: "Separate Talos Updates",
-      matchDatasources: ["custom.talos-factory"],
-      matchPackageNames: ["siderolabs/talos"],
+      description: 'Separate Talos Updates',
+      matchDatasources: [
+        'custom.talos-factory',
+      ],
+      matchPackageNames: [
+        'siderolabs/talos',
+      ],
       separateMajorMinor: true,
       separateMinorPatch: true,
-      semanticCommitScope: "container",
-      commitMessageTopic: "{{depName}}",
+      semanticCommitScope: 'container',
+      commitMessageTopic: '{{depName}}',
     },
     {
-      matchUpdateTypes: ["major"],
-      semanticCommitType: "feat",
-      commitMessagePrefix: "{{semanticCommitType}}({{semanticCommitScope}})!:",
-      commitMessageExtra: "( {{currentVersion}} ➔ {{newVersion}} )",
+      matchUpdateTypes: [
+        'major',
+      ],
+      semanticCommitType: 'feat',
+      commitMessagePrefix: '{{semanticCommitType}}({{semanticCommitScope}})!:',
+      commitMessageExtra: '( {{currentVersion}} ➔ {{newVersion}} )',
     },
     {
-      matchUpdateTypes: ["minor"],
-      semanticCommitType: "feat",
-      commitMessageExtra: "( {{currentVersion}} ➔ {{newVersion}} )",
+      matchUpdateTypes: [
+        'minor',
+      ],
+      semanticCommitType: 'feat',
+      commitMessageExtra: '( {{currentVersion}} ➔ {{newVersion}} )',
     },
     {
-      matchUpdateTypes: ["patch"],
-      semanticCommitType: "fix",
-      commitMessageExtra: "( {{currentVersion}} ➔ {{newVersion}} )",
+      matchUpdateTypes: [
+        'patch',
+      ],
+      semanticCommitType: 'fix',
+      commitMessageExtra: '( {{currentVersion}} ➔ {{newVersion}} )',
     },
     {
-      matchUpdateTypes: ["digest"],
-      semanticCommitType: "chore",
-      commitMessageExtra: "( {{currentDigestShort}} ➔ {{newDigestShort}} )",
+      matchUpdateTypes: [
+        'digest',
+      ],
+      semanticCommitType: 'chore',
+      commitMessageExtra: '( {{currentDigestShort}} ➔ {{newDigestShort}} )',
     },
     {
-      matchDatasources: ["docker"],
-      semanticCommitScope: "container",
-      commitMessageTopic: "image {{depName}}",
+      matchDatasources: [
+        'docker',
+      ],
+      semanticCommitScope: 'container',
+      commitMessageTopic: 'image {{depName}}',
     },
     {
-      matchDatasources: ["helm"],
-      semanticCommitScope: "helm",
-      commitMessageTopic: "chart {{depName}}",
+      matchDatasources: [
+        'helm',
+      ],
+      semanticCommitScope: 'helm',
+      commitMessageTopic: 'chart {{depName}}',
     },
     {
-      matchManagers: ["github-actions"],
-      semanticCommitType: "ci",
-      semanticCommitScope: "github-action",
-      commitMessageTopic: "action {{depName}}",
+      matchManagers: [
+        'github-actions',
+      ],
+      semanticCommitType: 'ci',
+      semanticCommitScope: 'github-action',
+      commitMessageTopic: 'action {{depName}}',
     },
     {
-      matchDatasources: ["github-releases"],
-      semanticCommitScope: "github-release",
-      commitMessageTopic: "release {{depName}}",
+      matchDatasources: [
+        'github-releases',
+      ],
+      semanticCommitScope: 'github-release',
+      commitMessageTopic: 'release {{depName}}',
     },
     {
-      matchManagers: ["mise"],
-      semanticCommitScope: "mise",
-      commitMessageTopic: "tool {{depName}}",
+      matchManagers: [
+        'mise',
+      ],
+      semanticCommitScope: 'mise',
+      commitMessageTopic: 'tool {{depName}}',
     },
     {
-      matchUpdateTypes: ["major"],
-      labels: ["type/major"],
+      matchUpdateTypes: [
+        'major',
+      ],
+      labels: [
+        'type/major',
+      ],
     },
     {
-      matchUpdateTypes: ["minor"],
-      labels: ["type/minor"],
+      matchUpdateTypes: [
+        'minor',
+      ],
+      labels: [
+        'type/minor',
+      ],
     },
     {
-      matchUpdateTypes: ["patch"],
-      labels: ["type/patch"],
+      matchUpdateTypes: [
+        'patch',
+      ],
+      labels: [
+        'type/patch',
+      ],
     },
     {
-      matchUpdateTypes: ["digest"],
-      labels: ["type/digest"],
+      matchUpdateTypes: [
+        'digest',
+      ],
+      labels: [
+        'type/digest',
+      ],
     },
     {
-      matchDatasources: ["docker"],
-      addLabels: ["renovate/container"],
+      matchDatasources: [
+        'docker',
+      ],
+      addLabels: [
+        'renovate/container',
+      ],
     },
     {
-      matchDatasources: ["helm"],
-      addLabels: ["renovate/helm"],
+      matchDatasources: [
+        'helm',
+      ],
+      addLabels: [
+        'renovate/helm',
+      ],
     },
     {
-      matchManagers: ["github-actions"],
-      addLabels: ["renovate/github-action"],
+      matchManagers: [
+        'github-actions',
+      ],
+      addLabels: [
+        'renovate/github-action',
+      ],
     },
     {
-      matchDatasources: ["github-releases"],
-      addLabels: ["renovate/github-release"],
+      matchDatasources: [
+        'github-releases',
+      ],
+      addLabels: [
+        'renovate/github-release',
+      ],
     },
     {
-      matchDatasources: ["custom.talos-factory"],
-      addLabels: ["renovate/talos"],
+      matchDatasources: [
+        'custom.talos-factory',
+      ],
+      addLabels: [
+        'renovate/talos',
+      ],
     },
   ],
   customDatasources: {
-    "talos-factory": {
-      defaultRegistryUrlTemplate: "https://factory.talos.dev/versions",
-      format: "json",
-      transformTemplates: ['{"releases": [$.{"version": $}]}'],
+    'talos-factory': {
+      defaultRegistryUrlTemplate: 'https://factory.talos.dev/versions',
+      format: 'json',
+      transformTemplates: [
+        '{"releases": [$.{"version": $}]}',
+      ],
     },
   },
   customManagers: [
     {
-      description: "Process annotated dependencies",
-      customType: "regex",
+      description: 'Process annotated dependencies',
+      customType: 'regex',
       managerFilePatterns: [
-        "/(^|/).+\\.env(?:\\.j2)?$/",
-        "/(^|/).+\\.sh(?:\\.j2)?$/",
-        "/(^|/).+\\.ya?ml(?:\\.j2)?$/",
+        '/(^|/).+\\.env(?:\\.j2)?$/',
+        '/(^|/).+\\.sh(?:\\.j2)?$/',
+        '/(^|/).+\\.ya?ml(?:\\.j2)?$/',
       ],
       matchStrings: [
-        // # renovate: datasource=github-releases depName=k3s-io/k3s
-        // k3s_release_version: &version v1.29.0+k3s1
-        // # renovate: datasource=helm depName=cilium repository=https://helm.cilium.io
-        // version: 1.15.1
-        // # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-        // KUBERNETES_VERSION=v1.31.1
-        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( repository=(?<registryUrl>\\S+))?\\n.+(:\\s|=)(&\\S+\\s)?(?<currentValue>\\S+)",
-        // # renovate: datasource=docker depName=ghcr.io/prometheus-operator/prometheus-operator
-        // https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.80.0/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml
-        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n.+/(?<currentValue>(v|\\d)[^/]+)",
+        'datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( repository=(?<registryUrl>\\S+))?\\n.+(:\\s|=)(&\\S+\\s)?(?<currentValue>\\S+)',
+        'datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n.+/(?<currentValue>(v|\\d)[^/]+)',
       ],
-      datasourceTemplate: "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}",
+      datasourceTemplate: '{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}',
     },
     {
-      customType: "regex",
-      description: "Process OCI dependencies",
+      customType: 'regex',
+      description: 'Process OCI dependencies',
       managerFilePatterns: [
-        "/\\.yaml(?:\\.j2)?$/",
+        '/\\.yaml(?:\\.j2)?$/',
       ],
       matchStrings: [
-        "oci://(?<depName>[^:]+):(?<currentValue>\\S+)",
+        'oci://(?<depName>[^:]+):(?<currentValue>\\S+)',
       ],
-      datasourceTemplate: "docker",
+      datasourceTemplate: 'docker',
     },
   ],
 }
