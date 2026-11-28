@@ -8,5 +8,5 @@ spec:
   interval: 8h
   provider: generic
   ref:
-    tag: 0.69.1
+    tag: 0.70.0
   url: oci://ghcr.io/stacklok/toolhive/toolhive-operator
